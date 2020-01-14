@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+find . -type f -iname "*$1*" -printf '%P\n'
