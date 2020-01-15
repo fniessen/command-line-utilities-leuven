@@ -1,0 +1,56 @@
+#+TITLE:     ff
+#+AUTHOR:    Fabrice Niessen
+#+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
+#+DESCRIPTION: Find files matching a string and print their full file name
+#+KEYWORDS:  find, shell, bash
+#+OPTIONS:   toc:nil num:nil
+
+* NAME
+
+#+begin_src shell :tangle ../bin/ff :exports none
+#!/usr/bin/env sh
+#+end_src
+
+#+begin_src shell :tangle ../bin/ff
+# ff - find files matching a string and print their full file name
+#+end_src
+
+* SYNOPSIS
+
+#+begin_src shell :tangle ../bin/ff
+Usage ()
+{
+    cat << EOF 1>&2
+Usage: ff [PATTERN]
+EOF
+    exit 2
+}
+#+end_src
+
+* DESCRIPTION
+
+#+begin_src shell :tangle ../bin/ff
+find . -type f -iname "*$1*" -printf '%P\n'
+#+end_src
+
+* EXIT STATUS
+
+- 0 :: Successful program execution.
+
+- greater than 0 :: Errors occur.
+
+* BUGS
+
+* EXAMPLE
+
+: ff core
+
+Find files containing ~core~ in their name, in or below the current directory.
+
+* AUTHOR
+
+Written by Fabrice Niessen
+
+* SEE ALSO
+
+fd

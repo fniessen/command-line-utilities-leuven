@@ -1,2 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+
+# ff - find files matching a string and print their full file name
+
+Usage ()
+{
+    cat << EOF 1>&2
+Usage: ff [PATTERN]
+EOF
+    exit 2
+}
+
 find . -type f -iname "*$1*" -printf '%P\n'
