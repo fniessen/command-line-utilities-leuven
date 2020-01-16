@@ -1,15 +1,16 @@
 #+TITLE:     shell-extras
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
-#+DESCRIPTION: Pretty format for `git log' and different helpful command aliases
-#+KEYWORDS:  git, log, pretty format, alias
+#+DESCRIPTION: Shell extra utilities
+#+KEYWORDS:  shell, script, bash
 #+OPTIONS:   num:nil
 
 Shell extra utilities
 
 * fd
 
+Find directories matching a string and print their full file name.
+
 * ff
 
 Find files matching a string and print their full file name.
-
