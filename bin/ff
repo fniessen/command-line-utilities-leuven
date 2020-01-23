@@ -1,19 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-# ff - find files matching a string and print their full file name
-
-Usage ()
-{
-    cat << EOF 1>&2
-Usage: ff [PATTERN]
-EOF
-    exit 2
-}
-
-# Creation of 3 escape sequences.
-Cblue=$(echo -ne "\033[34;1m");
-Cyellowonblue=$(echo -ne "\033[33;1;44m");
-Creset=$(echo -ne "\033[0m");
-
-find . -type f -iname "*$1*" -printf '%P\n' \
-    | sed "s#^\(.*\)\/\([^\/]*\)\($1\)\([^\/]*\)\$#${Cblue}\1\/${Creset}\2${Cyellowonblue}\3${Creset}\4#i"
+pattern="$1"
+find . -type f -iname "*$pattern*" -printf '%P\n' \
+| GREP_COLORS="sl=1;34:mt=0;37" grep --color=always '[^/]*$' \
+| GREP_COLORS="sl=37" grep --color=always -iP "$pattern(?=[^/]*$)" \
+| GREP_COLORS="sl=1;34:mt=1;36;1;44" grep -i "$pattern" --color
