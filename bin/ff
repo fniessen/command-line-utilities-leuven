@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 pattern="$1"
-find . -type f -iname "*$pattern*" -printf '%P\n' \
-| GREP_COLORS="sl=1;34:mt=0;37" grep --color=always '[^/]*$' \
-| GREP_COLORS="sl=37" grep --color=always -iP "$pattern(?=[^/]*$)" \
-| GREP_COLORS="sl=1;34:mt=1;33;1;44" grep -i "$pattern" --color
+stdbuf -oL find . -type f -iname "*$pattern*" -printf '%P\n' \
+    | GREP_COLORS="sl=1;34:mt=0;37"      stdbuf -oL grep --color=always '[^/]*$' \
+    | GREP_COLORS="sl=37"                stdbuf -oL grep --color=always -iP "$pattern(?=[^/]*$)" \
+    | GREP_COLORS="sl=1;34:mt=1;33;1;44"            grep -i "$pattern" --color
