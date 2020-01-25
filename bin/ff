@@ -1,7 +1,48 @@
 #!/usr/bin/env bash
+#
+# ff - find files matching a string and print their full file name
 
-pattern="$1"
-stdbuf -oL find . -type f -iname "*$pattern*" -printf '%P\n' \
-    | GREP_COLORS="sl=1;34:mt=0;37"      stdbuf -oL grep --color=always '[^/]*$' \
-    | GREP_COLORS="sl=37"                stdbuf -oL grep --color=always -iP "$pattern(?=[^/]*$)" \
-    | GREP_COLORS="sl=1;34:mt=1;33;1;44"            grep -i "$pattern" --color
+usage() {
+    cat <<-EOF
+	Usage: $SELF [PATTERN]
+
+	Find files matching a string and print their full file name.
+
+	Options:
+	-h, --help                   display this help and exit
+
+	Examples:
+	  $SELF                         list all files
+	  $SELF core                    find files matching core in their file name
+EOF
+}
+
+invalid() {
+    echo "$SELF: invalid option '$1'" > /dev/stderr
+    usage
+    exit 1
+}
+
+SELF="${0##*/}"
+
+C_DIR="1;34"
+C_PAT="1;33;1;44"
+C_RST="0;37"
+
+# Parse options.
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h | --help) usage;        exit 0 ;;
+        --)          shift;        break ;;
+        -*)          invalid "$1"; break ;;
+        *)                         break ;;
+    esac
+    shift
+done
+
+PATTERN="$1"
+
+stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
+    | GREP_COLORS="sl=$C_DIR:mt=$C_RST" stdbuf -oL grep --color=always '[^/]*$' \
+    | GREP_COLORS="sl=$C_RST"           stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
+    | GREP_COLORS="sl=$C_DIR:mt=$C_PAT"            grep -i "$PATTERN" --color=always
