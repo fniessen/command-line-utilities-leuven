@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 #
 # ff - find files matching a string and print their full file name
 
 usage() {
     cat <<-EOF
-	Usage: $SELF [PATTERN]
+	Usage: ff [PATTERN]
 
 	Find files matching a string and print their full file name.
 
@@ -12,8 +12,8 @@ usage() {
 	-h, --help                   display this help and exit
 
 	Examples:
-	  $SELF                         list all files
-	  $SELF core                    find files matching core in their file name
+	  ff                         list all files
+	  ff core                    find files matching core in their file name
 EOF
 }
 

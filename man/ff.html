@@ -200,9 +200,9 @@
 <div id="content">
 <h1 class="title">ff</h1>
 
-<div id="outline-container-org65117c1" class="outline-2">
-<h2 id="org65117c1">NAME</h2>
-<div class="outline-text-2" id="text-org65117c1">
+<div id="outline-container-org5352b02" class="outline-2">
+<h2 id="org5352b02">NAME</h2>
+<div class="outline-text-2" id="text-org5352b02">
 <div class="org-src-container">
 <pre class="src src-shell"><span class="org-comment-delimiter"># </span><span class="org-comment">ff - find files matching a string and print their full file name</span>
 </pre>
@@ -210,35 +210,43 @@
 </div>
 </div>
 
-<div id="outline-container-org9bcf606" class="outline-2">
-<h2 id="org9bcf606">SYNOPSIS</h2>
-<div class="outline-text-2" id="text-org9bcf606">
+<div id="outline-container-org95fd6ec" class="outline-2">
+<h2 id="org95fd6ec">SYNOPSIS</h2>
+<div class="outline-text-2" id="text-org95fd6ec">
 <div class="org-src-container">
-<pre class="src src-shell"><span class="org-function-name">Usage</span> ()
-{
-    cat &lt;&lt; EOF 1&gt;&amp;2
-<span class="org-sh-heredoc">Usage: ff [PATTERN]</span>
-<span class="org-sh-heredoc">EOF</span>
-    <span class="org-keyword">exit</span> 2
-}
+<pre class="src src-shell"><span class="org-whitespace-indentation">    </span>Usage: ff [PATTERN]
+
+<span class="org-whitespace-indentation">    </span>Find files matching a string and print their full file name.
+
+<span class="org-whitespace-indentation">    </span>Options:
+<span class="org-whitespace-indentation">    </span>-h, --help                   display this help and exit
+
+<span class="org-whitespace-indentation">    </span>Examples:
+<span class="org-whitespace-indentation">    </span>  ff                         list all files
+<span class="org-whitespace-indentation">    </span>  ff core                    find files matching core<span class="org-keyword"> in</span> their file name
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org76896e4" class="outline-2">
-<h2 id="org76896e4">DESCRIPTION</h2>
-<div class="outline-text-2" id="text-org76896e4">
+<div id="outline-container-orgf811c68" class="outline-2">
+<h2 id="orgf811c68">DESCRIPTION</h2>
+<div class="outline-text-2" id="text-orgf811c68">
 <div class="org-src-container">
-<pre class="src src-shell">find . -type f -iname <span class="org-string">"*$1*"</span> -printf <span class="org-string">'%P\n'</span>
+<pre class="src src-shell"><span class="org-variable-name">PATTERN</span>=<span class="org-string">"$1"</span>
+
+stdbuf -oL find . -type f -iname <span class="org-string">"*$PATTERN*"</span> -printf <span class="org-string">'%P\n'</span> <span class="org-sh-escaped-newline">\</span>
+    | <span class="org-variable-name">GREP_COLORS</span>=<span class="org-string">"sl=$C_DIR:mt=$C_RST"</span> stdbuf -oL grep --color=always <span class="org-string">'[^/]*$'</span> <span class="org-sh-escaped-newline">\</span>
+    | <span class="org-variable-name">GREP_COLORS</span>=<span class="org-string">"sl=$C_RST"</span>           stdbuf -oL grep --color=always -iP <span class="org-string">"$PATTERN(?=[^/]*$)"</span> <span class="org-sh-escaped-newline">\</span>
+    | <span class="org-variable-name">GREP_COLORS</span>=<span class="org-string">"sl=$C_DIR:mt=$C_PAT"</span>            grep -i <span class="org-string">"$PATTERN"</span> --color=always
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcecf16f" class="outline-2">
-<h2 id="orgcecf16f">EXIT STATUS</h2>
-<div class="outline-text-2" id="text-orgcecf16f">
+<div id="outline-container-org1e71a1b" class="outline-2">
+<h2 id="org1e71a1b">EXIT STATUS</h2>
+<div class="outline-text-2" id="text-org1e71a1b">
 <dl class="org-dl">
 <dt>0</dt><dd>Successful program execution.</dd>
 
@@ -247,13 +255,13 @@
 </div>
 </div>
 
-<div id="outline-container-org3e89893" class="outline-2">
-<h2 id="org3e89893">BUGS</h2>
+<div id="outline-container-orgf207b7b" class="outline-2">
+<h2 id="orgf207b7b">BUGS</h2>
 </div>
 
-<div id="outline-container-orgb4b2258" class="outline-2">
-<h2 id="orgb4b2258">EXAMPLE</h2>
-<div class="outline-text-2" id="text-orgb4b2258">
+<div id="outline-container-orgbb3f8a1" class="outline-2">
+<h2 id="orgbb3f8a1">EXAMPLE</h2>
+<div class="outline-text-2" id="text-orgbb3f8a1">
 <pre class="example">
 ff core
 </pre>
@@ -265,18 +273,18 @@ Find files containing <code>core</code> in their name, in or below the current d
 </div>
 </div>
 
-<div id="outline-container-orgff8878a" class="outline-2">
-<h2 id="orgff8878a">AUTHOR</h2>
-<div class="outline-text-2" id="text-orgff8878a">
+<div id="outline-container-org43112e8" class="outline-2">
+<h2 id="org43112e8">AUTHOR</h2>
+<div class="outline-text-2" id="text-org43112e8">
 <p>
 Written by Fabrice Niessen
 </p>
 </div>
 </div>
 
-<div id="outline-container-org6e41e40" class="outline-2">
-<h2 id="org6e41e40">SEE ALSO</h2>
-<div class="outline-text-2" id="text-org6e41e40">
+<div id="outline-container-orgd9e9586" class="outline-2">
+<h2 id="orgd9e9586">SEE ALSO</h2>
+<div class="outline-text-2" id="text-orgd9e9586">
 <p>
 fd
 </p>

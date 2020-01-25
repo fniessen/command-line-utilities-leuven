@@ -9,28 +9,72 @@
 
 #+begin_src shell :tangle ../bin/ff :exports none
 #!/usr/bin/env sh
+#
 #+end_src
 
-#+begin_src shell :tangle ../bin/ff
+#+begin_src shell :tangle ../bin/ff :padline no
 # ff - find files matching a string and print their full file name
 #+end_src
 
 * SYNOPSIS
 
-#+begin_src shell :tangle ../bin/ff
-Usage ()
-{
-    cat << EOF 1>&2
-Usage: ff [PATTERN]
+#+begin_src shell :tangle ../bin/ff :exports none
+usage() {
+    cat <<-EOF
+#+end_src
+
+#+begin_src shell :tangle ../bin/ff :padline no
+	Usage: ff [PATTERN]
+
+	Find files matching a string and print their full file name.
+
+	Options:
+	-h, --help                   display this help and exit
+
+	Examples:
+	  ff                         list all files
+	  ff core                    find files matching core in their file name
+#+end_src
+
+#+begin_src shell :tangle ../bin/ff :exports none :padline no
 EOF
-    exit 2
 }
 #+end_src
 
 * DESCRIPTION
 
+#+begin_src shell :tangle ../bin/ff :exports none
+invalid() {
+    echo "$SELF: invalid option '$1'" > /dev/stderr
+    usage
+    exit 1
+}
+
+SELF="${0##*/}"
+
+C_DIR="1;34"
+C_PAT="1;33;1;44"
+C_RST="0;37"
+
+# Parse options.
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h | --help) usage;        exit 0 ;;
+        --)          shift;        break ;;
+        -*)          invalid "$1"; break ;;
+        *)                         break ;;
+    esac
+    shift
+done
+#+end_src
+
 #+begin_src shell :tangle ../bin/ff
-find . -type f -iname "*$1*" -printf '%P\n'
+PATTERN="$1"
+
+stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
+    | GREP_COLORS="sl=$C_DIR:mt=$C_RST" stdbuf -oL grep --color=always '[^/]*$' \
+    | GREP_COLORS="sl=$C_RST"           stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
+    | GREP_COLORS="sl=$C_DIR:mt=$C_PAT"            grep -i "$PATTERN" --color=always
 #+end_src
 
 * EXIT STATUS
