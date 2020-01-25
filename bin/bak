@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+# bak - create a quick back-up copy of a file
+
+# alias bak='bak() { cp -v $1{,.bak}; }; bak'
+# alias bak='bak() { cp -v $1 $1.bak; }; bak'
+
+cp -v "$1"{,.bak}
