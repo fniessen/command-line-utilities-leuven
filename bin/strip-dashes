@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Strip lines with dashes.
+sed "s/NULL//g"

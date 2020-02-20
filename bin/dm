@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Date Modified.
+# find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
+find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
+    | sort -n \
+    | cut -d " " -f 2- \ \
+    | grep -i "$@";

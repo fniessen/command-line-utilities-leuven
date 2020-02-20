@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Delete the second line.
+sed -e '2d'

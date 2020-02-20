@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+
+range="10.10.10.";
+
+# You can change this to a port range $(seq 20 25) is port 20-25
+ports="20 21 22 23 25 53 80 110 111 443 3306 6000";
+
+http_header="HEAD / HTTP/0.1\n\n";
+
+for host in $(seq 2 254); do
+    for port in $ports; do
+        echo "[+] Testing "$range$host":"$port;
+        result=$(nc -zv -w 1 $range$host $port 2>&1 | grep succeeded);
+        if [ -n "$result" ]; then
+            echo "\n"$range$host":"$port"\n" >> "/tmp/bannergrab"
+            if [ "$port" -eq "22" ]; then
+                echo "Found open port "$range$host":"$port" Here might be some SSH server, it echoes the SSH version to you on connecting when lucky.";
+                nc -v -w 1 $range$host $port >> "/tmp/bannergrab";
+            fi;
+            if [ "$port" -eq "80" ]; then
+                echo "Found open port "$range$host":"$port" Trying to fingerprint with HEAD and see if the server is vulnerable to TRACE XSSing";
+                echo $http_header | nc -v -w 1 $range$host $port >> "/tmp/bannergrab"
+                echo "TRACE / HTTP/1.1\nHost: $range$host\nuser-agent: <script>alert(123)</script>\n\n" | nc -v -w 2 $range$host $port >> "/tmp/bannergrab"
+            fi;
+            if [ "$port" -eq "3306" ]; then
+                echo "Found open port "$range$host":"$port" Possible MySQL installation found, saving the banner for later inspection, the MySQL version can be found in this.";
+                nc -v -w 1 $range$host $port >> "/tmp/bannergrab";
+            fi;
+        fi;
+    done
+done

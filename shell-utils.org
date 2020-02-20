@@ -60,6 +60,16 @@ http://www.skybert.net/emacs/bash-linting-in-emacs/
 - Diff
 - Iconv
 
+** About portability
+
+[[ supports a wider range of tests in both cases, and has custom parsing rules
+that avoid the need for quoting variables, operators, and so on. If you're
+specifically using either Bash or zsh, use [[. If you're writing a portable
+script, write to the POSIX-compatible [ / test command (which may or may not be
+a real command on your running system).
+
+Just use [[ there and forget [ exists.
+
 * Core utilities
 
 ** Reverse the order of lines in a file
@@ -129,7 +139,7 @@ for f in *.*; do printf "%s\n" "${f##*.}"; done | sort -u
 
 * Shell functions
 :PROPERTIES:
-:header-args+: :tangle ~/.dotfiles/bin/shellutils :shebang #!/usr/bin/env bash
+:header-args+: :tangle bin/shellutils :shebang #!/usr/bin/env bash
 :END:
 
 Only use alphanumeric characters and the underscore for function names.
@@ -160,6 +170,32 @@ has() {
 }
 #+end_src
 
+To find out if a given command exists, don't use ~which~ (because it is not in
+POSIX so its output format is unspecified, and it complains when nothing is
+found instead of being silent):
+
+#+begin_src shell
+if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
+#+end_src
+
+Instead use:
+
+#+begin_src shell
+has() {
+    if ! command -v "$1" > /dev/null 2>&1; then
+        echo "$1 not found."
+        return 2                        # An error occurred.
+    fi
+}
+#+end_src
+
+#+begin_src shell
+has ag && alias grep='ag'
+#+end_src
+
+See also
+https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
+
 ** Check for Cygwin executable files
 
 We sometimes have to check that the ~PATH~ is set right, so that Cygwin
@@ -187,11 +223,11 @@ pname() {
 
 ** Find files
 
-#+begin_src shell :tangle ~/.dotfiles/bin/fd
+#+begin_src shell
 find . -type d -iname "*$1*" -printf '%P\n'
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/ff
+#+begin_src shell
 find . -type f -iname "*$1*" -printf '%P\n'
 #+end_src
 
@@ -240,7 +276,7 @@ Options (to ~es~, Everything):
 -n <num> Limit the amount of results shown to <num>.
 -s Sort by full path.
 
-#+begin_src shell :tangle ~/.dotfiles/bin/dc
+#+begin_src shell :tangle bin/dc
 # Date Created.
 find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" \
     | sort -n \
@@ -248,7 +284,7 @@ find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" \
     | grep -i "$@";
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/dm
+#+begin_src shell :tangle bin/dm
 # Date Modified.
 # find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
 find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
@@ -266,7 +302,7 @@ XXX Includes copies?
 alias last-modified='find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head'
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/rc
+#+begin_src shell :tangle bin/rc
 # Recent Change.
 find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
     | sort -n \
@@ -288,7 +324,7 @@ for improvements (using ~ssed~ and ~cut~ with complement option).
 
 ** Send an email
 :PROPERTIES:
-:header-args+: :tangle ~/.dotfiles/bin/mail :shebang #!/usr/bin/env bash
+:header-args+: :tangle bin/mail :shebang #!/usr/bin/env bash
 :END:
 
 Send a mail to one or more people.
@@ -491,7 +527,7 @@ blat -to "$MAILTO" \
 
 ** Echo text in color
 
-#+begin_src shell :tangle ~/.dotfiles/bin/cecho
+#+begin_src shell :tangle bin/cecho
 cecho() {
     black="\e[30m"
     red="\e[31m"
@@ -526,7 +562,7 @@ cecho "$@"
 
 Use ~fdupes~ (from Cygwin).
 
-#+begin_src shell :tangle ~/.dotfiles/bin/finddup
+#+begin_src shell :tangle bin/finddup
 fdupes -r . \
     | grep -v "/.svn/" \
     | grep -v "/.git/" \
@@ -576,7 +612,7 @@ cat names.out
 rm -f names.lst
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/dupe
+#+begin_src shell :tangle bin/dupe
 # Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
 # If no command-line parameter (path to begin from) is specified, then the
 # default is to begin from the current (.) directory.
@@ -598,24 +634,24 @@ exit 0
 
 ** Utils
 
-#+begin_src shell :tangle ~/.dotfiles/bin/strip-dashes
+#+begin_src shell :tangle bin/strip-dashes
 # Strip lines with dashes.
 sed "s/NULL//g"
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/delete-2nd-line
+#+begin_src shell :tangle bin/delete-2nd-line
 # Delete the second line.
 sed -e '2d'
 #+end_src
 
-#+begin_src shell :tangle ~/.dotfiles/bin/replace-null
+#+begin_src shell :tangle bin/replace-null
 # Replace NULL value by empty string.
 sed "s/NULL//g"
 #+end_src
 
 * Findup
 :PROPERTIES:
-:header-args+: :tangle ~/.dotfiles/bin/findup :shebang #!/usr/bin/env bash
+:header-args+: :tangle bin/findup :shebang #!/usr/bin/env bash
 :END:
 
 Search for the specified file(s) in the directory tree upwards, up to ~/~.
@@ -733,7 +769,7 @@ Just run ~unexe-all~ to fix them.
 
 See also https://www.lifewire.com/list-of-executable-file-extensions-2626061
 
-#+begin_src sh :tangle ~/.dotfiles/bin/unexe-all :shebang #!/usr/bin/env sh
+#+begin_src sh :tangle bin/unexe-all :shebang #!/usr/bin/env sh
 echo "Remove exe perm"
 find . -type f \
     \( -name "*.DTD" \
@@ -897,36 +933,13 @@ these case. I choose a simpler approach using a POSIX (read portable) way to
 have find building itself the long command lines, i.e. ~{}~ is replaced by a suite
 of file names up to the maximum number allowed.
 
-* VC
-:PROPERTIES:
-:header-args+: :shebang #!/usr/bin/env bash
-:END:
-
-** Ignore files from the command line
-
-Add a file (or a file glob pattern) to ignore without deleting the previous
-value of the ~svn:ignore~ property... from the command line.
-
-#+begin_src shell :tangle ~/.dotfiles/bin/svnignore
-# Usage: svnignore admin/notes/\*.tex
-
-target="$1"
-targetdirectory=$(dirname $target)
-targetfilepattern=$(basename $target)
-
-svnignores=$(svn propget svn:ignore "$targetdirectory")
-svnignores="$svnignores"$'\n'"$targetfilepattern"
-printf "Ignore '$targetfilepattern'\n"
-svn propset svn:ignore "$svnignores" "$targetdirectory"
-#+end_src
-
 * Web security assessments
 
 ** HTTP
 
 From Hacking Exposed Web Applications:
 
-#+begin_src shell :tangle ~/.dotfiles/bin/getit.sh
+#+begin_src shell :tangle bin/getit.sh
 #!/usr/bin/env sh
 # mike's getit.sh script
 if [ -z $1 ]; then
@@ -951,7 +964,7 @@ getit.sh www.victim.com /index.html | grep -i "input type"
 
 ** HTTPS
 
-#+begin_src shell :tangle ~/.dotfiles/bin/sgetit.sh
+#+begin_src shell :tangle bin/sgetit.sh
 #!/usr/bin/env sh
 # mike's sgetit.sh script
 if [ -z $1 ]; then
@@ -975,7 +988,7 @@ method, look in the dumpfile ~/tmp/bannergrab~ and look for
 =<script>alert(123)</script>= if you can find that back you got yourself a
 vulnerable server.
 
-#+begin_src shell :tangle ~/.dotfiles/bin/nc_bgrab
+#+begin_src shell :tangle bin/nc_bgrab
 #!/usr/bin/env sh
 
 range="10.10.10.";

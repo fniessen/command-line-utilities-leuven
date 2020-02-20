@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
+# If no command-line parameter (path to begin from) is specified, then the
+# default is to begin from the current (.) directory.
+cd path=$1
+: ${path:=.}
+printf "Building file list...\n" > /dev/stderr
+fullList=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF,$0}' | sort +0 -1)
+fileNames=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF}' | sort | uniq -d)
+for EACH in $fileNames; do
+    echo "$fullList" | grep -wE "^$EACH "
+    echo ""
+done
+exit 0

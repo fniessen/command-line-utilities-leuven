@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Replace NULL value by empty string.
+sed "s/NULL//g"
