@@ -144,58 +144,6 @@ for f in *.*; do printf "%s\n" "${f##*.}"; done | sort -u
 
 Only use alphanumeric characters and the underscore for function names.
 
-** Exit with an error
-
-The exit status follows the conventions for programs such as ~grep~, ~cmp~, and
-~diff~: it is 2 (or greater) if an error occurred.
-
-#+begin_src shell
-die() {
-    printf "$(basename $0): $@\n" > /dev/stderr
-    exit 2                              # An error occurred.
-}
-#+end_src
-
-~Die~ *must be a function* so that the calling script does exit with an error.
-
-** Check for executable files
-
-~has~ checks presence of various command line tools on the PATH.
-
-#+begin_src shell
-has() {
-    for cmd in "$@"; do
-        command -v $cmd > /dev/null || die "$cmd not found."
-    done
-}
-#+end_src
-
-To find out if a given command exists, don't use ~which~ (because it is not in
-POSIX so its output format is unspecified, and it complains when nothing is
-found instead of being silent):
-
-#+begin_src shell
-if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
-#+end_src
-
-Instead use:
-
-#+begin_src shell
-has() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        echo "$1 not found."
-        return 2                        # An error occurred.
-    fi
-}
-#+end_src
-
-#+begin_src shell
-has ag && alias grep='ag'
-#+end_src
-
-See also
-https://unix.stackexchange.com/questions/85249/why-not-use-which-what-to-use-then.
-
 ** Check for Cygwin executable files
 
 We sometimes have to check that the ~PATH~ is set right, so that Cygwin
