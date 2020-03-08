@@ -1,4 +1,4 @@
-#+TITLE:     shell-extras
+#+TITLE:     shell-extras-leuven
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION: Shell extra utilities
@@ -10,6 +10,10 @@ Shell extra utilities
 * bak
 
 Create a quick back-up copy of a file.
+
+* f
+
+Find directories or files matching a string and print their full file name.
 
 * fd
 
