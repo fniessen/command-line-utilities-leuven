@@ -6,7 +6,7 @@
 #+LANGUAGE:  en
 
 #+PROPERTY:  header-args :eval no
-#+SETUPFILE: theme-bigblow-pirilampo.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
 
 #+name: current-time
 #+begin_src emacs-lisp :eval yes :results value silent :tangle no

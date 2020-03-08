@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+find . -iname "*$1*" -printf '%P\n' | grep -i --color=auto "$1"
