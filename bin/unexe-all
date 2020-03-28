@@ -15,6 +15,7 @@ find . -type f \
     -o -name "*.appcache" \
     -o -name "*.asa" \
     -o -name "*.asp" \
+    -o -name "*.avi" \
     -o -name "*.awk" \
     -o -name "*.axvw" \
     -o -name "*.bak" \
@@ -70,6 +71,7 @@ find . -type f \
     -o -name "*.m4" \
     -o -name "*.md" \
     -o -name "*.md5" \
+    -o -name "*.mkv" \
     -o -name "*.model" \
     -o -name "*.mp4" \
     -o -name "*.mpp" \
@@ -102,6 +104,7 @@ find . -type f \
     -o -name "*.sed" \
     -o -name "*.springBeans" \
     -o -name "*.sql" \
+    -o -name "*.srt" \
     -o -name "*.stackdump" \
     -o -name "*.svg" \
     -o -name "*.swc" \
