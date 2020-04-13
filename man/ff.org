@@ -41,20 +41,14 @@ EOF
 }
 #+end_src
 
-* DESCRIPTION
-
 #+begin_src shell :tangle ../bin/ff :exports none
+SELF="${0##*/}"
+
 invalid() {
     echo "$SELF: invalid option '$1'" > /dev/stderr
     usage
     exit 1
 }
-
-SELF="${0##*/}"
-
-C_DIR="1;34"
-C_PAT="1;33;1;44"
-C_RST="0"
 
 # Parse options.
 while [ "$#" -gt 0 ]; do
@@ -68,7 +62,13 @@ while [ "$#" -gt 0 ]; do
 done
 #+end_src
 
+* DESCRIPTION
+
 #+begin_src shell :tangle ../bin/ff
+C_DIR="1;34"
+C_PAT="1;33;1;44"
+C_RST="0"
+
 PATTERN="$1"
 
 stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
