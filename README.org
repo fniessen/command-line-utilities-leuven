@@ -15,7 +15,7 @@ Create a quick back-up copy of a file.
 
 Find directories or files matching a string and print their full file name.
 
-* fd
+* fdirs
 
 Find directories matching a string and print their full file name.
 
