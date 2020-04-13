@@ -25,9 +25,13 @@ invalid() {
 
 SELF="${0##*/}"
 
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+reset="$(tput sgr0)"
+
 C_DIR="1;34"
 C_PAT="1;33;1;44"
-C_RST="0;37"
+C_RST="0"
 
 # Parse options.
 while [ "$#" -gt 0 ]; do
