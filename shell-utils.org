@@ -731,7 +731,7 @@ Just run ~unexe-all~ to fix them.
 
 See also https://www.lifewire.com/list-of-executable-file-extensions-2626061
 
-#+begin_src sh :tangle bin/unexe-all :shebang #!/usr/bin/env sh
+#+begin_src shell :tangle bin/unexe-all :shebang #!/usr/bin/env sh
 echo "Remove exe perm"
 find . -type f \
     \( -name "*.DTD" \
@@ -870,7 +870,7 @@ find . -type f \
 
 Bonus:
 
-#+begin_src sh :tangle no
+#+begin_src shell :tangle no
 find /space/music -type d -exec chmod o-w {} +
 find /space/music -type d -exec chmod 755 {} +
 #+end_src
@@ -895,139 +895,3 @@ these case. I choose a simpler approach using a POSIX (read portable) way to
 have find building itself the long command lines, i.e. ~{}~ is replaced by a suite
 of file names up to the maximum number allowed.
 
-* Web security assessments
-
-** HTTP
-
-From Hacking Exposed Web Applications:
-
-#+begin_src shell :tangle bin/getit.sh
-#!/usr/bin/env sh
-# mike's getit.sh script
-if [ -z $1 ]; then
-    echo -e "\n\tUsage: $0 <host> <URL>"
-    exit
-fi
-echo -e "GET $2 HTTP/1.0\n\n" | \
-nc -vv $1 80
-#+end_src
-
-#+begin_src shell
-getit.sh www.missioncriticalit.com /index.html
-#+end_src
-
-#+begin_src shell
-getit.sh www.victim.com /index.html | grep -i "<form"
-#+end_src
-
-#+begin_src shell
-getit.sh www.victim.com /index.html | grep -i "input type"
-#+end_src
-
-** HTTPS
-
-#+begin_src shell :tangle bin/sgetit.sh
-#!/usr/bin/env sh
-# mike's sgetit.sh script
-if [ -z $1 ]; then
-    echo -e "\n\tUsage: $0 <SSL host> <URL>"
-    exit
-fi
-echo -e "GET $2 HTTP/1.0\n\n" | \
-openssl s_client -quiet -connect $1:443 2>/dev/null
-#+end_src
-
-#+begin_src shell
-sgetit.sh www.victim.com /secure/admin.html
-#+end_src
-
-* Netcat
-
-Here is a script which will port scan and banner grab automatically with
-netcat. It will check for the SSH and MySQL version by connecting and saving
-the results and it will see if the HTTP server is vulnerable to the =TRACE=
-method, look in the dumpfile ~/tmp/bannergrab~ and look for
-=<script>alert(123)</script>= if you can find that back you got yourself a
-vulnerable server.
-
-#+begin_src shell :tangle bin/nc_bgrab
-#!/usr/bin/env sh
-
-range="10.10.10.";
-
-# You can change this to a port range $(seq 20 25) is port 20-25
-ports="20 21 22 23 25 53 80 110 111 443 3306 6000";
-
-http_header="HEAD / HTTP/0.1\n\n";
-
-for host in $(seq 2 254); do
-    for port in $ports; do
-        echo "[+] Testing "$range$host":"$port;
-        result=$(nc -zv -w 1 $range$host $port 2>&1 | grep succeeded);
-        if [ -n "$result" ]; then
-            echo "\n"$range$host":"$port"\n" >> "/tmp/bannergrab"
-            if [ "$port" -eq "22" ]; then
-                echo "Found open port "$range$host":"$port" Here might be some SSH server, it echoes the SSH version to you on connecting when lucky.";
-                nc -v -w 1 $range$host $port >> "/tmp/bannergrab";
-            fi;
-            if [ "$port" -eq "80" ]; then
-                echo "Found open port "$range$host":"$port" Trying to fingerprint with HEAD and see if the server is vulnerable to TRACE XSSing";
-                echo $http_header | nc -v -w 1 $range$host $port >> "/tmp/bannergrab"
-                echo "TRACE / HTTP/1.1\nHost: $range$host\nuser-agent: <script>alert(123)</script>\n\n" | nc -v -w 2 $range$host $port >> "/tmp/bannergrab"
-            fi;
-            if [ "$port" -eq "3306" ]; then
-                echo "Found open port "$range$host":"$port" Possible MySQL installation found, saving the banner for later inspection, the MySQL version can be found in this.";
-                nc -v -w 1 $range$host $port >> "/tmp/bannergrab";
-            fi;
-        fi;
-    done
-done
-#+end_src
-
-A lot more on http://h.ackack.net/cheatsheets/netcat/: how to workaround ~-e
-cmd.exe~ option which disappeared, etc.
-
-** Scan only certain ports
-
-#+begin_src shell
-nc -z -w 1 -v -v 10.10.10.11 20-30,53,80,100-112,443,6000-6050
-#+end_src
-
-** DNS
-
-#+begin_src shell
-nc -p 53 -w 2 -v -v firewall.yournetwork.com 53
-nc -u -p 53 -w 2 -v -v firewall.yournetwork.com 53
-#+end_src
-
-** Spoof source IP address
-
-~-s~ option to Netcat: does not work under Cygwin...
-
-** Socat
-
-Learning socat in terms of netcat: http://jdimpson.livejournal.com/6534.html
-
-- *Remote access server*
-
-  #+begin_src shell
-  socat TCP-LISTEN:2323,reuseaddr EXEC:/bin/bash
-  #+end_src
-
-- *Data forwarder* (aka simple proxy)
-
-  #+begin_src shell
-  socat TCP-L:2323 TCP:localhost:22
-  #+end_src
-
-  And of course, you can replace either address with any other socat address
-  we've already talked about (UDP, UDP-L), or ones we'll talk about in another
-  post (e.g. SSL).
-
-** Packet forger
-
-SendIP
-
-** Lauching attacks via Tor
-
-http://www.oreillynet.com/onlamp/blog/2005/07/launching_attacks_via_tor.html
