@@ -77,6 +77,8 @@ stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
     | GREP_COLORS="sl=$C_DIR:mt=$C_PAT"            grep -i "$PATTERN" --color=always
 #+end_src
 
+See also option ~--line-buffered~ to ~grep~ for quicker pipes.
+
 * EXIT STATUS
 
 - 0 :: Successful program execution.
