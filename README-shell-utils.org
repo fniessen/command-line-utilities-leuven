@@ -103,7 +103,11 @@ XXX Do they need to be added to =~/.bash_aliases=?
 
 How to *delete duplicate lines* in a file *without sorting* it?
 
-: awk '!seen[$0]++' infile
+#+begin_src shell :tangle bin/remove-duplicate-lines
+# Remove duplicate entries in a file without sorting.
+# remove-duplicate-lines FILE...
+awk '!seen[$0]++'
+#+end_src
 
 https://stackoverflow.com/questions/1444406/how-to-delete-duplicate-lines-in-a-file-without-sorting-it-in-unix
 
@@ -117,7 +121,11 @@ Use multiple ~-k~ flags to sort by first, then second column as a tie breaker:
 
 : sort -k 2,2 -k 1,1 infile
 
+*Use ~sort -u~ to remove duplicate data.*
+
 ** Remove lines shorter than N
+
+Display long lines.
 
 : awk 'length($0) >= N' infile
 

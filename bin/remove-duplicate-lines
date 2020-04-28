@@ -1,0 +1,3 @@
+# Remove duplicate entries in a file without sorting.
+# remove-duplicate-lines FILE...
+awk '!seen[$0]++'
