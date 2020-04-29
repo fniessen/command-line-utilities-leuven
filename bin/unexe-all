@@ -129,6 +129,7 @@ find . -type f \
     -o -name "*.xsl" \
     -o -name "*.xslt" \
     -o -name "*.xslx" \
+    -o -name "*.yasnippet" \
     -o -name "*.zip" \
     -o -name "*.zlib" \
     -o -name "ChangeLog" \
