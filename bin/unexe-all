@@ -133,6 +133,7 @@ find . -type f \
     -o -name "*.zip" \
     -o -name "*.zlib" \
     -o -name "ChangeLog" \
+    -o -name "LICENSE" \
     -o -name "Makefile" \
     -o -name "README" \
     \) \
