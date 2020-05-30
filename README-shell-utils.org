@@ -36,24 +36,6 @@ For similar collections, see:
 - http://code.google.com/
 - [[https://bbs.archlinux.org/viewtopic.php?id=56646&p=1][Post your handy self made command line utilities]]
 
-** Coding style
-
-- http://wiki.bash-hackers.org/scripting/style
-
-- https://google-styleguide.googlecode.com/svn/trunk/shell.xml
-
-  ~variable_name~ (preferred, ~variableName~ accepted) \\
-  ~function_name~ \\
-  ~CONSTANT_NAME~
-
-** Shell formatter + checker
-
-- https://github.com/mvdan/sh
-- https://google.github.io/styleguide/shell.xml
-- https://www.shellcheck.net/ (online checker!)
-
-http://www.skybert.net/emacs/bash-linting-in-emacs/
-
 ** Prerequisites
 
 - Clear
@@ -79,7 +61,7 @@ tac (the, ahem, reverse of cat). Part of coreutils.
 Flipping one file into another
 
 #+begin_src shell
-tac a.txt > b.txt
+tac INFILE > OUTFILE
 #+end_src
 
 ** Difference between two directories
@@ -111,15 +93,19 @@ awk '!seen[$0]++'
 
 https://stackoverflow.com/questions/1444406/how-to-delete-duplicate-lines-in-a-file-without-sorting-it-in-unix
 
+#+begin_note
+If you can ~sort~ the file, using ~uniq~ is a much, much quicker solution...
+#+end_note
+
 How to *retrieve* the *first occurrence* of records for some fields only?
 
-: awk '!seen[$2]++' infile
+: awk '!seen[$2]++' INFILE
 
 ** Sort file according to the Nth column
 
 Use multiple ~-k~ flags to sort by first, then second column as a tie breaker:
 
-: sort -k 2,2 -k 1,1 infile
+: sort -k 2,2 -k 1,1 INFILE
 
 *Use ~sort -u~ to remove duplicate data.*
 
@@ -127,7 +113,15 @@ Use multiple ~-k~ flags to sort by first, then second column as a tie breaker:
 
 Display long lines.
 
-: awk 'length($0) >= N' infile
+: awk 'length($0) >= N' INFILE
+
+If you want to display lines of exactly N characters, use ~==~ as comparison operator.
+
+** Sort by length
+
+: awk '{ print length, $0 }' INFILE | sort -n -s | cut -d" " -f2- > OUTFILE
+
+Source: https://stackoverflow.com/questions/5917576/sort-a-text-file-by-line-length-including-spaces/
 
 ** Find all of the distinct file extensions in a folder hierarchy
 
