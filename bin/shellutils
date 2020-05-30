@@ -1,26 +1,4 @@
 #!/usr/bin/env bash
-die() {
-    printf "$(basename $0): $@\n" > /dev/stderr
-    exit 2                              # An error occurred.
-}
-
-has() {
-    for cmd in "$@"; do
-        command -v $cmd > /dev/null || die "$cmd not found."
-    done
-}
-
-if $(which ag > /dev/null 2>&1); then alias grep='ag'; fi
-
-has() {
-    if ! command -v "$1" > /dev/null 2>&1; then
-        echo "$1 not found."
-        return 2                        # An error occurred.
-    fi
-}
-
-has ag && alias grep='ag'
-
 has-cygwin() {
     for x in $@; do
         [ "$(command -v $x)" = "/usr/bin/$x" ] \
