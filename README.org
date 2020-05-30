@@ -7,6 +7,37 @@
 
 Shell extra utilities
 
+* Notes
+
+Why write an entire bash script in functions?
+https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
+
+** Documentation
+
+What is usage() in shell scripting?
+https://stackoverflow.com/questions/34567826/what-is-usage-in-shell-scripting
+
+Shell script templates
+https://stackoverflow.com/questions/430078/shell-script-templates
+
+** Coding style
+
+- http://wiki.bash-hackers.org/scripting/style
+
+- https://google-styleguide.googlecode.com/svn/trunk/shell.xml
+
+  ~variable_name~ (preferred, ~variableName~ accepted) \\
+  ~function_name~ \\
+  ~CONSTANT_NAME~
+
+** Shell formatter + checker
+
+- https://github.com/mvdan/sh
+- https://google.github.io/styleguide/shell.xml
+- https://www.shellcheck.net/ (online checker!)
+
+http://www.skybert.net/emacs/bash-linting-in-emacs/
+
 * bak
 
 Create a quick back-up copy of a file.
