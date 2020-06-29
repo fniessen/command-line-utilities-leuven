@@ -1,0 +1,2 @@
+# Remove the UTF-8 encoded BOM if it exists (make no changes if it doesn't).
+sed -i '1s/^\xEF\xBB\xBF//'

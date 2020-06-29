@@ -1,0 +1,2 @@
+# Find all UTF-16 encoded files.
+find . -type f -exec file --mime {} \; | grep -v '.git' | grep "charset=utf-16"
