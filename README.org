@@ -12,13 +12,13 @@ Shell extra utilities
 Why write an entire bash script in functions?
 https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
 
-** Documentation
+** Usage
 
-What is usage() in shell scripting?
-https://stackoverflow.com/questions/34567826/what-is-usage-in-shell-scripting
+docopt for shell - make beautiful CLI with ease
+https://github.com/docopt/docopts
 
-Shell script templates
-https://stackoverflow.com/questions/430078/shell-script-templates
+(I choose for the "with grep" syntax to have the documentation in the comments,
+while avoiding having to source =docopts.sh=.)
 
 ** Coding style
 

@@ -1,29 +1,31 @@
-#!/usr/bin/env sh
-#
-# ff - find files matching a string and print their full file name
+#!/usr/bin/env bash
 
-usage() {
-    cat <<-EOF
-	Usage: ff [PATTERN]
+#? ff, Time-stamp: <20200728.1023>
+#? Copyright (C) 2020 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
 
-	Find files matching a string and print their full file name.
+##? Usage: ff [options] [PATTERN]
+##?
+##? Find files matching a string and print their full file name.
+##?
+##? Arguments:
+##?   PATTERN                       optional string
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+##?
+##? Examples:
+##?   ff                            list all files
+##?   ff main.c                     list files matching main.c in their name
 
-	Options:
-	-h, --help                   display this help and exit
-
-	Examples:
-	  ff                         list all files
-	  ff core                    find files matching core in their file name
-EOF
-}
-
-invalid() {
-    echo "$SELF: invalid option '$1'" > /dev/stderr
-    usage
-    exit 1
-}
-
-SELF="${0##*/}"
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?"  "$0" | cut -c 4-)
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$parsed"
 
 yellow="$(tput setaf 3)"
 blue="$(tput setaf 4)"
@@ -32,19 +34,6 @@ reset="$(tput sgr0)"
 C_DIR="1;34"
 C_PAT="1;33;1;44"
 C_RST="0"
-
-# Parse options.
-while [ "$#" -gt 0 ]; do
-    case "$1" in
-        -h | --help) usage;        exit 0 ;;
-        --)          shift;        break ;;
-        -*)          invalid "$1"; break ;;
-        *)                         break ;;
-    esac
-    shift
-done
-
-PATTERN="$1"
 
 stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
     | GREP_COLORS="sl=$C_DIR:mt=$C_RST" stdbuf -oL grep --color=always '[^/]*$' \
