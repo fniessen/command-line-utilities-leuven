@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <20200728.1110>
+#? bak, Time-stamp: <20200728.1115>
 #? Copyright (C) 2020 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -12,7 +12,7 @@
 ##? Create a quick back-up copy of a file.
 ##?
 ##? Arguments:
-##?   FILE                          file
+##?   FILE                          file to copy
 ##?
 ##? Options:
 ##?   -h, --help                    display this help and exit
