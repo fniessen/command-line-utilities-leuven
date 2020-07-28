@@ -1,8 +1,29 @@
 #!/usr/bin/env bash
 
-# bak - create a quick back-up copy of a file
+#? bak, Time-stamp: <20200728.1110>
+#? Copyright (C) 2020 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
 
-# alias bak='bak() { cp -v $1{,.bak}; }; bak'
-# alias bak='bak() { cp -v $1 $1.bak; }; bak'
+##? Usage: bak [options] FILE
+##?
+##? Create a quick back-up copy of a file.
+##?
+##? Arguments:
+##?   FILE                          file
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+##?
+##? Example:
+##?   bak core/main.c
 
-cp -v "$1"{,.bak}
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?"  "$0" | cut -c 4-)
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$parsed"
+
+cp -v "$FILE" "$FILE".bak

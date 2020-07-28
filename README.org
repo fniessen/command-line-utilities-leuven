@@ -17,8 +17,8 @@ https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-
 docopt for shell - make beautiful CLI with ease
 https://github.com/docopt/docopts
 
-(I choose for the "with grep" syntax to have the documentation in the comments,
-while avoiding having to source =docopts.sh=.)
+(I choose for the "with grep" syntax to have the help and version messages
+parsed from script comments, while avoiding having to source =docopts.sh=.)
 
 ** Coding style
 
