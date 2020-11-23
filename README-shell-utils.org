@@ -6,7 +6,7 @@
 #+LANGUAGE:  en
 
 #+PROPERTY:  header-args :eval no
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 
 #+name: current-time
 #+begin_src emacs-lisp :eval yes :results value silent :tangle no
@@ -203,6 +203,13 @@ to ~find~ (force flushing of output).
 The buffering is on the output side of the pipe, not the input side.
 
 ** Find recent files
+
+In Everything (from Voidtools), we would use a syntax like:
+
+: rc:today ext:jar filename
+
+Search syntax:
+http://www.voidtools.com/forum/viewtopic.php?p=6200#p6200
 
 #+begin_src shell
 # List all files modified TODAY only (since start of day only, i.e. 00:00).

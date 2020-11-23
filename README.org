@@ -18,11 +18,19 @@ docopt for shell - make beautiful CLI with ease
 https://github.com/docopt/docopts
 
 (I choose for the "with grep" syntax to have the help and version messages
-parsed from script comments, while avoiding having to source =docopts.sh=.)
+parsed from script *comments*, while avoiding having to source =docopts.sh=.)
 
 ** Coding style
 
+- Beautiful Bash: Let's make reading and writing bash scripts fun again!
+  https://fr.slideshare.net/a_z_e_t/inpresentation
+
+- Let's make better scripts
+  https://downloads.cisofy.com/files/public/presentation-lets-make-better-scripts.pdf
+
 - http://wiki.bash-hackers.org/scripting/style
+
+- https://github.com/azet/community_bash_style_guide
 
 - https://google-styleguide.googlecode.com/svn/trunk/shell.xml
 
