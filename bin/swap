@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? swap, Time-stamp: <2020-12-03 Thu 22:06>
+#? swap, Time-stamp: <2020-12-03 Thu 22:14>
 #? Copyright (C) 2020 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -27,7 +27,8 @@ version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-tmpfile=/tmp/.swapper.$$.$RANDOM
+tmpfile=$(mktemp /tmp/swap.XXXXXXXXXX)
 mv -f "$FILE1" $tmpfile
 mv -f "$FILE2" "$FILE1"
 mv -f $tmpfile "$FILE2"
+rm "$tmpfile"
