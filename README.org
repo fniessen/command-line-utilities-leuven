@@ -61,3 +61,7 @@ Find directories matching a string and print their full file name.
 * ff
 
 Find files matching a string and print their full file name.
+
+* swap
+
+Swap two files.

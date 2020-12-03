@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+#? swap, Time-stamp: <2020-12-03 Thu 22:00>
+#? Copyright (C) 2020 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: swap [options] [FILE1] [FILE2]
+##?
+##? Swap two files.
+##?
+##? Arguments:
+##?   FILE1                         file
+##?   FILE2                         file
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+##?
+##? Examples:
+##?   swap config config.bak        swap files config and config.bak
+
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?"  "$0" | cut -c 4-)
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$parsed"
+
+tmpfile=/tmp/.swapper.$$.$RANDOM
+mv -f "$FILE1" $tmpfile
+mv -f "$FILE2" "$FILE1"
+mv -f $tmpfile "$FILE2"
