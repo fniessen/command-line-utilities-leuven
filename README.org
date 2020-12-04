@@ -64,4 +64,4 @@ Find files matching a string and print their full file name.
 
 * swap
 
-Swap two files.
+Swap the contents of two files.
