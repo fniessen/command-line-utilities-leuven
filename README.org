@@ -7,6 +7,28 @@
 
 Shell extra utilities
 
+* Commands
+
+** bak
+
+Create a quick back-up copy of a file.
+
+** f
+
+Find directories or files matching a string and print their full file name.
+
+** fd
+
+Find directories matching a string and print their full file name.
+
+** ff
+
+Find files matching a string and print their full file name.
+
+** swap
+
+Swap the contents of two files.
+
 * Notes
 
 Why write an entire bash script in functions?
@@ -45,23 +67,3 @@ parsed from script *comments*, while avoiding having to source =docopts.sh=.)
 - https://www.shellcheck.net/ (online checker!)
 
 http://www.skybert.net/emacs/bash-linting-in-emacs/
-
-* bak
-
-Create a quick back-up copy of a file.
-
-* f
-
-Find directories or files matching a string and print their full file name.
-
-* fd
-
-Find directories matching a string and print their full file name.
-
-* ff
-
-Find files matching a string and print their full file name.
-
-* swap
-
-Swap the contents of two files.
