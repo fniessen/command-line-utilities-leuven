@@ -732,6 +732,8 @@ You could use ~+~ instead of ~\;~ to reduce the number of subprocesses created.
 
 ** Pictures, etc.
 
+Scan for all files that do have the "executable" bit set:
+
 : find . -executable -type f | awk -F'.' '{print $NF;}' | sort | uniq -c
 
 There is no (good) reason ever for pictures to be executable.
