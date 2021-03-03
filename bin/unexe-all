@@ -5,21 +5,24 @@ find . -type f \
     -o -name "*.DWG" \
     -o -name "*.MF" \
     -o -name "*.PDF" \
+    -o -name "*.PNG" \
     -o -name "*.R" \
     -o -name "*.SQL" \
     -o -name "*.TTF" \
+    -o -name "*.TXT" \
     -o -name "*.Txt" \
     -o -name "*.XE" \
     -o -name "*.actionScriptProperties" \
     -o -name "*.acts" \
     -o -name "*.appcache" \
+    -o -name "*.as" \
     -o -name "*.asa" \
     -o -name "*.asp" \
-    -o -name "*.avi" \
     -o -name "*.awk" \
     -o -name "*.axvw" \
     -o -name "*.bak" \
     -o -name "*.bat" \
+    -o -name "*.bin" \
     -o -name "*.bmp" \
     -o -name "*.c" \
     -o -name "*.ced" \
@@ -29,6 +32,7 @@ find . -type f \
     -o -name "*.classpath" \
     -o -name "*.css" \
     -o -name "*.csv" \
+    -o -name "*.db" \
     -o -name "*.dflt" \
     -o -name "*.doc" \
     -o -name "*.docx" \
@@ -44,6 +48,7 @@ find . -type f \
     -o -name "*.gemspec" \
     -o -name "*.gif" \
     -o -name "*.gitignore" \
+    -o -name "*.gradle" \
     -o -name "*.htm" \
     -o -name "*.html" \
     -o -name "*.ico" \
@@ -66,12 +71,13 @@ find . -type f \
     -o -name "*.less" \
     -o -name "*.lex" \
     -o -name "*.lic" \
+    -o -name "*.lock" \
     -o -name "*.log" \
     -o -name "*.m" \
     -o -name "*.m4" \
+    -o -name "*.map" \
     -o -name "*.md" \
     -o -name "*.md5" \
-    -o -name "*.mkv" \
     -o -name "*.model" \
     -o -name "*.mp4" \
     -o -name "*.mpp" \
@@ -97,14 +103,16 @@ find . -type f \
     -o -name "*.py" \
     -o -name "*.rb" \
     -o -name "*.rpt" \
+    -o -name "*.rptdesign" \
+    -o -name "*.rptlibrary" \
     -o -name "*.sample" \
     -o -name "*.scss" \
     -o -name "*.scssc" \
     -o -name "*.scssx" \
     -o -name "*.sed" \
+    -o -name "*.snap" \
     -o -name "*.springBeans" \
     -o -name "*.sql" \
-    -o -name "*.srt" \
     -o -name "*.stackdump" \
     -o -name "*.svg" \
     -o -name "*.swc" \
@@ -119,6 +127,7 @@ find . -type f \
     -o -name "*.vm" \
     -o -name "*.war" \
     -o -name "*.woff" \
+    -o -name "*.woff2" \
     -o -name "*.wsdl" \
     -o -name "*.xhtml" \
     -o -name "*.xls" \
@@ -129,11 +138,9 @@ find . -type f \
     -o -name "*.xsl" \
     -o -name "*.xslt" \
     -o -name "*.xslx" \
-    -o -name "*.yasnippet" \
     -o -name "*.zip" \
     -o -name "*.zlib" \
     -o -name "ChangeLog" \
-    -o -name "LICENSE" \
     -o -name "Makefile" \
     -o -name "README" \
     \) \
