@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <20200728.1115>
-#? Copyright (C) 2020 Fabrice Niessen
+#? bak, Time-stamp: <20210504.1036>
+#? Copyright (C) 2020-2021 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -21,6 +21,7 @@
 ##? Example:
 ##?   bak core/main.c
 
+command -v docopts > /dev/null 2>&1 || { echo >&2 "docopts not found"; exit 2; }
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
