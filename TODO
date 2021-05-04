@@ -22,6 +22,10 @@ $ d
 1. Générer une erreur
 2. Rappeler la commande précédente (avec flèche up) -> il y a un décalage...
 
+** TODO Add other utilities
+
+See https://gitlab.com/bertrand-benoit/scripts-common for interesting ones.
+
 ** NEW Docker aliases
 
 See docker in https://project-awesome.org/unixorn/awesome-zsh-plugins
