@@ -742,6 +742,10 @@ Just run ~unexe-all~ to fix them.
 
 See also https://www.lifewire.com/list-of-executable-file-extensions-2626061
 
+Fix perms:
+
+: find .git -ls | grep 'r--r--r--' | awk '{print $NF}' | xargs -L 1 chmod 0644
+
 #+begin_src shell :tangle bin/unexe-all :shebang #!/usr/bin/env sh
 echo "Remove exe perm"
 find . -type f \
