@@ -7,6 +7,13 @@
 
 Shell extra utilities
 
+* Dependencies
+
+- [[https://github.com/docopt/docopts][docopts]] (~docopt~ for shell -- make beautiful CLI with ease)
+
+  (I choose for the "with grep" syntax to have the help and version messages
+  parsed from script *comments*, while avoiding having to source =docopts.sh=.)
+
 * Commands
 
 ** bak
@@ -33,14 +40,6 @@ Swap the contents of two files.
 
 Why write an entire bash script in functions?
 https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
-
-** Usage
-
-docopt for shell - make beautiful CLI with ease
-https://github.com/docopt/docopts
-
-(I choose for the "with grep" syntax to have the help and version messages
-parsed from script *comments*, while avoiding having to source =docopts.sh=.)
 
 ** Coding style
 
