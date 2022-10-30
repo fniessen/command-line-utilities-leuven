@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <20210504.1036>
-#? Copyright (C) 2020-2021 Fabrice Niessen
+#? fd, Time-stamp: <2022-10-29 Sat 20:19>
+#? Copyright (C) 2020-2022 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -29,3 +29,5 @@ parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
 find . -type d -iname "*$PATTERN*" -printf '%P\n' | grep -i --color=auto "$PATTERN"
+
+# See https://github.com/sharkdp/fd for hidden files, etc.
