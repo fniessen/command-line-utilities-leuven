@@ -1,0 +1,42 @@
+#!/usr/bin/env Rscript
+
+load_packages <- function() {
+  tryCatch({
+    library(cliapp)
+    library(docopt)
+    library(gtools)
+    error = function(e) {
+      cli_alert_danger(
+            "The {.pkg docopt} and {.pkg gtools} packages are needed!")
+      q(save = "no", status = 1)
+    }
+  })
+}
+
+parse_arguments <- function() {
+  doc <- "Usage:
+    rg-query [-h | --help] <term>...
+
+Options:
+    -h --help  Print this help message
+
+Query for rg terms
+  "
+  docopt(doc)
+}
+
+query <- function(terms) {
+  ## Get all permutations.  Pick terms from the list with no replacement.
+  df <- permutations(n = length(terms), r = length(terms),
+                     v = terms, repeats.allowed = F)
+
+  ## Collapse data frame into vector, then string.
+  paste(apply(df, 1, paste, collapse=".*"), collapse="|")
+}
+
+if (is.null(sys.calls())) {
+  load_packages()
+  opts <- parse_arguments()
+  query <- query(opts$term)                     # List of terms.
+  cat(query)
+}
