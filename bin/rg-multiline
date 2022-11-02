@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-query="$(rg-query $@ 2> /dev/null)"
+echo "rg-query $@ 2> /dev/null"
+query="$(rg-query $@)"
+echo "Query: $query."
 rg -lU --multiline-dotall "$query" .
