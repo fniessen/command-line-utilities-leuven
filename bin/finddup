@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 fdupes -r . \
-    | grep -v "/.svn/" \
-    | grep -v "/.git/" \
-    | grep -v "/.gitkeep" \
-    | grep -v "/.emacs.d/backups" \
-    | uniq
+    | grep -v -e "/.svn/" \
+              -e "/.git/" \
+              -e "/.gitkeep" \
+              -e "/.emacs.d/backups" \
+    | uniq \
     | awk 'BEGIN {RS="\n\n"; ORS="\n\n"; FS="\n"} {if (NF>1) print}'
