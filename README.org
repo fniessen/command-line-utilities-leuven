@@ -7,7 +7,10 @@
 
 Shell extra utilities
 
-* Dependencies
+* Requirements
+
+To be able to use the following commands, ensure that the following package is
+installed on your system.
 
 - [[https://github.com/docopt/docopts][docopts]] (~docopt~ for shell -- make beautiful CLI with ease)
 
