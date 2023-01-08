@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-01-08 Sun 12:30>
+#? bak, Time-stamp: <2023-01-08 Sun 16:53>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -27,4 +27,5 @@ version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-cp -v "$FILE" "$FILE".bak
+cp "$FILE" "$FILE".bak
+printf 'Copied '\''%s'\'' -> '\''%s'\''\n' "$FILE" "$FILE".bak
