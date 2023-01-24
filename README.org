@@ -35,6 +35,14 @@ Find directories matching a string and print their full file name.
 
 Find files matching a string and print their full file name.
 
+** find-duplicate-filenames
+
+Find files with duplicate or conflicting names.
+
+** find-duplicate-files
+
+Search for duplicated files.
+
 ** swap
 
 Swap the contents of two files.

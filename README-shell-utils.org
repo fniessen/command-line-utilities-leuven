@@ -528,79 +528,7 @@ cecho() {
 cecho "$@"
 #+end_src
 
-** Find duplicates
-
-*** finddup -- Find DUPlicate files
-
-Use ~fdupes~ (from Cygwin).
-
-#+begin_src shell :tangle bin/finddup
-fdupes -r . \
-    | grep -v "/.svn/" \
-    | grep -v "/.git/" \
-    | grep -v "/.gitkeep" \
-    | grep -v "/.emacs.d/backups" \
-    | uniq
-    | awk 'BEGIN {RS="\n\n"; ORS="\n\n"; FS="\n"} {if (NF>1) print}'
-#+end_src
-
-#+begin_note
-~uniq~ deletes duplicate, consecutive lines.
-
-The AWK script finds every block with more than one line.
-#+end_note
-
-*** dupe -- Search for duplicated filenames
-
-find (files) with duplicate or conflicting names.
-Usage: findsn [-A -c -C] [[-r] [-f] paths(s) ...]
-
-#+begin_src shell :tangle no
-find . -type f | sort | uniq -c | grep -v "^[ \t]*1 "
-#+end_src
-
-#+begin_src shell :tangle no
-#!/usr/bin/env bash
-
-find -type f > names.lst
-
-> names.out
-
-TAB=`echo -ne "\t"`
-while read name; do
-    bn="$( basename "$name" )"
-    name2="$( grep "$bn" names.lst | grep -v "$name" )"
-    if [ "$name2" != "" ]; then
-        if !(grep -q "^${name}${TAB}" names.out); then
-            size=`stat --format=%s "$name"`
-            size2=`stat --format=%s "$name2"`
-            echo -e "$name${TAB}$size" >> names.out
-            echo -e "$name2${TAB}$size" >> names.out
-        fi
-    fi
-done < names.lst
-
-cat names.out
-rm -f names.lst
-#+end_src
-
-#+begin_src shell :tangle bin/dupe
-# Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
-# If no command-line parameter (path to begin from) is specified, then the
-# default is to begin from the current (.) directory.
-cd path=$1
-: ${path:=.}
-printf "Building file list...\n" > /dev/stderr
-fullList=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF,$0}' | sort +0 -1)
-fileNames=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF}' | sort | uniq -d)
-for EACH in $fileNames; do
-    echo "$fullList" | grep -wE "^$EACH "
-    echo ""
-done
-exit 0
-#+end_src
-
-*** grep2 -- Find all AXVW files with two strings (Show AXVW files with both matches only)
+** grep2 -- Find all AXVW files with two strings (Show AXVW files with both matches only)
 
 (See Utilities.)
 
@@ -621,15 +549,15 @@ sed -e '2d'
 sed "s/NULL//g"
 #+end_src
 
-* Findup
+* Find-up
 :PROPERTIES:
-:header-args+: :tangle bin/findup :shebang #!/usr/bin/env bash
+:header-args+: :tangle bin/find-up :shebang #!/usr/bin/env bash
 :END:
 
 Search for the specified file(s) in the directory tree upwards, up to ~/~.
 
 Usage:
-: findup -name 'x*'
+: find-up -name 'x*'
 
 #+begin_src shell
 set -e
