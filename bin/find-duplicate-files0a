@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if command -v fdupes >/dev/null; then
+    # fdupes is found, use it to find duplicate files
+    echo "Using fdupes command to find duplicate files"
+    fdupes -r /path/to/directory
+else
+    # fdupes is not found, use find command
+    echo "fdupes command not found, using find command to find duplicate files"
+    # specify directory to search
+    dir="./"
+
+    # find duplicate files and print their names
+    find $dir -type f -exec md5sum {} + | sort | awk '
+    BEGIN {
+      FS=" ";
+    }
+    {
+      if (arr[$1] != "") {
+        print arr[$1];
+        print $2;
+      }
+      arr[$1]=$2;
+    }
+  '
+fi

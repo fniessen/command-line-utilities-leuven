@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# store the current directory
+CURRENT_DIR=$(pwd)
+
+# navigate to the root directory
+cd /
+
+# find all files in the current directory and subdirectories
+for file in $(find . -type f); do
+    # calculate the md5 checksum of the file
+    md5sum=$(md5sum "$file" | awk '{print $1}')
+    # check if the md5 checksum is already in the array
+    if [[ ${md5_array[$md5sum]} ]]; then
+        # if it is, it's a duplicate file
+        echo "Duplicate file: $file"
+    else
+        # if not, add the md5 checksum to the array
+        md5_array[$md5sum]="$file"
+    fi
+done
+
+# navigate back to the current directory
+cd $CURRENT_DIR

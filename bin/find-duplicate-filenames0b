@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# specify directory to search
+
+find -type f -printf "%f\n" \
+    | awk '{ names[$0]++; } END { for (name in names) { if (names[name] > 1) { print name; } } }'
