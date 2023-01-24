@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 fdupes -r . \
     | grep -v -e "/.svn/" \
               -e "/.git/" \
