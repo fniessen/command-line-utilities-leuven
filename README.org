@@ -43,6 +43,11 @@ Find files with duplicate or conflicting names.
 
 Search for duplicated files.
 
+** find-today-files
+
+Find all files modified today in a specified directory or the current directory
+(if none is specified), with the option to filter by file extension.
+
 ** swap
 
 Swap the contents of two files.
