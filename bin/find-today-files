@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Get the current date in the format YYYY-MM-DD.
+today=$(date +%Y-%m-%d)
+
+# Find all files in the current directory and its subdirectories that have
+# today's date in the modification time.
+find . -type f -name "*" -mtime 0 -print
