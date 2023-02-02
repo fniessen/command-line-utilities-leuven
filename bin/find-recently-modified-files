@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2023-02-02 Thu 14:34>
+#? find-recently-modified-files, Time-stamp: <2023-02-02 Thu 14:37>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -29,7 +29,7 @@ DIRECTORY=${DIRECTORY:-.}
 
 # List all files modified this week (today + 6 full days).
 if [ -n "$EXTENSION" ]; then
-    time find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime -7 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime -7 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 else
-    time find "$DIRECTORY" -type f -daystart -mtime -7 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -daystart -mtime -7 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 fi
