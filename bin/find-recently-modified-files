@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2023-02-02 Thu 15:01>
+#? find-recently-modified-files, Time-stamp: <2023-02-02 Thu 15:02>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -28,7 +28,7 @@ eval "$parsed"
 DIRECTORY=${DIRECTORY:-.}
 
 # Define a variable for the print format
-PRINT_FORMAT=" %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+PRINT_FORMAT="  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 
 # Check if the extension variable is set.
 if [ -n "$extension" ]; then
