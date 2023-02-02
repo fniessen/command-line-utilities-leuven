@@ -212,15 +212,8 @@ Search syntax:
 http://www.voidtools.com/forum/viewtopic.php?p=6200#p6200
 
 #+begin_src shell
-# List all files modified TODAY only (since start of day only, i.e. 00:00).
-alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
-
 # List all files modified YESTERDAY.
 alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
-
-# List all files modified THIS WEEK.
-alias thisweek1='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
-alias thisweek2='find . -daystart -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
 #+end_src
 
 XXX Check out %C, %T and %A!!!
