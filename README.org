@@ -43,6 +43,10 @@ Find files with duplicate or conflicting names.
 
 Search for duplicated files.
 
+** find-recently-modified-files
+
+Find all files modified in the last 7 days (including today).
+
 ** find-today-files
 
 Find all files modified today in a specified directory or the current directory
