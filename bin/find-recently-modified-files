@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2023-02-02 Thu 14:37>
+#? find-recently-modified-files, Time-stamp: <2023-02-02 Thu 14:59>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -15,7 +15,7 @@
 ##?   DIRECTORY                     starting directory
 ##?
 ##? Options:
-##?   -e, --extension=EXTENSION     filter files by extension
+##?   -e EXT, --extension=EXT       filter files by extension
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 
@@ -26,10 +26,11 @@ parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
 DIRECTORY=${DIRECTORY:-.}
+PRINT_FORMAT=" %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 
 # List all files modified this week (today + 6 full days).
-if [ -n "$EXTENSION" ]; then
-    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime -7 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+if [ -n "$extension" ]; then
+    find "$DIRECTORY" -type f -name "*.$extension" -daystart -mtime -7 -printf "$PRINT_FORMAT"
 else
-    find "$DIRECTORY" -type f -daystart -mtime -7 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -daystart -mtime -7 -printf "$PRINT_FORMAT"
 fi
