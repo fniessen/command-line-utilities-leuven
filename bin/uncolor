@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? uncolor, Time-stamp: <2023-02-03 Fri 13:42>
+#? uncolor, Time-stamp: <2023-02-03 Fri 13:45>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -24,10 +24,14 @@ version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-# Command to remove ANSI escape sequences (often used to change the color,
-# background, or style of text in the terminal).
+# Define the sed command as a string.
 command="sed -r 's/\x1b\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g'"
+                                        # Command to remove ANSI escape
+                                        # sequences (often used to change the
+                                        # color, background, or style of text in
+                                        # the terminal).
 
+# Check if the FILE variable is non-empty.
 if [ -n "$FILE" ]; then
     eval "$command $FILE"
 else
