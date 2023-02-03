@@ -52,6 +52,10 @@ Find all files modified in the last 7 days (including today).
 Find all files modified today in a specified directory or the current directory
 (if none is specified), with the option to filter by file extension.
 
+** uncolor
+
+Strip color sequences from the input text.
+
 ** swap
 
 Swap the contents of two files.
