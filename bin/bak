@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-01-08 Sun 16:55>
+#? bak, Time-stamp: <2023-02-04 Sat 16:10>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -21,7 +21,9 @@
 ##? Example:
 ##?   bak core/main.c
 
-command -v docopts > /dev/null 2>&1 || { printf >&2 'docopts not found\n'; exit 2; }
+# Check if docopts command is available.
+command -v docopts > /dev/null 2>&1 || { printf >&2 'Error: docopts command not found.\n'; exit 2; }
+
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
