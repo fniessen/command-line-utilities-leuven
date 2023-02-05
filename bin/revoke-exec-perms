@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-echo "Remove exe perm"
+
+printf "Revoke exec permission for specified file extensions...\n"
+
 find . -type f \
     \( -name "*.DTD" \
     -o -name "*.DWG" \
