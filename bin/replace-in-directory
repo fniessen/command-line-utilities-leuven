@@ -1,0 +1,26 @@
+#!/bin/bash
+
+OLD_STRING="$1"
+NEW_STRING="$2"
+DIRECTORY="$3"
+
+if [ -z "$OLD_STRING" ] || [ -z "$NEW_STRING" ] || [ -z "$DIRECTORY" ]; then
+    echo "Usage: $0 OLD_STRING NEW_STRING DIRECTORY"
+    exit 1
+fi
+
+if [ ! -d "$DIRECTORY" ]; then
+    echo "Error: $DIRECTORY is not a directory"
+    exit 1
+fi
+
+for file in "$DIRECTORY"/*; do
+    if [ -f "$file" ]; then
+        # Case-sensitive.
+        # sed -i "s/$OLD_STRING/$NEW_STRING/g" "$file"
+
+        # Case-insensitive.
+        echo sed -i "s/$OLD_STRING/$NEW_STRING/gi" "$file"
+        sed -i "s/$OLD_STRING/$NEW_STRING/gi" "$file"
+    fi
+done
