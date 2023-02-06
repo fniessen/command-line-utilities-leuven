@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+## sd (for `say-done') -- notify when task is done (even if it is running in
+## some background screen session)
+
+# Usage:
+#   sd make all
+#   sd cdrecord -v speed=2 dev=2,0 cdimage.raw
+#   sd wget http://releases.ubuntu.com/9.04/ubuntu-9.04-desktop-i386.iso
+
+if eval "$@"; then
+    beep
+    notify-send -t "Done..." -m "$@"
+else
+    beep; beep; beep
+    notify-send -t "Failed!" -m "$@"
+fi
+
+
+# Add an "alert" alias for *long running commands*.
+#
+# alert() {
+#     $@
+#     echo -e "\a"                        # Beep.
+# }
+#
+# alias alert='notify-send --urgency=low -i "$([[ $? = 0 ]] && echo terminal || echo error)" "$(history | tail -n 1 | sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+#
+# Use like so:
+#
+# : sleep 10; alert
