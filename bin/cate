@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Print the contents of the current buffer in Emacs to the terminal.
+
+# Check if emacsclient command is available.
+command -v emacsclient > /dev/null 2>&1 || { printf >&2 'Error: emacsclient command not found.\n'; exit 2; }
+
+fifo="$(mktemp -u)"
+mkfifo "$fifo"
+emacsclient -e '(with-current-buffer
+                    (window-buffer (selected-window))
+                  (write-region (point-min) (point-max) "'"$fifo"'" nil :quiet))
+               ' >/dev/null &
+cat "$fifo"
+rm "$fifo"
