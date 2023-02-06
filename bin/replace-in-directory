@@ -14,13 +14,16 @@ if [ ! -d "$DIRECTORY" ]; then
     exit 1
 fi
 
+num_files=$(find "$DIRECTORY" -type f | wc -l)
+curr_file=0
+
 for file in "$DIRECTORY"/*; do
     if [ -f "$file" ]; then
+        ((curr_file++))
+        echo "Processing file $curr_file of $num_files: $file"
         # Case-sensitive.
         # sed -i "s/$OLD_STRING/$NEW_STRING/g" "$file"
-
         # Case-insensitive.
-        echo sed -i "s/$OLD_STRING/$NEW_STRING/gi" "$file"
         sed -i "s/$OLD_STRING/$NEW_STRING/gi" "$file"
     fi
 done
