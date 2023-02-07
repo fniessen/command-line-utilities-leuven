@@ -532,11 +532,6 @@ cecho "$@"
 sed "s/NULL//g"
 #+end_src
 
-#+begin_src shell :tangle bin/delete-2nd-line
-# Delete the second line.
-sed -e '2d'
-#+end_src
-
 #+begin_src shell :tangle bin/replace-null
 # Replace NULL value by empty string.
 sed "s/NULL//g"
