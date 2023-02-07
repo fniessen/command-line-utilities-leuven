@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Directory to be monitored
+watch_dir="/path/to/watch/directory"
+
+# Function to send a notification when a change is detected
+function send_notification {
+  subject="Change detected in $watch_dir"
+  message="A change has been detected in the directory $watch_dir at $(date +%Y-%m-%d_%H-%M-%S)."
+  echo $message | mail -s "$subject" your.email@example.com
+}
+
+# Watch the directory for changes using the inotifywait command
+while inotifywait -q -e modify,create,delete -r $watch_dir; do
+  send_notification
+done
