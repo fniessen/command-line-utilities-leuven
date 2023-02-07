@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
-# Delete the second line.
+
+# Delete the second line of input.
 sed -e '2d'
+
+# Alternative:
+# awk 'NR!=2'
