@@ -1,1 +1,5 @@
+#!/usr/bin/env bash
+
+# Delete empty directories.
+
 find . -type d -empty -delete -mindepth 1
