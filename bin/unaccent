@@ -1,0 +1,39 @@
+#!/bin/env bash
+
+# Replace accented characters (in ISO 8859-1 encoding) with their ASCII equivalents.
+
+input_file=$1
+output_file=$2
+
+if [ ! -f "$input_file" ]; then
+  echo "Error: input file not found"
+  exit 1
+fi
+
+# Create a temporary file for the output.
+temp_file=$(mktemp)
+
+# Replace accented characters with ASCII characters.
+cat "$input_file" \
+    | tr '\o11\o15' ' ' \
+    | tr '\o200' 'EUR' \
+    | tr '\o205' '...' \
+    | tr '\o203' ' ' \
+    | tr '\o214' 'OE' \
+    | tr '\o215\o226\o227\o231' ' ' \
+    | tr '\o221\o222\o223\o224' "'" \
+    | tr '\o225' '-' \
+    | tr '\o234' 'oe' \
+    | tr '\o240\o243\o247\o250\o251\o253\o254\o256\o260\o261\o262\o263\o264\o265\o267\o272\o273\o275\o276\o277' ' pound alinea uml (C) ' "' - ./ .. 1/2 3/4 ?" \
+    | tr '\o300\o301\o302\o304\o307\o310\o311\o312\o313\o314\o315\o316\o317\o323\o324\o325\o326\o331\o332\o333\o334\o337' 'AAAAA CEEEEE IIIII OOOOO USSSS' \
+    | tr '\o340\o341\o342\o343\o344\o347\o350\o351\o352\o353\o354\o355\o356\o357\o361\o363\o364\o365\o366\o370\o371\o372\o373\o374\o375\o377' 'aaaaa ceiii ooooo ussss yyyy' \
+    > "$temp_file"
+
+# Overwrite the input file with the output.
+if [ "$input_file" != "$output_file" ]; then
+  mv "$temp_file" "$output_file"
+else
+  mv -f "$temp_file" "$output_file"
+fi
+
+echo "Conversion complete."

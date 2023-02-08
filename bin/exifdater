@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+echo "Instead, use:"
+echo "exiftool -d %Y%m%d_%H%M%S%%_c.%%e \"-TestName<CreateDate\" DIR (dry-run)"
+echo "exiftool -d %Y%m%d_%H%M%S%%_c.%%e \"-FileName<CreateDate\" DIR"
+exit
+
+function usage() {
+    if [[ $# -ne 1 ]]; then
+        echo "ExifDater - version 1.1 - 2018-09-14"
+        echo
+        echo "ExifDater utilises the ExifTool (https://www.sno.phy.queensu.ca/~phil/exiftool/)"
+        echo "program to sequentially extract the image creation date from"
+        echo "JPEG EXIF headers."
+        echo
+        echo "Usage:"
+        echo "$0 /path/to/jpg/directory"
+        exit 0
+    fi
+}
+
+function exiftagsexist() {
+    which exiftool > /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo
+        echo "Unable to locate exiftool binary"
+        echo "Please make sure it is installed and is in your path."
+        echo
+        exit 0
+    fi
+}
+
+function gotodir() {
+    cd $1 > /dev/null 2>&1
+
+    if [[ $? -ne 0 ]]; then
+        echo
+        echo "Directory does not exists"
+        echo "Please try again."
+        echo
+        exit 0
+    fi
+}
+
+function jpgexist() {
+    find . -iname "*.jpg" -type f >/dev/null 2>&1
+
+    if [[ $? -ne 0 ]]; then
+        echo
+        echo "There are no JPEG pictures in this directory"
+        echo "Please try again."
+        echo
+        exit 0
+    fi
+}
+
+function myexifdater() {
+    for i in *.jpg *.JPG *.jpeg *.JPEG
+    do
+        echo $i
+        create_date=`exiftool "$i" 2>&1 | grep "Create Date" | cut -d" " -f3 | sed -e 's/:/-/g'`
+        if [[ "$create_date" == "" ]]; then
+                echo -e "SKIPPING IMAGE $i \\t\\t\\t [NO EXIF DATA FOUND]"
+                continue
+        fi
+        echo -n Processing Image $i Created on $create_date
+        # do_rename=$(echo $i | sed -e 's/\(.*\)/mv "&" "'$create_date'_\1"/g' | sh)
+        echo -e \\t\[DONE\]
+
+    done
+}
+
+usage $1
+exiftagsexist
+gotodir $1
+jpgexist
+myexifdater

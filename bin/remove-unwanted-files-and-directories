@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Remove unwanted files and directories from the system, potentially freeing up
+# disk space.
+
+# Recycle bin.
+find ~/.local/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+
+find ~/.emacs.d/auctex-auto-generated-info/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+find ~/.emacs.d/auto-save-list/ -mindepth 1 -maxdepth 1 -name "." -exec rm -rf -v {} +
+find ~/.emacs.d/backups/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+find ~/.emacs.d/url/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+find ~/.gnus.d/cache/nnimap -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+find ~/.dotfiles/lib/received-emails/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+find ~/.dotfiles/plugins/oh-my-zsh/cache/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+
+rm -v ~/.emacs.d/projectile.cache
+# rm -v ~/.histfile
+rm -v ~/.lesshst
+
+find ~/ -iname 'nul' -exec rm -rf -v {} +
+find ~/ -iname 'null' -exec rm -rf -v {} +
+find ~/ -iname 'MDB_ODBC.Trace.Txt' -exec rm -rf -v {} +
+find ~/ -iname '*.exe.stackdump' -exec rm -rf -v {} +

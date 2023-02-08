@@ -1,0 +1,88 @@
+#!/usr/bin/expect -f
+
+# run-remote-command -- Use SSH to remotely execute a command
+
+# usage: run-remote-command [SSH_USER] [SERVER] [PASS] [COMMAND]
+
+# useful GLOBAL
+set argv0 [file tail $argv0]
+
+# check for the correct number of arguments
+if {$argc == 4} { ;# no identity file
+    set SSH_KEY ""
+    set SSH_USER [lindex $argv 0]
+    set SERVER [lindex $argv 1]
+    set PASS [lindex $argv 2]
+    set COMMAND  [lindex $argv 3]
+} elseif {$argc == 5} {
+    set SSH_KEY [lindex $argv 0]
+
+    # check for accessibility of identity file
+    if {! [file exists $SSH_KEY]} {
+        send_user "$argv0: Identity file `$SSH_KEY' does not exist.\n"
+        exit 1
+    }
+
+    set SSH_USER [lindex $argv 1]
+    set SERVER [lindex $argv 2]
+    set PASS [lindex $argv 3]
+    set COMMAND  [lindex $argv 4]
+} else {
+    send_user "Usage: $argv0 \[identity_file\] user host pass command\n"
+    exit 1
+}
+
+set timeout 30
+
+set PROMPT "(%|#|\\$|>|]) ?(\\u001b\\\[0m)?(\\u001b\\\[K)?$"
+                           # for my colorful prompt
+
+log_user 0
+
+if {$SSH_KEY == ""} {
+    spawn ssh $SSH_USER@$SERVER
+} else {
+    spawn ssh -i $SSH_KEY $SSH_USER@$SERVER
+}
+match_max 100000   ;# the result might be more than 2000 characters
+
+# interact with SSH
+expect {
+    timeout {
+        send_user "$argv0: Timed out on ssh\n";     exit 1
+    }
+    -re "No route to host" {
+        send_user "$argv0: No route to host\n";     exit 1
+    }
+    -re "Connection refused" {
+        send_user "$argv0: Connection refused\n";   exit 1
+    }
+    -re "(Permission denied.*|Warning: Identity file .* not accessible: No such file or directory.)" {
+        send_user "$argv0: Unable to login\n";      exit 1
+    }
+    -re "pass.*:"
+}
+
+send "$PASS\r"
+expect {
+    -nocase "ermission denied, please try again." {
+        send_user "$argv0: Unable to login\n";      exit 1
+    }
+    -re ".*$PROMPT"
+}
+
+send "$COMMAND\r"                ;# send command
+# expect "$COMMAND\r"            ;# discard command echo
+expect -re "\n(.*)\r.*$PROMPT"   ;# match and save the result
+puts $expect_out(1,string)
+
+# capture the exit code from the remote command
+send "echo $?\r"
+expect -re "\n(\[\[:digit:]]*)\r.*$PROMPT"
+set RC $expect_out(1,string)
+
+send "exit\r"
+
+exit $RC
+
+## run-remote-command ends here

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Find broken symbolic links.
+broken_symlinks=$(find . -type l -exec test ! -e {} \; -print)
+
+if [ -z "$broken_symlinks" ]; then
+    printf "No broken symlinks found.\n"
+    exit 0
+fi
+
+# Prompt for confirmation.
+printf "The following broken symbolic links will be removed:\n"
+printf "%s\n" "$broken_symlinks"
+read -p "Are you sure you want to remove them? (y/n) " -n 1 -r
+printf "\n"
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    printf "Cancelled operation.\n"
+    exit 2
+fi
+
+# Remove broken symbolic links.
+while read -r link; do
+    rm -v "$link"
+done <<< "$broken_symlinks"
+
+printf "Broken symbolic links removed successfully.\n"
+exit 0
