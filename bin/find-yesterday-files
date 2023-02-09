@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-yesterday-files, Time-stamp: <2023-02-06 Mon 14:55>
-#? Copyright (C) 2023 Fabrice Niessen
+#? find-yesterday-files, Time-stamp: <2023-02-09 Thu 22:35>
+#? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -32,8 +32,7 @@ DIRECTORY=${DIRECTORY:=.}
 # List all files modified YESTERDAY only (between the start of yesterday and the
 # end of yesterday).
 if [ -n "$EXTENSION" ]; then
-    find "$DIRECTORY" -type f -name "*.$EXTENSION" -mtime -1 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f  -name "*.$EXTENSION" -newermt "yesterday 00:00" ! -newermt "today 00:00" -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 else
-    find "$DIRECTORY" -type f -mtime -1 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -newermt "yesterday 00:00" ! -newermt "today 00:00" -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 fi
-# BUG: Shows too much!!!
