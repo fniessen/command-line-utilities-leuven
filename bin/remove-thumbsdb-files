@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 
-# Search for files matching the pattern
-echo "Searching for Thumbs.db files..."
+# Search for files matching the pattern.
+printf "Searching for Thumbs.db files...\n"
 filelist=$(find . -iname "Thumbs.db")
-echo "$filelist"
+printf "%s\n" "$filelist"
 
-# Check if any files were found
+# Check if any files were found/
 if [[ -z $filelist ]]; then
-    echo "No files found. Exiting."
+    printf "No files found. Exiting.\n"
     exit 0
 fi
 
-# Prompt the user for confirmation
+# Prompt the user for confirmation.
 read -p "Are you sure you want to delete all Thumbs.db files? (y/n) " answer
 
 if [[ $answer != "y" ]]; then
-    echo "Aborting."
+    printf "Aborting.\n"
     exit 1
 fi
 
-# Delete the matching files
-echo "Deleting Thumbs.db files..."
-echo "$filelist" | xargs rm -f
+# Delete the matching files.
+printf "Deleting Thumbs.db files...\n"
+printf "%s\n" "$filelist" | xargs rm -f
 
-echo "Done."
+printf "Done.\n"
