@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-big-files, Time-stamp: <2023-02-14 Tue 11:08>
+#? find-big-files, Time-stamp: <2023-02-14 Tue 15:03>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -27,4 +27,5 @@ eval "$parsed"
 MIN_SIZE=100
 
 # Find all files that are larger than the minimum size.
-find . -type f -size +${MIN_SIZE}M -exec ls -lh {} \; | awk '{ print $5, $9 }'
+find . -type f -size +${MIN_SIZE}M -exec ls -lh {} \; \
+    | awk '{ print $5, $9, $NF }'
