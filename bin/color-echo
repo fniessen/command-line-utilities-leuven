@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Print colored text with the given color and style.
+
 print_color() {
     local color="$1"
     local style="$2"
@@ -27,8 +28,8 @@ print_color() {
         *) style_code="0" ;;
     esac
 
-    # Print colored text
-    echo -e "\e[${style_code};${color_code}m${message}\e[0m"
+    # Print colored text.
+    printf "\e[%s;%sm%s\e[0m" "$style_code" "$color_code" "$message"
 }
 
 # Usage.
