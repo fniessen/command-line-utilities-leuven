@@ -1,27 +1,35 @@
 #!/usr/bin/env bash
-cecho() {
-    black="\e[30m"
-    red="\e[31m"
-    green="\e[32m"
-    yellow="\e[33m"
-    blue="\e[34m"
-    magenta="\e[35m"
-    cyan="\e[36m"
-    white="\e[37m"
 
-    BLACK="\e[1;30m"
-    RED="\e[1;31m"
-    GREEN="\e[1;32m"
-    YELLOW="\e[1;33m"
-    BLUE="\e[1;34m"
-    MAGENTA="\e[1;35m"
-    CYAN="\e[1;36m"
-    WHITE="\e[1;37m"
+# Print colored text with the given color and style.
+print_color() {
+    local color="$1"
+    local style="$2"
+    local message="$3"
 
-    reset="\e[0m"
+    # Define color codes.
+    case "$color" in
+        "black") color_code="30" ;;
+        "red") color_code="31" ;;
+        "green") color_code="32" ;;
+        "yellow") color_code="33" ;;
+        "blue") color_code="34" ;;
+        "magenta") color_code="35" ;;
+        "cyan") color_code="36" ;;
+        "white") color_code="37" ;;
+        *) color_code="39" ;;
+    esac
 
-    color=${YELLOW}
-    printf "$color$1$reset\n"
+    # Define style codes.
+    case "$style" in
+        "bold") style_code="1" ;;
+        "underline") style_code="4" ;;
+        "blink") style_code="5" ;;
+        *) style_code="0" ;;
+    esac
+
+    # Print colored text
+    echo -e "\e[${style_code};${color_code}m${message}\e[0m"
 }
 
-cecho "$@"
+# Usage.
+print_color "$@"
