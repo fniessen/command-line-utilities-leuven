@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-commands, Time-stamp: <2023-02-18 Sat 18:41>
+#? find-commands, Time-stamp: <2023-02-18 Sat 19:23>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -41,7 +41,7 @@ for dir in $(echo "$PATH" | tr ':' '\n'); do
                 filename=$(basename "$file")
                 # Check if the filename matches the pattern.
                 if [[ "$filename" == *"$pattern"* ]]; then
-                    echo "$filename"
+                    echo "$filename" | grep --color=auto "$pattern"
                 fi
             fi
         done
