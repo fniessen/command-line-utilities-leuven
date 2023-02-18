@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-# Replace NULL value by empty string.
+
+# Remove NULL string.
+
 sed "s/NULL//g"
