@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-commands, Time-stamp: <2023-02-18 Sat 20:31>
+#? find-commands, Time-stamp: <2023-02-18 Sat 20:35>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -27,10 +27,10 @@ parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
 # Lowercase the pattern.
-PATTERN=$(echo "$PATTERN" | tr '[:upper:]' '[:lower:]')
+PATTERN=$(printf '%s' "$PATTERN" | tr '[:upper:]' '[:lower:]')
 
 # Iterate over all directories in $PATH.
-for dir in $(echo "$PATH" | tr ':' '\n'); do
+for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
     # Check if directory exists and is readable.
     if [ -d "$dir" ] && [ -r "$dir" ]; then
         # Iterate over all files in directory.
@@ -39,11 +39,11 @@ for dir in $(echo "$PATH" | tr ':' '\n'); do
             if [ -x "$file" ] && [ ! -d "$file" ]; then
                 # Extract the filename from the path.
                 filename=$(basename "$file")
-                lowercase_filename=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
+                lowercase_filename=$(printf '%s\n' "$filename" | tr '[:upper:]' '[:lower:]')
                 # Check if the filename matches the pattern.
                 if [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
                     # Exclude DLL files from the output using grep -v.
-                    echo "$filename" | grep -v '\.dll$' | grep --color=always -i "$PATTERN"
+                    printf '%s\n' "$filename" | grep -v '\.dll$' | grep --color=always -i "$PATTERN"
                 fi
             fi
         done
