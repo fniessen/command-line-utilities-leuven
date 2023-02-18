@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-commands, Time-stamp: <2023-02-18 Sat 19:23>
+#? find-commands, Time-stamp: <2023-02-18 Sat 20:31>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -26,8 +26,8 @@ version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-# Define the pattern to match.
-pattern="$1"
+# Lowercase the pattern.
+PATTERN=$(echo "$PATTERN" | tr '[:upper:]' '[:lower:]')
 
 # Iterate over all directories in $PATH.
 for dir in $(echo "$PATH" | tr ':' '\n'); do
@@ -39,9 +39,11 @@ for dir in $(echo "$PATH" | tr ':' '\n'); do
             if [ -x "$file" ] && [ ! -d "$file" ]; then
                 # Extract the filename from the path.
                 filename=$(basename "$file")
+                lowercase_filename=$(echo "$filename" | tr '[:upper:]' '[:lower:]')
                 # Check if the filename matches the pattern.
-                if [[ "$filename" == *"$pattern"* ]]; then
-                    echo "$filename" | grep --color=auto "$pattern"
+                if [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
+                    # Exclude DLL files from the output using grep -v.
+                    echo "$filename" | grep -v '\.dll$' | grep --color=always -i "$PATTERN"
                 fi
             fi
         done
