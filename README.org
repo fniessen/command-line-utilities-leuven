@@ -27,8 +27,8 @@ Create a quick back-up copy of a file.
 
 Print the contents of the current buffer in Emacs to the terminal.
 
-See also: ~cde~ (shell function to 'cd' to the directory of the current buffer in
-Emacs).
+See also: ~cde~ (shell function used to 'cd' to the directory of the current
+buffer in Emacs).
 
 ** f
 
