@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-commands, Time-stamp: <2023-02-18 Sat 20:35>
+#? find-commands, Time-stamp: <2023-02-19 Sun 21:56>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -29,6 +29,15 @@ eval "$parsed"
 # Lowercase the pattern.
 PATTERN=$(printf '%s' "$PATTERN" | tr '[:upper:]' '[:lower:]')
 
+# Define array of file extensions to exclude.
+declare -a EXCLUDE_EXT=(".dll" ".ini" ".msc")
+
+# Build exclusion pattern.
+EXCLUDE_PATTERN=""
+for ext in "${EXCLUDE_EXT[@]}"; do
+    EXCLUDE_PATTERN+=" -not -name *$ext"
+done
+
 # Iterate over all directories in $PATH.
 for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
     # Check if directory exists and is readable.
@@ -40,10 +49,16 @@ for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
                 # Extract the filename from the path.
                 filename=$(basename "$file")
                 lowercase_filename=$(printf '%s\n' "$filename" | tr '[:upper:]' '[:lower:]')
-                # Check if the filename matches the pattern.
-                if [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
-                    # Exclude DLL files from the output using grep -v.
-                    printf '%s\n' "$filename" | grep -v '\.dll$' | grep --color=always -i "$PATTERN"
+                # Check if the filename matches the pattern and is not excluded.
+                exclude_file=0
+                for ext in "${EXCLUDE_EXT[@]}"; do
+                    if [[ "$lowercase_filename" == *"$ext" ]]; then
+                        exclude_file=1
+                        break
+                    fi
+                done
+                if [ $exclude_file -eq 0 ] && [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
+                    printf '%s\n' "$filename" | grep --color=always -i "$PATTERN"
                 fi
             fi
         done
