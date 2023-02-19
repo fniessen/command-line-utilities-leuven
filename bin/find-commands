@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-commands, Time-stamp: <2023-02-19 Sun 21:56>
+#? find-commands, Time-stamp: <2023-02-19 Sun 22:01>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -48,7 +48,8 @@ for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
             if [ -x "$file" ] && [ ! -d "$file" ]; then
                 # Extract the filename from the path.
                 filename=$(basename "$file")
-                lowercase_filename=$(printf '%s\n' "$filename" | tr '[:upper:]' '[:lower:]')
+                lowercase_filename=$(printf '%s\n' "$filename" \
+                                         | tr '[:upper:]' '[:lower:]')
                 # Check if the filename matches the pattern and is not excluded.
                 exclude_file=0
                 for ext in "${EXCLUDE_EXT[@]}"; do
@@ -57,8 +58,10 @@ for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
                         break
                     fi
                 done
-                if [ $exclude_file -eq 0 ] && [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
-                    printf '%s\n' "$filename" | grep --color=always -i "$PATTERN"
+                if [ $exclude_file -eq 0 ] \
+                       && [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
+                    printf '%s\n' "$filename" \
+                        | grep --color=always -i "$PATTERN"
                 fi
             fi
         done
