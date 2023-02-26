@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-02-26 Sun 22:16>
+#? bak, Time-stamp: <2023-02-26 Sun 22:25>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -29,20 +29,26 @@ version=$(grep "^#?"  "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-BASENAME=$(basename "$FILE")
+# Extract the file extension and basename.
+BASENAME=$(basename -- "$FILE")
 EXTENSION="${BASENAME##*.}"
 BASENAME="${BASENAME%.*}"
+
+# Define the backup file name.
 NEWFILE="$BASENAME.bak.$EXTENSION"
 
-if test -e "$NEWFILE"; then
-    read -p "Are you sure you want to overwrite $NEWFILE? [y/N] " confirm
+# Check if the backup file already exists.
+if [ -e "$NEWFILE" ]; then
+    read -p "The backup file $NEWFILE already exists. Do you want to overwrite it? [y/N] " confirm
     if [[ "$confirm" =~ ^[yY]$ ]]; then
+        # Copy the file and display a success message.
         cp "$FILE" "$NEWFILE" \
-            && printf 'Copied '\''%s'\'' -> '\''%s'\''\n' "$FILE" "$NEWFILE"
+            && printf "File copied from %s to %s.\n" "$FILE" "$NEWFILE"
     else
         echo "Operation cancelled."
     fi
 else
+    # Copy the file and display a success message.
     cp "$FILE" "$NEWFILE" \
-        && printf 'Copied '\''%s'\'' -> '\''%s'\''\n' "$FILE" "$NEWFILE"
+        && printf "File copied from %s to %s.\n" "$FILE" "$NEWFILE"
 fi
