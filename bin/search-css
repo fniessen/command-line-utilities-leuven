@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Search for a term in minified CSS files.
+
+# Split each CSS file in the current directory and its subdirectories into
+# multiple lines.
+find . -name '*.css' -type f -print0 | while read -r -d $'\0' file; do
+    echo "$file"
+    sed 's/;/;\n/g' "$file" > "$file.split"
+done
+
+# Search for the given term in all split CSS files, showing 3 lines of context
+# before and after each matching line.
+shopt -s nullglob
+rg --no-heading --no-line-number --context=3 --glob='*.css.split' "$1"
+
+# Remove all split CSS files.
+find . -name '*.css.split' -type f -delete
