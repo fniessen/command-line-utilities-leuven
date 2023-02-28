@@ -2,6 +2,17 @@
 
 # Search for a term in minified CSS files.
 
+# Define a function to clean up split files.
+cleanup() {
+    echo "Cleaning up split files..."
+    find . -name '*.css.split' -type f -delete
+    exit 2
+}
+
+# Register the cleanup function to be executed when a SIGINT signal is received
+# (e.g. when the user types Ctrl-C).
+trap cleanup SIGINT
+
 # Split each CSS file in the current directory and its subdirectories into
 # multiple lines.
 find . -name '*.css' -type f -print0 | while read -r -d $'\0' file; do
@@ -11,7 +22,6 @@ done
 
 # Search for the given term in all split CSS files, showing 3 lines of context
 # before and after each matching line.
-shopt -s nullglob
 rg --no-heading --no-line-number --context=3 --glob='*.css.split' "$1"
 
 # Remove all split CSS files.
