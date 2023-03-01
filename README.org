@@ -17,6 +17,8 @@ installed on your system.
   (I choose for the "with grep" syntax to have the help and version messages
   parsed from script *comments*, while avoiding having to source =docopts.sh=.)
 
+- [[https://github.com/fniessen/wsl][wsl]] repository (for =bin/docopts=, needed in a WSL environment)
+
 * Commands
 
 ** bak
