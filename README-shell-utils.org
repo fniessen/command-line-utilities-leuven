@@ -490,37 +490,6 @@ blat -to "$MAILTO" \
 # mail ends here
 #+end_src
 
-** Echo text in color
-
-#+begin_src shell :tangle bin/cecho
-cecho() {
-    black="\e[30m"
-    red="\e[31m"
-    green="\e[32m"
-    yellow="\e[33m"
-    blue="\e[34m"
-    magenta="\e[35m"
-    cyan="\e[36m"
-    white="\e[37m"
-
-    BLACK="\e[1;30m"
-    RED="\e[1;31m"
-    GREEN="\e[1;32m"
-    YELLOW="\e[1;33m"
-    BLUE="\e[1;34m"
-    MAGENTA="\e[1;35m"
-    CYAN="\e[1;36m"
-    WHITE="\e[1;37m"
-
-    reset="\e[0m"
-
-    color=${YELLOW}
-    printf "$color$1$reset\n"
-}
-
-cecho "$@"
-#+end_src
-
 ** grep2 -- Find all AXVW files with two strings (Show AXVW files with both matches only)
 
 (See Utilities.)
