@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Search for files with non-ASCII characters in their name
+
+# LC_ALL=C find . -type f -print0 | grep -a -v '^[[:ascii:]]*$' -z | xargs -0 -I {} echo {}
+LC_COLLATE=C find . -name '*[! -~]*'
