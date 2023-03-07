@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-02-26 Sun 22:25>
+#? bak, Time-stamp: <2023-03-07 Tue 22:28>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -15,11 +15,31 @@
 ##?   FILE                          file to copy
 ##?
 ##? Options:
+##?   -r, --rename                  rename the original file instead of making a copy
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 ##?
-##? Example:
+##? Examples:
 ##?   bak core/main.c
+##?   bak -r core/main.c
+
+set -e
+
+# Check if a file exists and prompt the user to confirm overwrite.
+function confirm_overwrite() {
+    local file="$1"
+    if [ -e "$file" ]; then
+        read -p "The file $file already exists. Do you want to overwrite it? [y/N] " confirm
+        if [[ "$confirm" =~ ^[yY]$ ]]; then
+            return 0
+        else
+            echo "Operation cancelled."
+            return 1
+        fi
+    else
+        return 0
+    fi
+}
 
 # Check if docopts command is available.
 command -v docopts > /dev/null 2>&1 || { printf >&2 'Error: docopts command not found.\n'; exit 2; }
@@ -37,18 +57,16 @@ BASENAME="${BASENAME%.*}"
 # Define the backup file name.
 NEWFILE="$BASENAME.bak.$EXTENSION"
 
-# Check if the backup file already exists.
-if [ -e "$NEWFILE" ]; then
-    read -p "The backup file $NEWFILE already exists. Do you want to overwrite it? [y/N] " confirm
-    if [[ "$confirm" =~ ^[yY]$ ]]; then
-        # Copy the file and display a success message.
-        cp "$FILE" "$NEWFILE" \
-            && printf "File copied from %s to %s.\n" "$FILE" "$NEWFILE"
-    else
-        echo "Operation cancelled."
+if [[ "$rename" == "true" ]]; then
+    # If the rename option is provided, rename the file instead of copying it.
+    if confirm_overwrite "$NEWFILE"; then
+        mv "$FILE" "$NEWFILE" \
+            && printf "File renamed from %s to %s.\n" "$FILE" "$NEWFILE"
     fi
 else
-    # Copy the file and display a success message.
-    cp "$FILE" "$NEWFILE" \
-        && printf "File copied from %s to %s.\n" "$FILE" "$NEWFILE"
+    # Copy the file.
+    if confirm_overwrite "$NEWFILE"; then
+        cp "$FILE" "$NEWFILE" \
+            && printf "File copied from %s to %s.\n" "$FILE" "$NEWFILE"
+    fi
 fi
