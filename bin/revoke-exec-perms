@@ -43,6 +43,9 @@ find . -type f \
     -o -name "*.dwg" \
     -o -name "*.el" \
     -o -name "*.emf" \
+    -o -name "*.env-FNI" \
+    -o -name "*.env-PRD" \
+    -o -name "*.env-TST" \
     -o -name "*.eot" \
     -o -name "*.fbprefs" \
     -o -name "*.flexProperties" \
