@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
 
-# Find broken symbolic links.
-broken_symlinks=$(find . -type l -exec test ! -e {} \; -print)
+# Search for broken symbolic links.
+printf "Searching for broken symbolic links...\n"
+broken_symlinks=$(find . -type l ! -exec test -e {} \; -print)
+printf "%s\n" "$broken_symlinks"
 
-if [ -z "$broken_symlinks" ]; then
-    printf "No broken symlinks found.\n"
+# Check if any links were found.
+if [[ -z $broken_symlinks ]]; then
+    printf "No broken symbolic links found. Exiting.\n"
     exit 0
 fi
 
-# Prompt for confirmation.
-printf "The following broken symbolic links will be removed:\n"
-printf "%s\n" "$broken_symlinks"
-read -p "Are you sure you want to remove them? (y/n) " -n 1 -r
-printf "\n"
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    printf "Cancelled operation.\n"
+# Prompt the user for confirmation.
+printf "Are you sure you want to remove all broken symbolic links? [y/N] "
+read -r answer
+if [[ ! "$answer" =~ ^[Yy]$ ]]; then
+    printf "Aborting.\n"
     exit 2
 fi
 
-# Remove broken symbolic links.
-while read -r link; do
-    rm -v "$link"
-done <<< "$broken_symlinks"
+# Remove the broken symbolic links.
+printf "Removing broken symbolic links...\n"
+printf "%s\n" "$broken_symlinks" | xargs rm -f
 
-printf "Broken symbolic links removed successfully.\n"
+printf "Done.\n"
 exit 0
