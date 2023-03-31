@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Find files with exec permission.
+
+find . -type f -perm /u+x,g+x,o+x -print
