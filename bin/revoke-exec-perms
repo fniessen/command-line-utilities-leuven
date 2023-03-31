@@ -54,6 +54,7 @@ find . -type f \
     -o -name "*.gemspec" \
     -o -name "*.gif" \
     -o -name "*.gitignore" \
+    -o -name "*.gitkeep" \
     -o -name "*.gradle" \
     -o -name "*.htm" \
     -o -name "*.html" \
