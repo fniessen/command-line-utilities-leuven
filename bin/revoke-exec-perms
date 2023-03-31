@@ -32,6 +32,7 @@ find . -type f \
     -o -name "*.checkstyle" \
     -o -name "*.class" \
     -o -name "*.classpath" \
+    -o -name "*.cls" \
     -o -name "*.css" \
     -o -name "*.csv" \
     -o -name "*.db" \
@@ -119,6 +120,7 @@ find . -type f \
     -o -name "*.springBeans" \
     -o -name "*.sql" \
     -o -name "*.stackdump" \
+    -o -name "*.sty" \
     -o -name "*.svg" \
     -o -name "*.swc" \
     -o -name "*.swf" \
