@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Find files with specified extension.
+
+extension=$1
+
+# Check if a file extension was provided.
+if [ -z "$extension" ]; then
+  echo "Error: Please provide a file extension (without the dot)"
+  exit 1
+fi
+
+# Find files with the specified extension.
+find . -type f -name "*.$extension"
