@@ -12,7 +12,7 @@ if [[ -z $filelist ]]; then
 fi
 
 # Prompt the user for confirmation.
-read -p "Are you sure you want to delete all Thumbs.db files? (y/n) " answer
+read -p "Are you sure you want to delete all Thumbs.db files? (y/N) " answer
 
 if [[ $answer != "y" ]]; then
     printf "Aborting.\n"

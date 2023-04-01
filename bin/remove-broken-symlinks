@@ -12,7 +12,7 @@ if [[ -z $broken_symlinks ]]; then
 fi
 
 # Prompt the user for confirmation.
-printf "Are you sure you want to remove all broken symbolic links? [y/N] "
+printf "Are you sure you want to remove all broken symbolic links? (y/N) "
 read -r answer
 if [[ ! "$answer" =~ ^[Yy]$ ]]; then
     printf "Aborting.\n"

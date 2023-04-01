@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-03-24 Fri 19:20>
+#? bak, Time-stamp: <2023-04-01 Sat 12:04>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -29,7 +29,7 @@ set -e
 function confirm_overwrite() {
     local file="$1"
     if [ -e "$file" ]; then
-        printf "The file %s already exists. Do you want to overwrite it? [y/N] " "$file"
+        printf "The file %s already exists. Do you want to overwrite it? (y/N) " "$file"
         read -r confirm
         if [[ "$confirm" =~ ^[yY]$ ]]; then
             return 0
