@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Find all files in the current directory and its subdirectories that contain
+# Windows-style line endings (CRLF), and then converts them to Unix-style line
+# endings (LF).
+
+# Find all files in the current directory and its subdirectories that contain
+# CRLF line endings.
+files_with_crlf=$(find . -type f -exec file {} \; | grep "CRLF" | awk -F ':' '{ print $1 }')
+
+# If there are no files with CRLF line endings, exit the script.
+if [ -z "$files_with_crlf" ]; then
+    echo "No files with CRLF line endings found."
+    exit 0
+fi
+
+# Convert all files with CRLF line endings to LF line endings.
+echo "Converting CRLF line endings to LF for the following files: "
+echo "$files_with_crlf"
+echo "-------------------------"
+
+echo "$files_with_crlf" | xargs -I {} flip -u {}
+
+echo "-------------------------"
+echo "Conversion complete."
