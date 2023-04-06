@@ -14,7 +14,19 @@ if [ -z "$files_with_crlf" ]; then
     exit 0
 fi
 
-# Convert all files with CRLF line endings to LF line endings.
+# Ask for confirmation before converting the files.
+echo "The following files have CRLF line endings:"
+echo "$files_with_crlf"
+echo "Do you want to convert files with CRLF line endings to LF line endings? (y/N)"
+read -p "> " confirm
+echo "-------------------------"
+
+if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+    echo "Conversion cancelled."
+    exit 0
+fi
+
+# Convert all files with CRLF line endings to LF line endings
 echo "Converting CRLF line endings to LF for the following files: "
 echo "$files_with_crlf"
 echo "-------------------------"
