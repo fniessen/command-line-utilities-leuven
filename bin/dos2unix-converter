@@ -10,28 +10,26 @@ files_with_crlf=$(find . -type f -exec file {} \; | grep "CRLF" | awk -F ':' '{ 
 
 # If there are no files with CRLF line endings, exit the script.
 if [ -z "$files_with_crlf" ]; then
-    echo "No files with CRLF line endings found."
+    printf "No files with CRLF line endings found.\n"
     exit 0
 fi
 
 # Ask for confirmation before converting the files.
-echo "The following files have CRLF line endings:"
-echo "$files_with_crlf"
-echo "Do you want to convert files with CRLF line endings to LF line endings? (y/N)"
+printf "The following files have CRLF line endings:\n%s\n" "$files_with_crlf"
+printf "Do you want to convert files with CRLF line endings to LF line endings? (y/N)\n"
 read -p "> " confirm
-echo "-------------------------"
+printf "-------------------------\n"
 
 if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
-    echo "Conversion cancelled."
+    printf "Conversion cancelled.\n"
     exit 0
 fi
 
 # Convert all files with CRLF line endings to LF line endings
-echo "Converting CRLF line endings to LF for the following files: "
-echo "$files_with_crlf"
-echo "-------------------------"
+printf "Converting CRLF line endings to LF for the following files: \n%s\n" "$files_with_crlf"
+printf "-------------------------\n"
 
-echo "$files_with_crlf" | xargs -I {} flip -u {}
+printf "%s" "$files_with_crlf" | xargs -I {} flip -u {}
 
-echo "-------------------------"
-echo "Conversion complete."
+printf "-------------------------\n"
+printf "Conversion complete.\n"
