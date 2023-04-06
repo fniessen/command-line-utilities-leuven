@@ -8,6 +8,6 @@ ref="$2"
 if [ "$file" -nt "$ref" ]; then
     printf '%s is newer than %s\n' "$file" "$ref"
 else
-    printf >&2 '%s is OLDER than %s\n' "$file" "$ref"
+    printf '%s is older than %s\n' "$file" "$ref" >&2
     exit 2
 fi
