@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-04-01 Sat 12:04>
+#? bak, Time-stamp: <2023-04-06 Thu 11:42>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -34,7 +34,7 @@ function confirm_overwrite() {
         if [[ "$confirm" =~ ^[yY]$ ]]; then
             return 0
         else
-            echo "Operation cancelled."
+            printf "Operation cancelled.\n"
             return 1
         fi
     else
