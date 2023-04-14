@@ -1,11 +1,16 @@
-#+TITLE:     shell-extras-leuven
+#+TITLE:     command-line-utilities-leuven
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION: Shell extra utilities
 #+KEYWORDS:  shell, script, bash
 #+OPTIONS:   num:nil
 
-Shell extra utilities
+Command-line-utilities-leuven is a collection of useful Shell scripts and
+command-line tools that can simplify and automate tasks on the command line.
+From file manipulation to system administration, these scripts cover a wide
+range of tasks and can save you time and effort in your daily workflow.  Whether
+you're a seasoned command-line user or just getting started, this repository has
+something for everyone.
 
 * Requirements
 
@@ -73,6 +78,11 @@ Swap the contents of two files.
 
 Why write an entire bash script in functions?
 https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
+
+** Tips & Tricks
+
+- Use the ~sort -u~ command to sort the output and remove duplicates from a list
+  (~sort | uniq~).
 
 ** Coding style
 
