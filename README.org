@@ -74,12 +74,31 @@ Strip color sequences from the input text.
 
 Swap the contents of two files.
 
-* Notes
+* Contribute to command-line-utilities-leuven
 
-Why write an entire bash script in functions?
-https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
+** Best Practices
 
-** Coding style
+Bash scripting can be a powerful tool for automating tasks, but it's important
+to follow best practices to ensure that your scripts are efficient, reliable,
+and maintainable. Here are some best practices to keep in mind:
+
+- Use ~printf~ instead of ~echo~ to better control the output format.
+
+- Use the ~sort -u~ command to sort the output and remove duplicates from a list
+  (~sort | uniq~).
+
+By following these best practices, you can write Bash scripts that are easier to
+understand, maintain, and debug.
+
+** Notes
+
+Writing a Bash script in functions can make the code easier to reuse, more
+readable, and easier to test and debug, which can save time and reduce the
+likelihood of errors.
+
+See https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
+
+** Code style
 
 - Beautiful Bash: Let's make reading and writing bash scripts fun again!
   https://fr.slideshare.net/a_z_e_t/inpresentation
@@ -96,13 +115,6 @@ https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-
   ~variable_name~ (preferred, ~variableName~ accepted) \\
   ~function_name~ \\
   ~CONSTANT_NAME~
-
-** Tips & Tricks
-
-- Use ~printf~ instead of ~echo~ to better control the output format.
-
-- Use the ~sort -u~ command to sort the output and remove duplicates from a list
-  (~sort | uniq~).
 
 ** Shell formatter + checker
 
