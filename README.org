@@ -79,11 +79,6 @@ Swap the contents of two files.
 Why write an entire bash script in functions?
 https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
 
-** Tips & Tricks
-
-- Use the ~sort -u~ command to sort the output and remove duplicates from a list
-  (~sort | uniq~).
-
 ** Coding style
 
 - Beautiful Bash: Let's make reading and writing bash scripts fun again!
@@ -101,6 +96,13 @@ https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-
   ~variable_name~ (preferred, ~variableName~ accepted) \\
   ~function_name~ \\
   ~CONSTANT_NAME~
+
+** Tips & Tricks
+
+- Use ~printf~ instead of ~echo~ to better control the output format.
+
+- Use the ~sort -u~ command to sort the output and remove duplicates from a list
+  (~sort | uniq~).
 
 ** Shell formatter + checker
 
