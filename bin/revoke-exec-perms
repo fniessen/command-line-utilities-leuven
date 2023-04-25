@@ -154,13 +154,11 @@ find . -type f \
     \) \
     -exec chmod -x {} +
 
-# Set the shebang for R scripts.
-SHEBANG="#!/usr/bin/env Rscript"
-
-# Find all R scripts with the shebang and make them executable.
-find . -type f -name "*.R" -exec sh -c '
+# Find all R and Awk scripts with the shebang and make them executable.
+find . -type f \( -name "*.R" -o -name "*.awk" \) -exec sh -c '
   for file do
-    if [ "$(head -n 1 "$file")" = "$SHEBANG" ]; then
+    if [ "$(head -n 1 "$file")" = "#!/usr/bin/env Rscript" ] \
+    || [ "$(head -n 1 "$file")" = "#!/usr/bin/env awk" ]; then
       chmod +x "$file"
     fi
   done
