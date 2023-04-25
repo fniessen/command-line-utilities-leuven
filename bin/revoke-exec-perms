@@ -153,3 +153,15 @@ find . -type f \
     -o -name "README" \
     \) \
     -exec chmod -x {} +
+
+# Set the shebang for R scripts.
+SHEBANG="#!/usr/bin/env Rscript"
+
+# Find all R scripts with the shebang and make them executable.
+find . -type f -name "*.R" -exec sh -c '
+  for file do
+    if [ "$(head -n 1 "$file")" = "$SHEBANG" ]; then
+      chmod +x "$file"
+    fi
+  done
+' sh {} +
