@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-e () {
+# Color Test and Formatting Demo Script
+
+# Define a function for easier echo.
+e() {
     echo -e "$@"
 }
 
-e
-# Color names from Debian's colortest
+# Show some color examples using the colortest color names from Debian.
 e "BLK (30): \033[00;30mThis is it.\033[01;30m And bold.\033[00m"
 e "RED (31): \033[00;31mThis is it.\033[01;31m And bold.\033[00m"
 e "GRN (32): \033[00;32mThis is it.\033[01;32m And bold.\033[00m"
@@ -14,8 +16,10 @@ e "BLU (34): \033[00;34mThis is it.\033[01;34m And bold.\033[00m"
 e "MAG (35): \033[00;35mThis is it.\033[01;35m And bold.\033[00m"
 e "CYN (36): \033[00;36mThis is it.\033[01;36m And bold.\033[00m"
 e "WHT (37): \033[00;37mThis is it.\033[01;37m And bold.\033[00m"
+
 e
-e
+
+# Show some color examples using more readable variable names.
 e "Background\033[00;30m(Colour Example)\033[00m(Norm: Black )"
 e "Foreground\033[00;37m(Colour Example)\033[00m(Norm: White )"
 e "Ref-Prepro\033[00;35m(Colour Example)\033[00m(Norm:Magenta)"
@@ -26,38 +30,38 @@ e "Comment   \033[00;34m(Colour Example)\033[00m(Norm: Blue  )"
 
 e
 
-# Reset
-Color_Off='\e[0m'       # Text Reset
+# Define some color variables.
+reset_color='\e[0m'                     # Text Reset.
 
-# Regular Colors
-Black='\e[0;30m'        # Black
-Red='\e[0;31m'          # Red
-Green='\e[0;32m'        # Green
-Yellow='\e[0;33m'       # Yellow
-Blue='\e[0;34m'         # Blue
-Purple='\e[0;35m'       # Purple
-Cyan='\e[0;36m'         # Cyan
-White='\e[0;37m'        # White
+# Regular Colors.
+black='\e[0;30m'                        # Black.
+red='\e[0;31m'                          # Red.
+green='\e[0;32m'                        # Green.
+yellow='\e[0;33m'                       # Yellow.
+blue='\e[0;34m'                         # Blue.
+purple='\e[0;35m'                       # Purple.
+cyan='\e[0;36m'                         # Cyan.
+white='\e[0;37m'                        # White.
 
-# Bold
-BBlack='\e[1;30m'       # Black
-BRed='\e[1;31m'         # Red
-BGreen='\e[1;32m'       # Green
-BYellow='\e[1;33m'      # Yellow
-BBlue='\e[1;34m'        # Blue
-BPurple='\e[1;35m'      # Purple
-BCyan='\e[1;36m'        # Cyan
-BWhite='\e[1;37m'       # White
+# Bold.
+bold_black='\e[1;30m'                   # Black.
+bold_red='\e[1;31m'                     # Red.
+bold_green='\e[1;32m'                   # Green.
+bold_yellow='\e[1;33m'                  # Yellow.
+bold_blue='\e[1;34m'                    # Blue.
+bold_purple='\e[1;35m'                  # Purple.
+bold_cyan='\e[1;36m'                    # Cyan.
+bold_white='\e[1;37m'                   # White.
 
-# Underline
-UBlack='\e[4;30m'       # Black
-URed='\e[4;31m'         # Red
-UGreen='\e[4;32m'       # Green
-UYellow='\e[4;33m'      # Yellow
-UBlue='\e[4;34m'        # Blue
-UPurple='\e[4;35m'      # Purple
-UCyan='\e[4;36m'        # Cyan
-UWhite='\e[4;37m'       # White
+# Underline.
+underline_black='\e[4;30m'              # Black.
+underline_red='\e[4;31m'                # Red.
+underline_green='\e[4;32m'              # Green.
+underline_yellow='\e[4;33m'             # Yellow.
+underline_blue='\e[4;34m'               # Blue.
+underline_purple='\e[4;35m'             # Purple.
+underline_cyan='\e[4;36m'               # Cyan.
+underline_white='\e[4;37m'              # White.
 
 # Background
 On_Black='\e[40m'       # Black
@@ -99,37 +103,37 @@ On_IPurple='\e[10;95m'  # Purple
 On_ICyan='\e[0;106m'    # Cyan
 On_IWhite='\e[0;107m'   # White
 
-echo -e "${Red}test regular color${Color_Off}"
-echo -e "${BRed}test bold${Color_Off}"
-echo -e "${URed}test underline${Color_Off}"
-echo -e "${On_Red}test background${Color_Off}"
-echo -e "${IRed}test high intensity${Color_Off}"
-echo -e "${BIRed}test bold high intensity${Color_Off}"
-echo -e "${On_IRed}test high intensity background${Color_Off}"
+echo -e "${red}test regular color${reset_color}"
+echo -e "${bold_red}test bold${reset_color}"
+echo -e "${underline_red}test underline${reset_color}"
+echo -e "${On_Red}test background${reset_color}"
+echo -e "${IRed}test high intensity${reset_color}"
+echo -e "${BIRed}test bold high intensity${reset_color}"
+echo -e "${On_IRed}test high intensity background${reset_color}"
 echo ""
-echo -e "${Yellow}test regular color${Color_Off}"
-echo -e "${BYellow}test bold${Color_Off}"
-echo -e "${UYellow}test underline${Color_Off}"
-echo -e "${On_Yellow}test background${Color_Off}"
-echo -e "${IYellow}test high intensity${Color_Off}"
-echo -e "${BIYellow}test bold high intensity${Color_Off}"
-echo -e "${On_IYellow}test high intensity background${Color_Off}"
+echo -e "${yellow}test regular color${reset_color}"
+echo -e "${bold_yellow}test bold${reset_color}"
+echo -e "${underline_yellow}test underline${reset_color}"
+echo -e "${On_Yellow}test background${reset_color}"
+echo -e "${IYellow}test high intensity${reset_color}"
+echo -e "${BIYellow}test bold high intensity${reset_color}"
+echo -e "${On_IYellow}test high intensity background${reset_color}"
 echo ""
-echo -e "${Green}test regular color${Color_Off}"
-echo -e "${BGreen}test bold${Color_Off}"
-echo -e "${UGreen}test underline${Color_Off}"
-echo -e "${On_Green}test background${Color_Off}"
-echo -e "${IGreen}test high intensity${Color_Off}"
-echo -e "${BIGreen}test bold high intensity${Color_Off}"
-echo -e "${On_IGreen}test high intensity background${Color_Off}"
+echo -e "${green}test regular color${reset_color}"
+echo -e "${bold_green}test bold${reset_color}"
+echo -e "${underline_green}test underline${reset_color}"
+echo -e "${On_Green}test background${reset_color}"
+echo -e "${IGreen}test high intensity${reset_color}"
+echo -e "${BIGreen}test bold high intensity${reset_color}"
+echo -e "${On_IGreen}test high intensity background${reset_color}"
 echo ""
-echo -e "${Blue}test regular color${Color_Off}"
-echo -e "${BBlue}test bold${Color_Off}"
-echo -e "${UBlue}test underline${Color_Off}"
-echo -e "${On_Blue}test background${Color_Off}"
-echo -e "${IBlue}test high intensity${Color_Off}"
-echo -e "${BIBlue}test bold high intensity${Color_Off}"
-echo -e "${On_IBlue}test high intensity background${Color_Off}"
+echo -e "${blue}test regular color${reset_color}"
+echo -e "${bold_blue}test bold${reset_color}"
+echo -e "${underline_blue}test underline${reset_color}"
+echo -e "${On_Blue}test background${reset_color}"
+echo -e "${IBlue}test high intensity${reset_color}"
+echo -e "${BIBlue}test bold high intensity${reset_color}"
+echo -e "${On_IBlue}test high intensity background${reset_color}"
 
 # See the extended 256 colors.
 
@@ -149,7 +153,8 @@ for ((i=0;i<6;i++)); do
 done
 color {232..255}
 
-ansi-test()
+# Print the ANSI test.
+print_ansi_test()
 {
     for a in 0 1 4 5 7; do
         echo "a=$a "
@@ -167,13 +172,11 @@ ansi-test()
     echo
 }
 
-ansi-test
-
 # XXX Make output more compact as in
 # http://www.lihaoyi.com/post/BuildyourownCommandLinewithANSIescapecodes.html
 
-
-256colors() {
+# Print the colors with their color codes.
+print_extended_colors() {
     for i in {0..255}; do
         printf "\033[48;5;%dm\033[38;5;15m %03d " $i $i
         printf "\033[33;5;0m\033[38;5;%dm %03d " $i $i
@@ -181,15 +184,19 @@ ansi-test
         (( i+1 <= 16 ? (i+1) % 16 : ((i+1)-16) % 36 )) || printf "\033[0m\n"
     done
 }
-256colors
 
-
-
-for b in {0..7} 9; do
-    for f in {0..7} 9; do
-        for attr in "" bold; do
-            echo -e -n "$(tput setab $b; tput setaf $f; [[ -n "$attr" ]] && tput $attr) $f ON $b $attr. $(tput sgr0)"
+# Print the foreground and background colors with their attributes.
+print_color_attributes() {
+    for b in {0..7} 9; do
+        for f in {0..7} 9; do
+            for attr in "" bold; do
+                echo -e -n "$(tput setab $b; tput setaf $f; [[ -n "$attr" ]] && tput $attr) $f ON $b $attr. $(tput sgr0)"
+            done
+            echo ""
         done
-        echo ""
     done
-done
+}
+
+print_ansi_test
+print_extended_colors
+print_color_attributes
