@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+## Remove lines from FILE_A that match any lines in FILE_B.
+
+# Define filenames.
+file_a="file_a"
+file_b="file_b"
+
+# Check that both files exist.
+if [[ ! -f "$file_a" ]]; then
+    printf "Error: %s does not exist\n" "$file_a" >&2
+    exit 2
+fi
+
+if [[ ! -f "$file_b" ]]; then
+    printf "Error: %s does not exist\n" "$file_b" >&2
+    exit 2
+fi
+
+# Read and sort file_b.
+patterns=$(sort "$file_b")
+
+# Remove matching lines from file_a.
+filtered=$(grep -v -F -f <(echo "$patterns") "$file_a")
+
+# Overwrite file_a with filtered contents.
+printf '%s' "$filtered" > "$file_a"
