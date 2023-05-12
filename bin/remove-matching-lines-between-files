@@ -3,8 +3,8 @@
 ## Remove lines from FILE_A that match any lines in FILE_B.
 
 # Define filenames.
-file_a="file_a"
-file_b="file_b"
+file_a="$1"
+file_b="$2"
 
 # Check that both files exist.
 if [[ ! -f "$file_a" ]]; then
