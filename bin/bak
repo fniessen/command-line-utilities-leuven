@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-05-19 Fri 17:30>
+#? bak, Time-stamp: <2023-06-15 Thu 14:42>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -45,7 +45,7 @@ function confirm_overwrite() {
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
     printf >&2 'Error: docopts command not found.\n'
-    exit 2;
+    exit 2
 fi
 
 # Get help and version information.
