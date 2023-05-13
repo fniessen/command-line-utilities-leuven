@@ -1,16 +1,23 @@
 #!/usr/bin/env bash
 
-# Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
-# If no command-line parameter (path to begin from) is specified, then the
-# default is to begin from the current (.) directory.
+# Find duplicate file names
 
-cd path=$1
-: ${path:=.}
-printf "Building file list...\n" > /dev/stderr
-fullList=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF,$0}' | sort +0 -1)
-fileNames=$(find `pwd` $path | grep -v '^\.' | awk -F '/' '{print $NF}' | sort | uniq -d)
-for EACH in $fileNames; do
-    echo "$fullList" | grep -wE "^$EACH "
+# Set default path to current directory if not specified.
+path=${1:-.}
+
+# Print status message.
+printf "Building file list...\n" >&2
+
+# Find all files in specified directory and subdirectories, exclude hidden files.
+fullList=$(find "$(pwd)" "$path" -not -path '*/\.*' -type f -printf '%f\t%p\n' | sort -t $'\t' -k1,1)
+
+# Find duplicated file names.
+fileNames=$(echo "$fullList" | cut -f1 | uniq -d)
+
+# Print paths of duplicated files.
+for each in $fileNames; do
+    echo "$fullList" | grep -w "^$each" | cut -f2-
     echo ""
 done
+
 exit 0
