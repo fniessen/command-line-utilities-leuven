@@ -1,29 +1,64 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OLD_STRING="$1"
-NEW_STRING="$2"
-DIRECTORY="$3"
+#? replace-in-directory, Time-stamp: <2023-05-13 Sat 20:53>
+#? Copyright (C) 2020-2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
 
-if [ -z "$OLD_STRING" ] || [ -z "$NEW_STRING" ] || [ -z "$DIRECTORY" ]; then
-    echo "Usage: $0 OLD_STRING NEW_STRING DIRECTORY"
-    exit 1
+##? Usage: replace-in-directory [options] OLD_STRING NEW_STRING DIRECTORY
+##?
+##? Replace all occurrences of a given string in all files within a specified directory.
+##?
+##? Arguments:
+##?   OLD_STRING                    String that needs to be replaced.
+##?   NEW_STRING                    String that should replace old_string.
+##?   DIRECTORY                     Directory in which the script should look for files.
+##?
+##? Options:
+##?   -i, --case-sensitive          Make the replace case-sensitive.
+##?   -h, --help                    Show this help message and exit.
+##?   -V, --version                 Show version.
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: "docopts" command not found.\n'
+    exit 2
 fi
 
-if [ ! -d "$DIRECTORY" ]; then
-    echo "Error: $DIRECTORY is not a directory"
-    exit 1
+# Get help and version information.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?"  "$0" | cut -c 4-)
+
+# Parse arguments.
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$parsed"
+
+# Check if directory exists.
+if [[ ! -d "$DIRECTORY" ]]; then
+    echo "Error: $DIRECTORY is not a directory."
+    exit 2
 fi
 
+# Prepare sed arguments based on case sensitivity.
+if [[ "$case-sensitive" == "true" ]]; then
+    # Case-sensitive.
+    sed_args="s/$OLD_STRING/$NEW_STRING/g"
+else
+    # Case-insensitive.
+    sed_args="s/$OLD_STRING/$NEW_STRING/gI"
+fi
+
+# Count the number of files in the directory.
 num_files=$(find "$DIRECTORY" -type f | wc -l)
-curr_file=0
 
+# Iterate over each file in the directory and perform the replacement.
+curr_file=1
 for file in "$DIRECTORY"/*; do
-    if [ -f "$file" ]; then
-        ((curr_file++))
+    if [[ -f "$file" ]]; then
         echo "Processing file $curr_file of $num_files: $file"
-        # Case-sensitive.
-        # sed -i "s/$OLD_STRING/$NEW_STRING/g" "$file"
-        # Case-insensitive.
-        sed -i "s/$OLD_STRING/$NEW_STRING/gi" "$file"
+        sed -i "$sed_args" "$file"
+        ((curr_file++))
     fi
 done
