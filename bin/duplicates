@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? duplicates, Time-stamp: <2023-03-06 Mon 21:43>
+#? duplicates, Time-stamp: <2023-05-19 Fri 17:20>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -9,7 +9,7 @@
 
 ##? Usage: duplicates [options] [FILE]
 ##?
-##? Print the duplicate lines.
+##? Print the duplicate lines from a file or standard input.
 ##?
 ##? Arguments:
 ##?   FILE                          optional file
@@ -19,7 +19,10 @@
 ##?   -V, --version                 display version information and exit
 
 # Check if docopts command is available.
-command -v docopts > /dev/null 2>&1 || { printf >&2 'Error: docopts command not found.\n'; exit 2; }
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
 
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?"  "$0" | cut -c 4-)
