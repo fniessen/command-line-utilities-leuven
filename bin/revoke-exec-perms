@@ -46,6 +46,7 @@ find . -type f \
     -o -name "*.emf" \
     -o -name "*.env-FNI" \
     -o -name "*.env-PRD" \
+    -o -name "*.env-STG" \
     -o -name "*.env-TST" \
     -o -name "*.eot" \
     -o -name "*.fbprefs" \
