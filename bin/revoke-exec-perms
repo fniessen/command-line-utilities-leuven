@@ -140,7 +140,6 @@ find . -type f \
     -o -name "*.wsdl" \
     -o -name "*.xhtml" \
     -o -name "*.xls" \
-    -o -name "*.xls" \
     -o -name "*.xlsx" \
     -o -name "*.xml" \
     -o -name "*.xsd" \
