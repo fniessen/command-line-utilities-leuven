@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? duplicates, Time-stamp: <2023-05-19 Fri 17:20>
+#? duplicates, Time-stamp: <2023-06-15 Thu 14:48>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -25,7 +25,7 @@ if ! command -v docopts > /dev/null 2>&1; then
 fi
 
 help=$(grep "^##?" "$0" | cut -c 5-)
-version=$(grep "^#?"  "$0" | cut -c 4-)
+version=$(grep "^#?" "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
