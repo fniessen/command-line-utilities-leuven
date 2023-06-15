@@ -3,6 +3,10 @@
 
 * Tasks
 
+** TODO Fix bak
+
+Error when used on a file without extension, such as 'replace-in-directory'.
+
 ** TODO Error Zsh in prompt (décalage)
 
 Pour reproduire, générer une erreur
