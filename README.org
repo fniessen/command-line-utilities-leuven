@@ -82,10 +82,39 @@ Bash scripting can be a powerful tool for automating tasks, but it's important
 to follow best practices to ensure that your scripts are efficient, reliable,
 and maintainable. Here are some best practices to keep in mind:
 
+- Use comments to explain what the code does.
+
+- Use variables to store values that are used multiple times.
+
+- Rename variables to follow lowercase naming convention.
+
+- Enclose variables in double quotes to prevent word splitting and globbing.
+
+- Use functions to avoid repeating code.
+
+- Use ~set -u~ to treat unset variables as errors.
+
+- Use ~set -e~ to exit immediately if a command fails.
+
+- Use ~set -o pipefail~ to exit if any command in a pipeline fails.
+
+- Use exit codes to indicate success or failure.
+
 - Use ~printf~ instead of ~echo~ to better control the output format.
 
+- Add a period to the end of the error messages, so that it follows grammatical
+  conventions.
+
+- Use ~grep~ with the ~-w~ flag to match whole words.
+
+- Use ~cut~ instead of ~awk~ to extract strings.
+
+- Use ~uniq~ with the ~-d~ flag to find duplicated strings.
+
 - Use the ~sort -u~ command to sort the output and remove duplicates from a list
-  (~sort | uniq~).
+  (instead of ~sort | uniq~).
+
+- Use ~$()~ instead of backticks for command substitution.
 
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
