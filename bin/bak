@@ -1,59 +1,63 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-06-15 Thu 14:42>
-#? Copyright (C) 2020-2023 Fabrice Niessen
-#?
-#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
-#? This is free software: you are free to change and redistribute it.
-#? There is NO WARRANTY, to the extent permitted by law.
+# Set up variables.
+SCRIPT_NAME="$(basename "$0")"
+AUTHOR="Fabrice Niessen"
+COPYRIGHT_YEAR="2020-2023"
+LICENSE="GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
 
-##? Usage: bak [options] FILE
-##?
-##? Create a quick back-up copy of a file.
-##?
-##? Arguments:
-##?   FILE                          file to copy
-##?
-##? Options:
-##?   -r, --rename                  rename the original file instead of making a copy
-##?   -h, --help                    display this help and exit
-##?   -V, --version                 display version information and exit
-##?
-##? Examples:
-##?   bak core/main.c
-##?   bak -r core/main.c
+# Define usage message.
+USAGE="
+Usage: $SCRIPT_NAME [options] FILE
 
-set -e
+Create a quick back-up copy of a file.
 
-# Function to check if a file exists and prompt the user to confirm overwrite.
-function confirm_overwrite() {
+Arguments:
+  FILE                          file to copy
+
+Options:
+  -r, --rename                  rename the original file instead of making a copy
+  -h, --help                    display this help and exit
+  -V, --version                 display version information and exit
+"
+
+# Define help and version messages.
+HELP_MESSAGE="
+$USAGE
+$AUTHOR <$COPYRIGHT_YEAR>
+License: $LICENSE
+"
+
+VERSION_MESSAGE="
+$SCRIPT_NAME 1.0
+$AUTHOR <$COPYRIGHT_YEAR>
+License: $LICENSE
+"
+
+# Define function to check if a file exists and prompt the user to confirm overwrite.
+confirm_overwrite() {
     local file="$1"
     if [ -e "$file" ]; then
-        printf "The file %s already exists. Do you want to overwrite it? (y/N) " "$file"
-        read -r confirm
+        read -p "The file $file already exists. Do you want to overwrite it? (y/N) " confirm
         if [[ "$confirm" =~ ^[yY]$ ]]; then
-            return 0;
+            return 0
         else
-            printf "Operation cancelled.\n"
-            return 1;
+            echo "Operation cancelled."
+            return 1
         fi
     else
-        return 0;
+        return 0
     fi
 }
 
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 'Error: docopts command not found.\n'
+    printf "Error: docopts command not found.\n" >&2
     exit 2
 fi
 
-# Get help and version information.
-help=$(grep "^##?" "$0" | cut -c 5-)
-version=$(grep "^#?"  "$0" | cut -c 4-)
-
 # Parse arguments.
-parsed="$(docopts -h "$help" -V "$version" : "$@")"
+parsed="$(docopts -h "$HELP_MESSAGE" -V "$VERSION_MESSAGE" : "$@")"
 eval "$parsed"
 
 # Extract the file extension and basename.
@@ -64,16 +68,17 @@ basename="${basename%.*}"
 # Define the backup file name.
 new_file="$basename.bak.$extension"
 
+# XXX Check that file does exist
+
+# Copy or rename the file depending on the options used.
 if [[ "$rename" == "true" ]]; then
-    # If the rename option is provided, rename the file instead of copying it.
     if confirm_overwrite "$new_file"; then
-        mv "$FILE" "$new_file";
-        printf "File renamed from %s to %s.\n" "$FILE" "$new_file";
+        mv "$FILE" "$new_file"
+        echo "File renamed from $FILE to $new_file."
     fi
 else
-    # Otherwise, make a copy of the file.
     if confirm_overwrite "$new_file"; then
-        cp "$FILE" "$new_file";
-        printf "File copied from %s to %s.\n" "$FILE" "$new_file";
+        cp "$FILE" "$new_file"
+        echo "File copied from $FILE to $new_file."
     fi
 fi

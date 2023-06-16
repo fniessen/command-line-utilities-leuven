@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? uncolor, Time-stamp: <2023-02-04 Sat 16:11>
+#? uncolor, Time-stamp: <2023-06-12 Mon 10:36>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -19,15 +19,21 @@
 ##?   -V, --version                 display version information and exit
 
 # Check if docopts command is available.
-command -v docopts > /dev/null 2>&1 || { printf >&2 'Error: docopts command not found.\n'; exit 2; }
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
 
+# Get help and version information.
 help=$(grep "^##?" "$0" | cut -c 5-)
-version=$(grep "^#?"  "$0" | cut -c 4-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Parse arguments.
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
 # Define the sed command as a string.
-command="sed -r 's/\x1b\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g'"
+sedCommand="sed -r 's/\x1b\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g'"
                                         # Command to remove ANSI escape
                                         # sequences (often used to change the
                                         # color, background, or style of text in
@@ -35,7 +41,7 @@ command="sed -r 's/\x1b\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g'"
 
 # Check if the FILE variable is non-empty.
 if [ -n "$FILE" ]; then
-    eval "$command $FILE"
+    eval "$sedCommand $FILE"
 else
-    eval "$command"
+    eval "$sedCommand"
 fi

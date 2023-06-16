@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 # Search for broken symbolic links.
+
+set -euo pipefail
+
 printf "Searching for broken symbolic links...\n"
 broken_symlinks=$(find . -type l ! -exec test -e {} \; -print)
 printf "%s\n" "$broken_symlinks"

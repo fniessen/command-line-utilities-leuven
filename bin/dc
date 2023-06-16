@@ -4,3 +4,16 @@ find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" \
     | sort -n \
     | cut -d " " -f 2- \ \
     | grep -i "$@";
+
+
+
+
+find_files() {
+    find . -iname "*${search_term}*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" \
+        | sort -n \
+        | cut -d " " -f 2- \
+        | grep -i "${search_term}"
+}
+
+search_term="$1"
+find_files "$search_term"

@@ -2,4 +2,6 @@
 
 # Find files with exec permission.
 
+set -euo pipefail
+
 find . -type f -perm /u+x,g+x,o+x -print

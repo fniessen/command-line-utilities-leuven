@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Find files with specified extension.
+
+set -euo pipefail
+
+# Use parameter expansion to remove the dot from the extension if present.
+extension=${1#.}
+
+# Check if a file extension was provided.
+if [ -z "$extension" ]; then
+    echo "Error: Please provide a file extension"
+    exit 2
+fi
+
+# Find files with the specified extension.
+find . -type f -name "*.$extension"

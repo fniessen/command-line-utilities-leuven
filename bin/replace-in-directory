@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? replace-in-directory, Time-stamp: <2023-05-13 Sat 20:53>
+#? replace-in-directory, Time-stamp: <2023-06-12 Mon 10:35>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -29,7 +29,7 @@ fi
 
 # Get help and version information.
 help=$(grep "^##?" "$0" | cut -c 5-)
-version=$(grep "^#?"  "$0" | cut -c 4-)
+version=$(grep "^#?" "$0" | cut -c 4-)
 
 # Parse arguments.
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
