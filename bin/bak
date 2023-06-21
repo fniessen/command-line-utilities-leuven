@@ -1,38 +1,29 @@
 #!/usr/bin/env bash
 
-# Set up variables.
-SCRIPT_NAME="$(basename "$0")"
-AUTHOR="Fabrice Niessen"
-COPYRIGHT_YEAR="2020-2023"
-LICENSE="GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>"
+#? bak, Time-stamp: <2023-06-21 Wed 11:54>
+#? Copyright (C) 2020-2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
 
-# Define usage message.
-USAGE="
-Usage: $SCRIPT_NAME [options] FILE
+##? Usage: bak [options] FILE
+##?
+##? Create a quick back-up copy of a file.
+##?
+##? Arguments:
+##?   FILE                          file to copy
+##?
+##? Options:
+##?   -r, --rename                  rename the original file instead of making a copy
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+##?
+##? Examples:
+##?   bak core/main.c
+##?   bak -r core/main.c
 
-Create a quick back-up copy of a file.
-
-Arguments:
-  FILE                          file to copy
-
-Options:
-  -r, --rename                  rename the original file instead of making a copy
-  -h, --help                    display this help and exit
-  -V, --version                 display version information and exit
-"
-
-# Define help and version messages.
-HELP_MESSAGE="
-$USAGE
-$AUTHOR <$COPYRIGHT_YEAR>
-License: $LICENSE
-"
-
-VERSION_MESSAGE="
-$SCRIPT_NAME 1.0
-$AUTHOR <$COPYRIGHT_YEAR>
-License: $LICENSE
-"
+set -euo pipefail
 
 # Define function to check if a file exists and prompt the user to confirm overwrite.
 confirm_overwrite() {
@@ -52,23 +43,36 @@ confirm_overwrite() {
 
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
-    printf "Error: docopts command not found.\n" >&2
+    printf >&2 'Error: docopts command not found.\n'
     exit 2
 fi
 
+# Get help and version information.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
 # Parse arguments.
-parsed="$(docopts -h "$HELP_MESSAGE" -V "$VERSION_MESSAGE" : "$@")"
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
 # Extract the file extension and basename.
-basename=$(basename -- "$FILE")
-extension="${basename##*.}"
-basename="${basename%.*}"
+filename=$(basename -- "$FILE")
+extension=""
+if [[ ! "$filename" == *.* ]]; then
+    extension=""
+else
+    extension=".${filename##*.}"
+fi
+basename="${filename%.*}"
 
-# Define the backup file name.
-new_file="$basename.bak.$extension"
+# Define the backup file name with the path as prefix.
+new_file="$(dirname -- "$FILE")/$basename-bak$extension"
 
-# XXX Check that file does exist
+# Check if the input file exists.
+if [[ ! -f "$FILE" ]]; then
+    printf >&2 "ERROR: Input file '%s' does not exist.\n" "$FILE"
+    exit 2
+fi
 
 # Copy or rename the file depending on the options used.
 if [[ "$rename" == "true" ]]; then

@@ -3,9 +3,13 @@
 
 * Tasks
 
-** TODO Fix bak
+** TODO Filter the output of find-big-files by the file extension?
 
-Error when used on a file without extension, such as 'replace-in-directory'.
+When stdin is not empty, the scripts should use it as a filter, so that we could
+pipe multiple scripts (use xargs) to find big files of a certain extension
+(.txt) for example, by writing something like this:
+
+: find-files-by-extension.sh txt | xargs -n 1 ./find-big-files
 
 ** TODO Error Zsh in prompt (décalage)
 
