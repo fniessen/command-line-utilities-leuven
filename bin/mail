@@ -4,8 +4,8 @@
 Usage()
 {
     cat << EOF 1>&2
-Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
-Try '$CMD -h' for more information.
+Usage: $SCRIPT_NAME [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
+Try '$SCRIPT_NAME -h' for more information.
 EOF
     exit 2
 }
@@ -13,13 +13,13 @@ EOF
 Help()
 {
     cat << EOF
-This is $CMD, version: 20200220.1558.
+This is $SCRIPT_NAME, version: 20200220.1558.
 
-Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
+Usage: $SCRIPT_NAME [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
 Examples:
-    $CMD -s 'Disk failure' bill@example.com < /tmp/message
-    print "This is the body." | $CMD -s 'Other subject' bill@example.com
+    $SCRIPT_NAME -s 'Disk failure' bill@example.com < /tmp/message
+    print "This is the body." | $SCRIPT_NAME -s 'Other subject' bill@example.com
 
 Options:
   -s  Specify subject on command line
@@ -33,7 +33,7 @@ EOF
 }
 
 # command name
-CMD=$(basename "$0")
+SCRIPT_NAME=$(basename "$0")
 
 . shellutils || exit 2
 

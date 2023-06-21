@@ -306,8 +306,8 @@ Send a mail to one or more people.
 Usage()
 {
     cat << EOF 1>&2
-Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
-Try '$CMD -h' for more information.
+Usage: $SCRIPT_NAME [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
+Try '$SCRIPT_NAME -h' for more information.
 EOF
     exit 2
 }
@@ -331,13 +331,13 @@ The following options shall be supported:
 Help()
 {
     cat << EOF
-This is $CMD, version: <<current-time()>>.
+This is $SCRIPT_NAME, version: <<current-time()>>.
 
-Usage: $CMD [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
+Usage: $SCRIPT_NAME [-s SUBJECT] [-a ATTACHMENT]... [-c CC-ADDR] [-b BCC-ADDR] [-f FROM-ADDR] TO-ADDR
 Send simple mail.
 Examples:
-    $CMD -s 'Disk failure' bill@example.com < /tmp/message
-    print "This is the body." | $CMD -s 'Other subject' bill@example.com
+    $SCRIPT_NAME -s 'Disk failure' bill@example.com < /tmp/message
+    print "This is the body." | $SCRIPT_NAME -s 'Other subject' bill@example.com
 
 Options:
   -s  Specify subject on command line
@@ -412,7 +412,7 @@ printf "Archived configuration files\n" | mail -s "Backup data" -a ~/backup.tar.
 
 #+begin_src shell
 # command name
-CMD=$(basename "$0")
+SCRIPT_NAME=$(basename "$0")
 
 . shellutils || exit 2
 
