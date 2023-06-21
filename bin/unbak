@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+#? unbak, Time-stamp: <2023-06-21 Wed 12:04>
+#? Copyright (C) 2020-2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: unbak [options] FILE
+##?
+##? Restore a previously backed-up file to its original state.
+##?
+##? Arguments:
+##?   FILE                          backed-up file to restore
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+##?
+##? Examples:
+##?   unbak core/main-bak.c
+
+set -euo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
+
+# Get help and version information.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Parse arguments.
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$parsed"
+
+# Check if the backed-up file exists.
+if [[ ! -f "$FILE" ]]; then
+    printf >&2 "ERROR: Backed-up file '%s' does not exist.\n" "$FILE"
+    exit 2
+fi
+
+# Extract the original file name and extension from the backed-up file name.
+filename=$(basename -- "$FILE")
+extension="${filename##*.}"
+original_file="${filename%-bak.*}"
+
+# Check if the original file exists.
+if [[ -f "$original_file" ]]; then
+    printf >&2 "ERROR: The original file '%s' already exists.\n" "$original_file"
+    exit 2
+fi
+
+# Restore the original file.
+mv "$FILE" "$original_file.$extension"
+echo "File restored from $FILE to $original_file.$extension."
