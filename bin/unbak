@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2023-06-21 Wed 12:04>
+#? unbak, Time-stamp: <2023-06-21 Wed 12:27>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -45,15 +45,28 @@ fi
 
 # Extract the original file name and extension from the backed-up file name.
 filename=$(basename -- "$FILE")
-extension="${filename##*.}"
-original_file="${filename%-bak.*}"
+extension=""
+if [[ "$filename" != *.* ]]; then
+    original_file="$filename"
+else
+    extension=".${filename##*.}"
+    original_file="${filename%-bak*}"
+fi
+
+# BUG: original_file is not correctly computed for (backed up) files without extension
 
 # Check if the original file exists.
-if [[ -f "$original_file" ]]; then
-    printf >&2 "ERROR: The original file '%s' already exists.\n" "$original_file"
-    exit 2
+original_file_with_extension="$original_file$extension"
+if [[ -f "$original_file_with_extension" ]]; then
+    read -p "The original file '$original_file_with_extension' already exists. Do you want to overwrite it? (y/N) " confirm
+    if [[ "$confirm" =~ ^[yY]$ ]]; then
+        rm "$original_file_with_extension"
+    else
+        echo "Operation cancelled."
+        exit 0
+    fi
 fi
 
 # Restore the original file.
-mv "$FILE" "$original_file.$extension"
-echo "File restored from $FILE to $original_file.$extension."
+mv "$FILE" "$original_file_with_extension"
+echo "File restored from $FILE to $original_file_with_extension."
