@@ -1,27 +1,56 @@
 #!/usr/bin/env bash
 
-## Remove lines from FILE_A that match any lines in FILE_B.
+#? remove-matching-lines-between-files, Time-stamp: <2023-06-29 Thu 16:01>
+#? Copyright (C) 2020-2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
 
-# Define filenames.
-file_a="$1"
-file_b="$2"
+##? Usage: remove-matching-lines-between-files [options] FILE_A FILE_B
+##?
+##? Remove lines from FILE_A that match any lines in FILE_B.
+##?
+##? Arguments:
+##?   FILE_A                        file from which lines will be removed
+##?   FILE_B                        file containing the lines to match for removal
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+set -euo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
+
+# Get help and version information.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Parse arguments.
+parsed="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$parsed"
 
 # Check that both files exist.
-if [[ ! -f "$file_a" ]]; then
-    printf "Error: %s does not exist\n" "$file_a" >&2
+if [[ ! -f "$FILE_A" ]]; then
+    printf "Error: %s does not exist\n" "$FILE_A" >&2
     exit 2
 fi
 
-if [[ ! -f "$file_b" ]]; then
-    printf "Error: %s does not exist\n" "$file_b" >&2
+if [[ ! -f "$FILE_B" ]]; then
+    printf "Error: %s does not exist\n" "$FILE_B" >&2
     exit 2
 fi
 
-# Read and sort file_b.
-patterns=$(sort "$file_b")
+# Read and sort FILE_B.
+patterns=$(sort "$FILE_B")
 
-# Remove matching lines from file_a.
-filtered=$(grep -v -F -f <(echo "$patterns") "$file_a")
+# Remove matching lines from FILE_A.
+filtered=$(grep -v -F -f <(echo "$patterns") "$FILE_A")
 
-# Overwrite file_a with filtered contents.
-printf '%s' "$filtered" > "$file_a"
+# Overwrite FILE_A with filtered contents.
+printf '%s' "$filtered" > "$FILE_A"
