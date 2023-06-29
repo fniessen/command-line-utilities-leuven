@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? ff, Time-stamp: <2023-06-15 Thu 14:32>
+#? ff, Time-stamp: <2023-06-29 Thu 15:51>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,13 +38,9 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-# yellow="$(tput setaf 3)"
-# blue="$(tput setaf 4)"
-# reset="$(tput sgr0)"
-
-C_DIR="1;34"
-C_PAT="1;33;1;44"
-C_RST="0"
+C_DIR="1;34"                            # Blue color.
+C_PAT="1;33;1;44"                       # Yellow text on blue background.
+C_RST="0"                               # Reset to default colors.
 
 stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
     | GREP_COLORS="sl=$C_DIR:mt=$C_RST" stdbuf -oL grep --color=always '[^/]*$' \
