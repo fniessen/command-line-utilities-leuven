@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? ff, Time-stamp: <2023-06-29 Thu 15:51>
+#? ff, Time-stamp: <2023-07-17 Mon 11:46>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,11 +38,13 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 parsed="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$parsed"
 
-C_DIR="1;34"                            # Blue color.
-C_PAT="1;33;1;44"                       # Yellow text on blue background.
-C_RST="0"                               # Reset to default colors.
+# Define colors.
+DIR_COLOR="1;34"                        # Blue color.
+MATCH_COLOR="1;33;1;44"                 # Yellow text on blue background.
+DEFAULT_COLOR="0"                       # Reset to default colors.
 
+# Find and colorize matching filenames.
 stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
-    | GREP_COLORS="sl=$C_DIR:mt=$C_RST" stdbuf -oL grep --color=always '[^/]*$' \
-    | GREP_COLORS="sl=$C_RST"           stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
-    | GREP_COLORS="sl=$C_DIR:mt=$C_PAT"            grep -i "$PATTERN" --color=always
+    | GREP_COLORS="sl=$DIR_COLOR:mt=$DEFAULT_COLOR" stdbuf -oL grep --color=always '[^/]*$' \
+    | GREP_COLORS="sl=$DEFAULT_COLOR"               stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
+    | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR"              grep -i "$PATTERN" --color=always
