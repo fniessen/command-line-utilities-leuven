@@ -8,11 +8,13 @@ if ! command -v emacsclient > /dev/null 2>&1; then
     exit 2
 fi
 
-fifo="$(mktemp -u)"
-mkfifo "$fifo"
+pipe="$(mktemp -u)"
+mkfifo "$pipe"
 emacsclient -e '(with-current-buffer
                     (window-buffer (selected-window))
-                  (write-region (point-min) (point-max) "'"$fifo"'" nil :quiet))
+                  (write-region (point-min) (point-max) "'"$pipe"'" nil :quiet))
                ' >/dev/null &
-cat "$fifo"
-rm "$fifo"
+while read line; do
+    printf '%s\n' "$line"
+done < "$pipe"
+rm "$pipe"
