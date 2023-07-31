@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2023-07-31 Mon 11:14>
+#? find-today-files, Time-stamp: <2023-07-31 Mon 11:40>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -35,6 +35,7 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
+# If DIRECTORY is an empty string, set it to the current directory (.).
 DIRECTORY=${DIRECTORY:=.}
 
 # If EXTENSION is not provided, set it to an empty string.

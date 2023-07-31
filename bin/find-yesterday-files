@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-yesterday-files, Time-stamp: <2023-07-31 Mon 11:17>
+#? find-yesterday-files, Time-stamp: <2023-07-31 Mon 11:41>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -35,6 +35,7 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
+# If DIRECTORY is an empty string, set it to the current directory (.).
 DIRECTORY=${DIRECTORY:=.}
 
 # If EXTENSION is not provided, set it to an empty string.
@@ -43,7 +44,7 @@ EXTENSION=${EXTENSION:-}
 # List all files modified YESTERDAY only (between the start of yesterday and the
 # end of yesterday).
 if [ -n "$EXTENSION" ]; then
-    find "$DIRECTORY" -type f  -name "*.$EXTENSION" -newermt "yesterday 00:00" ! -newermt "today 00:00" -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -name "*.$EXTENSION" -newermt "yesterday 00:00" ! -newermt "today 00:00" -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 else
     find "$DIRECTORY" -type f -newermt "yesterday 00:00" ! -newermt "today 00:00" -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 fi
