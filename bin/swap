@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? swap, Time-stamp: <2023-07-17 Mon 20:45>
+#? swap, Time-stamp: <2023-07-31 Mon 10:38>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -30,7 +30,7 @@ if ! command -v docopts > /dev/null 2>&1; then
     exit 2
 fi
 
-# Get help and version information.
+# Extract help and version information from the script.
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?" "$0" | cut -c 4-)
 
