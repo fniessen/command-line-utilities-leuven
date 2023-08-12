@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? duplicates, Time-stamp: <2023-07-17 Mon 20:44>
+#? duplicates, Time-stamp: <2023-08-12 Sat 19:01>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -18,13 +18,15 @@
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 
+set -euo pipefail
+
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
     printf >&2 'Error: docopts command not found.\n'
     exit 2
 fi
 
-# Get help and version information.
+# Extract help and version information from the script.
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?" "$0" | cut -c 4-)
 
