@@ -8,6 +8,11 @@ if ! command -v emacsclient > /dev/null 2>&1; then
     exit 2
 fi
 
+if ! emacsclient -e '(server-running-p)' > /dev/null 2>&1; then
+    printf >&2 "Error: Emacs server is not running. Please start the Emacs server first.\n"
+    exit 2
+fi
+
 pipe="$(mktemp -u)"
 mkfifo "$pipe"
 emacsclient -e '(with-current-buffer
