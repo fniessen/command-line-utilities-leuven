@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+# Usage: time-run-command-100 [options] COMMAND
+#
+# Run a command 100 times and print its average and median execution time.
+
+# Get the command to run.
+command="$1"
+
+printf "Command: %s\n" "$command"
+
+# Create an array to store the execution times in hundredths of a second.
+execution_times=()
+
+# Run the command 100 times and store the execution times.
+for i in {1..100}; do
+    start_time=$(date +%s%N) # Current time in nanoseconds
+    $command > /dev/null 2>&1 # Run the command and discard output
+    end_time=$(date +%s%N)
+
+    # Calculate execution time in hundredths of a second
+    execution_time_hundredths=$(( (end_time - start_time + 5000000) / 10000000 ))
+
+    execution_times+=($execution_time_hundredths)
+
+    # Print a dot for each command run
+    printf "."
+done
+
+echo # Print a new line after the dots
+
+# Calculate the average execution time in hundredths of a second.
+sum=0
+for time in "${execution_times[@]}"; do
+    sum=$((sum + time))
+done
+average_execution_time=$((sum / ${#execution_times[@]}))
+
+# Calculate the average execution time in seconds and hundredths of a second.
+average_execution_time_seconds=$((average_execution_time / 100))
+average_execution_time_hundredths=$((average_execution_time % 100))
+
+# Sort the execution times.
+sorted_execution_times=($(printf "%s\n" "${execution_times[@]}" | sort -n))
+
+# Get the median execution time in hundredths of a second.
+median_index=$(((${#sorted_execution_times[@]} - 1) / 2))
+median_execution_time=${sorted_execution_times[median_index]}
+
+# Calculate the median execution time in seconds and hundredths of a second.
+median_execution_time_seconds=$((median_execution_time / 100))
+median_execution_time_hundredths=$((median_execution_time % 100))
+
+# Print the results.
+printf "Average execution time: %d.%02ds\n" \
+    $average_execution_time_seconds $average_execution_time_hundredths
+printf "Median execution time: %d.%02ds\n" \
+    $median_execution_time_seconds $median_execution_time_hundredths
