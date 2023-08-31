@@ -14,20 +14,20 @@ execution_times=()
 
 # Run the command 100 times and store the execution times.
 for i in {1..100}; do
-    start_time=$(date +%s%N) # Current time in nanoseconds
-    $command > /dev/null 2>&1 # Run the command and discard output
+    start_time=$(date +%s%N) # Current time in nanoseconds.
+    $command > /dev/null 2>&1 # Run the command and discard output.
     end_time=$(date +%s%N)
 
-    # Calculate execution time in hundredths of a second
+    # Calculate execution time in hundredths of a second.
     execution_time_hundredths=$(( (end_time - start_time + 5000000) / 10000000 ))
 
     execution_times+=($execution_time_hundredths)
 
-    # Print a dot for each command run
+    # Print a dot for each command run.
     printf "."
 done
 
-echo # Print a new line after the dots
+echo # Print a new line after the dots.
 
 # Calculate the average execution time in hundredths of a second.
 sum=0

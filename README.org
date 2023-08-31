@@ -74,6 +74,10 @@ Strip color sequences from the input text.
 
 Swap the contents of two files.
 
+** time-run-command-100
+
+Run a command 100 times and print its average and median execution time.
+
 * Contribute to command-line-utilities-leuven
 
 ** Best Practices
@@ -81,6 +85,9 @@ Swap the contents of two files.
 Bash scripting can be a powerful tool for automating tasks, but it's important
 to follow best practices to ensure that your scripts are efficient, reliable,
 and maintainable. Here are some best practices to keep in mind:
+
+- Use =/usr/bin/env bash= in the shebang line (more portable way to reference the
+  Bash interpreter).
 
 - Use comments to explain what the code does.
 
