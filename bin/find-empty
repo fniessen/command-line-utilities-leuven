@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+#? find-empty, Time-stamp: 20220204.1026
+#? Copyright (C) 2020-2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: find-empty [options]
+##?
+##? Search for empty files in a directory hierarchy
+##?
+##? Options:
+##?   -h, --help                    Display this help and exit
+##?   -V, --version                 Display version information and exit
+
+set -euo pipefail
+
+# Find empty files in the current directory and its subdirectories
+find . -type f -empty
