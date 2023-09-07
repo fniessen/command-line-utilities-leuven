@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+#? remove-thumbsdb, Time-stamp: 20220204.1026
+#? Copyright (C) 2020-2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: remove-thumbsdb [options] [STARTING_POINT]
+##?
+##? Delete all Thumbs.db files from directory.
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
 # Search for files matching the pattern.
 printf "Searching for Thumbs.db files...\n"
 filelist=$(find . -iname "Thumbs.db")
