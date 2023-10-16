@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2023-10-16 Mon 13:37>
+#? fd, Time-stamp: <2023-10-16 Mon 13:50>
 #? Copyright (C) 2020-2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,7 +38,10 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
+# Define color.
+MATCH_COLOR="1;37;1;44"                 # White text on blue background.
+
 find . -type d -iname "*$PATTERN*" -printf '%P\n' \
-    | grep -i --color=auto "$PATTERN"
+    | GREP_COLORS="mt=$MATCH_COLOR" grep -i --color=auto "$PATTERN"
 
 # See https://github.com/sharkdp/fd for hidden files, etc.
