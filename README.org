@@ -30,13 +30,6 @@ installed on your system.
 
 Create a quick back-up copy of a file.
 
-** cate
-
-Print the contents of the current buffer in Emacs to the terminal.
-
-See also: ~cde~ (shell function used to 'cd' to the directory of the current
-buffer in Emacs).
-
 ** f
 
 Find directories or files matching a string and print their full file name.
