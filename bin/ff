@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? ff, Time-stamp: <2023-10-16 Mon 13:46>
+#? ff, Time-stamp: <2023-10-17 Tue 11:49>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -45,8 +45,11 @@ DEFAULT_COLOR="0"                       # Reset to default colors.
 
 # Find and colorize matching filenames.
 stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' \
-    | GREP_COLORS="sl=$DIR_COLOR:mt=$DEFAULT_COLOR" stdbuf -oL grep --color=always '[^/]*$' \
-    | GREP_COLORS="sl=$DEFAULT_COLOR"               stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
-    | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR"              grep -i "$PATTERN" --color=always
+    | GREP_COLORS="sl=$DIR_COLOR:mt=$DEFAULT_COLOR" \
+          stdbuf -oL grep --color=always '[^/]*$' \
+    | GREP_COLORS="sl=$DEFAULT_COLOR" \
+          stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
+    | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR" \
+                     grep -i "$PATTERN" --color=always
 
 # Exit with a success or failure code.
