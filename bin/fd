@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2023-11-17 Fri 11:45>
+#? fd, Time-stamp: <2023-11-17 Fri 11:48>
 #? Copyright (C) 2020-2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -10,6 +10,9 @@
 ##? Usage: fd [options] [PATTERN]
 ##?
 ##? Find directories matching a string and print their full file name.
+##?
+##? Note:
+##?   Permission denied errors are suppressed using '2>/dev/null'.
 ##?
 ##? Arguments:
 ##?   PATTERN                       optional string
