@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2023-10-16 Mon 13:50>
+#? fd, Time-stamp: <2023-11-17 Fri 11:45>
 #? Copyright (C) 2020-2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -41,7 +41,9 @@ eval "$args"
 # Define color.
 MATCH_COLOR="1;37;1;44"                 # White text on blue background.
 
-find . -type d -iname "*$PATTERN*" -printf '%P\n' \
+# Find directories and colorize matching filenames, hiding permission denied
+# errors.
+find . -type d -iname "*$PATTERN*" -printf '%P\n' 2>/dev/null \
     | GREP_COLORS="mt=$MATCH_COLOR" grep -i --color=auto "$PATTERN"
 
 # See https://github.com/sharkdp/fd for hidden files, etc.

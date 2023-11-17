@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? f, Time-stamp: <2023-10-16 Mon 13:51>
+#? f, Time-stamp: <2023-11-17 Fri 11:45>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -41,6 +41,7 @@ eval "$args"
 # Define color.
 MATCH_COLOR="1;37;1;44"                 # White text on blue background.
 
-# Find all directories or files matching the PATTERN.
+# Find directories or files and colorize matching filenames, hiding permission
+# denied errors.
 find . -iname "*$PATTERN*" -printf '%P\n' 2>/dev/null \
     | GREP_COLORS="mt=$MATCH_COLOR" grep -i --color=auto "$PATTERN"
