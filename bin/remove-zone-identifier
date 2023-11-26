@@ -18,23 +18,22 @@ if ! command -v getfattr &> /dev/null; then
     exit 2
 fi
 
-# Function to identify files with Zone.Identifier ADS.
-find_files_with_ads() {
-    find "$directory_path" -type f -exec test -f "{}" \; -print | \
-        xargs -I {} sh -c 'getfattr -n zone.identifier -e hex --dump "$1" 2>/dev/null || true' -- {}
+# Function to identify files ending with ":Zone.Identifier".
+find_files_to_remove() {
+    find "$directory_path" -type f -name "*:Zone.Identifier"
 }
 
-# Function to remove Zone.Identifier ADS from files.
-remove_ads_from_files() {
-    local files=$(find_files_with_ads)
+# Function to remove files ending with ":Zone.Identifier".
+remove_zone_identifier_files() {
+    local files=$(find_files_to_remove)
     for file in $files; do
         if [ -e "$file" ]; then
             rm "$file"
-            echo "Removed Zone.Identifier from $file"
+            echo "Removed $file"
         fi
     done
 }
 
 # Main script execution.
-remove_ads_from_files
+remove_zone_identifier_files
 echo "Script execution complete."
