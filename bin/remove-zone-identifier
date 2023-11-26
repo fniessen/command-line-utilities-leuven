@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Identify and remove the "Zone.Identifier" alternate data stream (ADS) from
+# files within the current working directory and its subdirectories.
+
+# Find all files with Zone.Identifier alternate data stream.
+files=$(find . -type f -exec test -f "{}" \; -print | xargs getfattr -n zone.identifier -e hex --dump 2>/dev/null | grep -E '^ 0x' | awk '{print $1}' | sed 's/://' | sed 's/\(.*\)/\1/')
+
+# Remove Zone.Identifier alternate data stream from each file.
+for file in $files; do
+    rm "$file"
+    echo "Removed Zone.Identifier from $file"
+done
+
+echo "Script execution complete."
