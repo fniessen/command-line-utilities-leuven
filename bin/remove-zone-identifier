@@ -1,28 +1,37 @@
 #!/usr/bin/env bash
 
 # Remove the "Zone.Identifier" alternate data stream (ADS) from files within the
-# current directory and its subdirectories.
+# specified directory and its subdirectories.
+
+# Directory path where Zone.Identifier files will be removed.
+directory_path="."
+
+# Check if the directory exists.
+if [ ! -d "$directory_path" ]; then
+    echo "Error: Directory does not exist: $directory_path"
+    exit 1
+fi
 
 # Check if getfattr command is available.
-if ! command -v emacsclient > /dev/null 2>&1; then
-    printf >&2 "Error: getfattr command not found.\n"
-    printf >&2 "Please install attr and ensure the binary is in your PATH.\n"
+if ! command -v getfattr &> /dev/null; then
+    printf "Error: 'getfattr' command not found. Please install the 'attr' package.\n"
     exit 2
 fi
 
 # Function to identify files with Zone.Identifier ADS.
 find_files_with_ads() {
-    find . -type f -exec test -f "{}" \; -print | \
-        xargs getfattr -n zone.identifier -e hex --dump 2>/dev/null | \
-        grep -E '^ 0x' | awk '{print $1}' | sed 's/://' | sed 's/\(.*\)/\1/'
+    find "$directory_path" -type f -exec test -f "{}" \; -print | \
+        xargs -I {} sh -c 'getfattr -n zone.identifier -e hex --dump "$1" 2>/dev/null || true' -- {}
 }
 
 # Function to remove Zone.Identifier ADS from files.
 remove_ads_from_files() {
     local files=$(find_files_with_ads)
     for file in $files; do
-        rm "$file"
-        echo "Removed Zone.Identifier from $file"
+        if [ -e "$file" ]; then
+            rm "$file"
+            echo "Removed Zone.Identifier from $file"
+        fi
     done
 }
 
