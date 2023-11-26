@@ -3,6 +3,13 @@
 # Remove the "Zone.Identifier" alternate data stream (ADS) from files within the
 # current directory and its subdirectories.
 
+# Check if getfattr command is available.
+if ! command -v emacsclient > /dev/null 2>&1; then
+    printf >&2 "Error: getfattr command not found.\n"
+    printf >&2 "Please install attr and ensure the binary is in your PATH.\n"
+    exit 2
+fi
+
 # Function to identify files with Zone.Identifier ADS.
 find_files_with_ads() {
     find . -type f -exec test -f "{}" \; -print | \
