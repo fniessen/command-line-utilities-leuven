@@ -3,13 +3,21 @@
 # Identify and remove the "Zone.Identifier" alternate data stream (ADS) from
 # files within the current working directory and its subdirectories.
 
-# Find all files with Zone.Identifier alternate data stream.
-files=$(find . -type f -exec test -f "{}" \; -print | xargs getfattr -n zone.identifier -e hex --dump 2>/dev/null | grep -E '^ 0x' | awk '{print $1}' | sed 's/://' | sed 's/\(.*\)/\1/')
+# Function to identify files with Zone.Identifier ADS.
+function find_files_with_ads() {
+    local files=$(find . -type f -exec test -f "{}" \; -print | xargs getfattr -n zone.identifier -e hex --dump 2>/dev/null | grep -E '^ 0x' | awk '{print $1}' | sed 's/://' | sed 's/\(.*\)/\1/')
+    echo "$files"
+}
 
-# Remove Zone.Identifier alternate data stream from each file.
-for file in $files; do
-    rm "$file"
-    echo "Removed Zone.Identifier from $file"
-done
+# Function to remove Zone.Identifier ADS from files.
+function remove_ads_from_files() {
+    local files=$(find_files_with_ads)
+    for file in $files; do
+        rm "$file"
+        echo "Removed Zone.Identifier from $file"
+    done
+}
 
+# Main script execution.
+remove_ads_from_files
 echo "Script execution complete."
