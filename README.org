@@ -12,6 +12,8 @@ range of tasks and can save you time and effort in your daily workflow.  Whether
 you're a seasoned command-line user or just getting started, this repository has
 something for everyone.
 
+"Running XXX. This may take some time... done."
+
 * Requirements
 
 To be able to use the following commands, ensure that the following package is
@@ -59,6 +61,10 @@ Find all files modified in the last 7 days (including today).
 Find all files modified today in a specified directory or the current directory
 (if none is specified), with the option to filter by file extension.
 
+** remove-matching-lines-between-files
+
+Remove lines that match any lines between two files.
+
 ** uncolor
 
 Strip color sequences from the input text.
@@ -84,13 +90,13 @@ and maintainable. Here are some best practices to keep in mind:
 
 - Use comments to explain what the code does.
 
-- Use variables to store values that are used multiple times.
+- Use variables to store values used multiple times.
 
 - Rename variables to follow lowercase naming convention.
 
 - Enclose variables in double quotes to prevent word splitting and globbing.
 
-- Use functions to avoid repeating code.
+- Use functions to avoid code repetition.
 
 - Use ~set -u~ to treat unset variables as errors.
 
@@ -100,7 +106,7 @@ and maintainable. Here are some best practices to keep in mind:
 
 - Use exit codes to indicate success or failure.
 
-- Use ~printf~ instead of ~echo~ to better control the output format.
+- Use ~printf~ instead of ~echo~ for better control over the output format.
 
 - Add a period to the end of the error messages, so that it follows grammatical
   conventions.
@@ -109,12 +115,18 @@ and maintainable. Here are some best practices to keep in mind:
 
 - Use ~cut~ instead of ~awk~ to extract strings.
 
-- Use ~uniq~ with the ~-d~ flag to find duplicated strings.
+- Use ~uniq -d~ to find duplicated strings.
 
-- Use the ~sort -u~ command to sort the output and remove duplicates from a list
-  (instead of ~sort | uniq~).
+- Use ~sort -u~ to sort the output and remove duplicates from a list (instead of
+  ~sort | uniq~).
 
 - Use ~$()~ instead of backticks for command substitution.
+
+- Use double brackets (~[[ ... ]]~) in Bash and Zsh scripting for more advanced
+  conditional expressions, improved handling of variables (allows unquoted
+  variables and word splitting), enhanced logical operators (~&&~, ~||~), and
+  built-in pattern matching, providing a more powerful and flexible approach to
+  conditionals compared to single brackets (~[ ... ]~).
 
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
