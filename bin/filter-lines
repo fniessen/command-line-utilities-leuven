@@ -1,0 +1,5 @@
+#!/usr/bin/env awk -f
+
+# Skip the first line (header) and filter out blank lines.
+
+NR > 1 || NF
