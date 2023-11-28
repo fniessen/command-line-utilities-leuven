@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2023-07-31 Mon 10:38>
+#? unbak, Time-stamp: <2023-11-28 Tue 10:34>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -19,7 +19,7 @@
 ##?   -V, --version                 display version information and exit
 ##?
 ##? Examples:
-##?   unbak core/main-bak.c
+##?   unbak core/main_bak.c
 
 set -euo pipefail
 
@@ -50,7 +50,7 @@ if [[ "$filename" != *.* ]]; then
     original_file="$filename"
 else
     extension=".${filename##*.}"
-    original_file="${filename%-bak*}"
+    original_file="${filename%_bak*}"
 fi
 
 # BUG: original_file is not correctly computed for (backed up) files without extension

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2023-07-31 Mon 10:42>
+#? bak, Time-stamp: <2023-11-28 Tue 10:32>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -66,7 +66,7 @@ fi
 basename="${filename%.*}"
 
 # Define the backup file name with the path as prefix.
-new_file="$(dirname -- "$FILE")/$basename-bak$extension"
+new_file="$(dirname -- "$FILE")/$basename_bak$extension"
 
 # Check if the input file exists.
 if [[ ! -f "$FILE" ]]; then
