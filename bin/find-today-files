@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2023-07-31 Mon 11:40>
+#? find-today-files, Time-stamp: <2023-12-22 Fri 22:46>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -42,7 +42,7 @@ DIRECTORY=${DIRECTORY:=.}
 EXTENSION=${EXTENSION:-}
 
 # List all files modified TODAY only (since start of day only, i.e. 00:00).
-if [ -n "$EXTENSION" ]; then
+if [[ -n "$EXTENSION" ]]; then
     find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 else
     find "$DIRECTORY" -type f -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
