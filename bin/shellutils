@@ -1,28 +1,45 @@
 #!/usr/bin/env bash
+
+die() {
+    echo "$@" >&2
+    exit 1
+}
+
 has-cygwin() {
-    for x in $@; do
-        [ "$(command -v $x)" = "/usr/bin/$x" ] \
-            || die "$x is not a Cygwin executable."
+    for x in "$@"; do
+        [ "$(command -v "$x")" = "/usr/bin/$x" ] || die "$x is not a Cygwin executable."
     done
 }
 
 pname() {
-    ps -o command= -p $PPID | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
+    ps -o command= -p "$PPID" | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
 }
 
-find . -type d -iname "*$1*" -printf '%P\n'
+find_files() {
+    find . -type f -iname "*$1*" -printf '%P\n'
+}
 
-find . -type f -iname "*$1*" -printf '%P\n'
-
-# List all files modified TODAY only (since start of day only, i.e. 00:00).
-alias today='find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
+# List all files modified TODAY only (since start of day only, i.e., 00:00).
+today() {
+    find . -daystart -mtime 0 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+}
 
 # List all files modified YESTERDAY.
-alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
+yesterday() {
+    find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+}
 
 # List all files modified THIS WEEK.
-alias thisweek1='find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
-alias thisweek2='find . -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
-alias thisweek3='find . -daystart -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
+thisweek1() {
+    find . -mtime -7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+}
+thisweek2() {
+    find . -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+}
+thisweek3() {
+    find . -daystart -mtime 7 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+}
 
-alias last-modified='find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head'
+last_modified() {
+    find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head
+}
