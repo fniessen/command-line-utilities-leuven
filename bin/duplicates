@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? duplicates, Time-stamp: <2023-08-12 Sat 19:01>
+#? duplicates, Time-stamp: <2023-12-22 Fri 23:19>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -34,7 +34,7 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
-if [ -p /dev/stdin ]; then
+if [[ -p /dev/stdin ]]; then
     # Input is from a pipe.
     input="/dev/stdin"
 else
