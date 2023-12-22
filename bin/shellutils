@@ -5,9 +5,14 @@ die() {
     exit 1
 }
 
-has-cygwin() {
+command_exists() {
+    local cmd="$1"
+    [[ "$(command -v "$cmd")" = "/usr/bin/$cmd" ]]
+}
+
+check_cygwin_executables() {
     for x in "$@"; do
-        [ "$(command -v "$x")" = "/usr/bin/$x" ] || die "$x is not a Cygwin executable."
+        command_exists "$x" || die "$x is not a Cygwin executable."
     done
 }
 
