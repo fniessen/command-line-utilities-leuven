@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? uncolor, Time-stamp: <2023-07-31 Mon 10:51>
+#? uncolor, Time-stamp: <2023-12-22 Fri 23:18>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -42,7 +42,7 @@ sedCommand="sed -r 's/\x1b\[([0-9]{1,3}((;[0-9]{1,3})*)?)?[m|K]//g'"
                                         # the terminal).
 
 # Check if the FILE variable is non-empty.
-if [ -n "$FILE" ]; then
+if [[ -n "$FILE" ]]; then
     eval "$sedCommand $FILE"
 else
     eval "$sedCommand"
