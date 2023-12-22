@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+#? remove-zone-identifier-files, Time-stamp: 20220204.1026
+#? Copyright (C) 2023 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: remove-zone-identifier-files [options]
+##?
+##? Remove files ending with ":Zone.Identifier" in a directory hierarchy
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+set -euo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Get command-line arguments.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Directory path where Zone.Identifier files will be removed.
+directory_path="."
+
+# Check if the directory exists.
+if [[ ! -d "$directory_path" ]]; then
+    echo "Error: Directory does not exist: $directory_path"
+    exit 1
+fi
+
+# Check if getfattr command is available.
+if ! command -v getfattr &> /dev/null; then
+    printf "Error: 'getfattr' command not found. Please install the 'attr' package.\n"
+    exit 2
+fi
+
+# Function to remove files ending with ":Zone.Identifier".
+remove_zone_identifier_files() {
+    find "$directory_path" -type f -name "*:Zone.Identifier" -print0 \
+        | while IFS= read -r -d '' file; do
+              if [[ -e "$file" ]]; then
+                  rm "$file"
+                  echo "Removed $file"
+              fi
+          done
+}
+
+# Main script execution.
+remove_zone_identifier_files
+echo "Script execution complete."
