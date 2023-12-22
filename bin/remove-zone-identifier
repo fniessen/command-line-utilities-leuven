@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-# Remove the "Zone.Identifier" alternate data stream (ADS) from files within the
-# specified directory and its subdirectories.
+# Remove files ending with ":Zone.Identifier" within the specified directory
+# and its subdirectories. These files are typically associated with Alternate
+# Data Streams (ADS) on Windows file systems.
 
 # Directory path where Zone.Identifier files will be removed.
 directory_path="."
 
 # Check if the directory exists.
-if [ ! -d "$directory_path" ]; then
+if [[ ! -d "$directory_path" ]]; then
     echo "Error: Directory does not exist: $directory_path"
     exit 1
 fi
@@ -22,7 +23,7 @@ fi
 remove_zone_identifier_files() {
     find "$directory_path" -type f -name "*:Zone.Identifier" -print0 \
         | while IFS= read -r -d '' file; do
-              if [ -e "$file" ]; then
+              if [[ -e "$file" ]]; then
                   rm "$file"
                   echo "Removed $file"
               fi
