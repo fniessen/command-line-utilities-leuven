@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-commands, Time-stamp: <2023-07-31 Mon 10:38>
+#? find-commands, Time-stamp: <2023-12-22 Fri 22:37>
 #? Copyright (C) 2023 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -49,11 +49,11 @@ done
 # Iterate over all directories in $PATH.
 for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
     # Check if directory exists and is readable.
-    if [ -d "$dir" ] && [ -r "$dir" ]; then
+    if [[ -d "$dir" && -r "$dir" ]]; then
         # Iterate over all files in directory.
         for file in "$dir"/*; do
             # Check if file is executable and not a directory.
-            if [ -x "$file" ] && [ ! -d "$file" ]; then
+            if [[ -x "$file" && ! -d "$file" ]]; then
                 # Extract the filename from the path.
                 filename=$(basename "$file")
                 lowercase_filename=$(printf '%s\n' "$filename" \
@@ -66,8 +66,8 @@ for dir in $(printf "%s\n" "${PATH//:/$'\n'}"); do
                         break
                     fi
                 done
-                if [ $exclude_file -eq 0 ] \
-                       && [[ "$lowercase_filename" == *"$PATTERN"* ]]; then
+                if [[ $exclude_file -eq 0 \
+                          && "$lowercase_filename" == *"$PATTERN"* ]]; then
                     printf '%s\n' "$filename" \
                         | grep --color=always -i "$PATTERN"
                 fi
