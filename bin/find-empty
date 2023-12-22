@@ -12,10 +12,24 @@
 ##? Search for empty files in a directory hierarchy
 ##?
 ##? Options:
-##?   -h, --help                    Display this help and exit
-##?   -V, --version                 Display version information and exit
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
 
 set -euo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Get command-line arguments.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
 
 # Find empty files in the current directory and its subdirectories
 find . -type f -empty
