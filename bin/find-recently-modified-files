@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2023-07-31 Mon 10:50>
+#? find-recently-modified-files, Time-stamp: <2023-12-22 Fri 22:12>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -41,7 +41,7 @@ DIRECTORY=${DIRECTORY:-.}
 PRINT_FORMAT="  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 
 # Check if the extension variable is set.
-if [ -n "$extension" ]; then
+if [[ -n "$extension" ]]; then
     # If the extension variable is set, use it to find files with the specific
     # extension.
     find "$DIRECTORY" -type f -name "*.$extension" -daystart -mtime -7 -printf "$PRINT_FORMAT"
