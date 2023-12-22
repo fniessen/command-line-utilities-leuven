@@ -167,10 +167,14 @@ executables (for example, ~whoami~ and ~hostname~) are found before their Window
 counterpart -- to avoid problems of spurious ~\r~ added to the output.
 
 #+begin_src shell
-has-cygwin() {
-    for x in $@; do
-        [ "$(command -v $x)" = "/usr/bin/$x" ] \
-            || die "$x is not a Cygwin executable."
+command_exists() {
+    local cmd="$1"
+    [[ "$(command -v "$cmd")" = "/usr/bin/$cmd" ]]
+}
+
+check_cygwin_executables() {
+    for x in "$@"; do
+        command_exists "$x" || die "$x is not a Cygwin executable."
     done
 }
 #+end_src
@@ -181,18 +185,20 @@ The following is supposed to work on Linux, but doesn't on Cygwin.
 
 #+begin_src shell
 pname() {
-    ps -o command= -p $PPID | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
+    ps -o command= -p "$PPID" | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
 }
 #+end_src
 
 ** Find files
 
-#+begin_src shell
+#+begin_src shell :tangle no
 find . -type d -iname "*$1*" -printf '%P\n'
 #+end_src
 
 #+begin_src shell
-find . -type f -iname "*$1*" -printf '%P\n'
+find_files() {
+    find . -type f -iname "*$1*" -printf '%P\n'
+}
 #+end_src
 
 Alternatively, if piping commands, avoid *buffered output* by applying ~stdbuf -oL~
@@ -213,7 +219,9 @@ http://www.voidtools.com/forum/viewtopic.php?p=6200#p6200
 
 #+begin_src shell
 # List all files modified YESTERDAY.
-alias yesterday='find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"'
+yesterday() {
+    find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+}
 #+end_src
 
 XXX Check out %C, %T and %A!!!
@@ -264,7 +272,9 @@ find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
 XXX Includes copies?
 
 #+begin_src shell
-alias last-modified='find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head'
+last_modified() {
+    find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head
+}
 #+end_src
 
 #+begin_src shell :tangle bin/rc
