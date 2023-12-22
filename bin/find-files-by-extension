@@ -8,7 +8,7 @@ set -euo pipefail
 extension=${1#.}
 
 # Check if a file extension was provided.
-if [ -z "$extension" ]; then
+if [[ -z "$extension" ]]; then
     echo "Error: Please provide a file extension"
     exit 2
 fi
