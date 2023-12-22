@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Find all files in the current directory and its subdirectories that contain
-# Windows-style line endings (CRLF), and then converts them to Unix-style line
+# Windows-style line endings (CRLF) and then convert them to Unix-style line
 # endings (LF).
 
 # Find all files in the current directory and its subdirectories that contain
@@ -9,7 +9,7 @@
 files_with_crlf=$(find . -type f -exec file {} \; | grep "CRLF" | awk -F ':' '{ print $1 }')
 
 # If there are no files with CRLF line endings, exit the script.
-if [ -z "$files_with_crlf" ]; then
+if [[ -z "$files_with_crlf" ]]; then
     printf "No files with CRLF line endings found.\n"
     exit 0
 fi
@@ -20,7 +20,7 @@ printf "Do you want to convert files with CRLF line endings to LF line endings? 
 read -p "> " confirm
 printf "-------------------------\n"
 
-if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
     printf "Conversion cancelled.\n"
     exit 0
 fi
