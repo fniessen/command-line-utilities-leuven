@@ -46,17 +46,17 @@ if ! command -v getfattr &> /dev/null; then
     exit 2
 fi
 
-# Function to remove files ending with ":Zone.Identifier".
-remove_zone_identifier_files() {
-    find "$directory_path" -type f -name "*:Zone.Identifier" -print0 \
-        | while IFS= read -r -d '' file; do
-              if [[ -e "$file" ]]; then
-                  rm "$file"
-                  echo "Removed $file"
-              fi
-          done
-}
+# Find and remove files ending with ":Zone.Identifier".
+find "$directory_path" -type f -name "*:Zone.Identifier" -print0 \
+    | while IFS= read -r -d '' file; do
+    if [[ -e "$file" ]]; then
+        rm "$file"
+        printf "Removed %s\n" "$file"
+    fi
+done
 
-# Main script execution.
-remove_zone_identifier_files
-echo "Script execution complete."
+# Print completion message.
+printf "Script execution complete.\n"
+
+# Exit with a success code.
+exit 0
