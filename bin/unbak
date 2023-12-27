@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2023-11-28 Tue 10:34>
+#? unbak, Time-stamp: <2023-12-27 Wed 11:04>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -37,6 +37,9 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
+# Define the backup file extension constant.
+readonly BAK_EXTENSION="_bak"
+
 # Check if the backed-up file exists.
 if [[ ! -f "$FILE" ]]; then
     printf >&2 "ERROR: Backed-up file '%s' does not exist.\n" "$FILE"
@@ -50,7 +53,7 @@ if [[ "$filename" != *.* ]]; then
     original_file="$filename"
 else
     extension=".${filename##*.}"
-    original_file="${filename%_bak*}"
+    original_file="${filename%$BAK_EXTENSION*}"
 fi
 
 # BUG: original_file is not correctly computed for (backed up) files without extension
