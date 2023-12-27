@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2023-12-22 Fri 22:12>
+#? find-recently-modified-files, Time-stamp: <2023-12-27 Wed 10:43>
 #? Copyright (C) 2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -35,10 +35,11 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
-DIRECTORY=${DIRECTORY:-.}
+# Set the default directory if not provided.
+readonly DIRECTORY=${DIRECTORY:-.}
 
-# Define a variable for the print format
-PRINT_FORMAT="  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+# Define the format for printing file information.
+readonly PRINT_FORMAT="  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 
 # Check if the extension variable is set.
 if [[ -n "$extension" ]]; then
@@ -50,3 +51,6 @@ else
     # extension.
     find "$DIRECTORY" -type f -daystart -mtime -7 -printf "$PRINT_FORMAT"
 fi
+
+# Exit with a success code.
+exit 0
