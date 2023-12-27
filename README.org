@@ -128,6 +128,12 @@ and maintainable. Here are some best practices to keep in mind:
   built-in pattern matching, providing a more powerful and flexible approach to
   conditionals compared to single brackets (~[ ... ]~).
 
+- Use uppercase letters for variables that are intended to be constants and not
+  changed during the script execution.
+
+- Use lowercase letters for regular variables that can be modified during the
+  script execution.
+
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
 
