@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2023-12-27 Wed 11:07>
+#? unbak, Time-stamp: <2023-12-27 Wed 11:12>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -68,7 +68,7 @@ if [[ -f "$original_file_with_extension" ]]; then
     if [[ "$confirm" =~ ^[yY]$ ]]; then
         rm "$original_file_with_extension"
     else
-        echo "Operation cancelled."
+        printf "Operation cancelled.\n"
         exit 0
     fi
 fi
@@ -76,4 +76,7 @@ fi
 # Restore the original file to its original path.
 original_directory=$(dirname -- "$FILE")
 mv "$FILE" "$original_directory/$original_file_with_extension"
-echo "File restored from $FILE to $original_directory/$original_file_with_extension."
+printf "File restored from %s to %s/%s.\n" "$FILE" "$original_directory" "$original_file_with_extension"
+
+# Exit with a success code.
+exit 0
