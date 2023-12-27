@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2023-12-27 Wed 11:04>
+#? unbak, Time-stamp: <2023-12-27 Wed 11:07>
 #? Copyright (C) 2020-2023 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -56,7 +56,10 @@ else
     original_file="${filename%$BAK_EXTENSION*}"
 fi
 
-# BUG: original_file is not correctly computed for (backed up) files without extension
+# BUG: Fix original_file computation for (backed up) files without extension
+if [[ -z "$extension" ]]; then
+    original_file="${filename%$BAK_EXTENSION}"
+fi
 
 # Check if the original file exists.
 original_file_with_extension="$original_file$extension"
@@ -70,6 +73,7 @@ if [[ -f "$original_file_with_extension" ]]; then
     fi
 fi
 
-# Restore the original file.
-mv "$FILE" "$original_file_with_extension"
-echo "File restored from $FILE to $original_file_with_extension."
+# Restore the original file to its original path.
+original_directory=$(dirname -- "$FILE")
+mv "$FILE" "$original_directory/$original_file_with_extension"
+echo "File restored from $FILE to $original_directory/$original_file_with_extension."
