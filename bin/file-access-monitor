@@ -64,6 +64,10 @@ num_directories_found=${#directories[@]}
 if [[ $num_directories_found -eq 1 ]]; then
     # Display the warning if there are no subdirectories.
     printf >&2 'Warning: No subdirectories found to monitor under the root directory.\n'
+elif [[ $num_directories_found -gt 32768 ]]; then
+    # Exit if the number of directories exceeds the limit.
+    printf >&2 'Error: Number of directories exceeds the limit. Exiting.\n'
+    exit 2
 fi
 
 # Create a log file for file accesses.
