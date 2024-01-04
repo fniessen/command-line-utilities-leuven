@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2024-01-04 Thu 11:02>
+#? fd, Time-stamp: <2024-01-04 Thu 15:00>
 #? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -42,11 +42,10 @@ args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
 # Set color codes for formatting.
+readonly DIR_COLOR="1;34"               # Blue color for directory names.
 readonly MATCH_COLOR="1;37;1;44"        # White text on blue background.
 
-# Find directories and colorize matching filenames, hiding permission denied
-# errors.
-find . -type d -iname "*$PATTERN*" -printf '%P\n' 2>/dev/null \
-    | GREP_COLORS="mt=$MATCH_COLOR" grep -i --color=auto "$PATTERN"
-
-# See https://github.com/sharkdp/fd for hidden files, etc.
+# Find and colorize matching directory names, hiding permission denied errors.
+stdbuf -oL find . -type d -iname "*$PATTERN*" -exec printf '%s/\n' {} \; 2>/dev/null \
+    | sed 's|^./||' \
+    | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR" grep -i "$PATTERN" --color=always
