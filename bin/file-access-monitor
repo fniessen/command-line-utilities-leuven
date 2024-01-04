@@ -53,8 +53,8 @@ fi
 # Disable -e for the find command.
 set +e
 
-# Use find to locate all directories, hiding "permission denied" errors.
-directories=($(find "$DIRECTORY" -type d 2>/dev/null))
+# Use find to locate all READABLE directories, hiding "permission denied" errors.
+directories=($(find "$DIRECTORY" -type d -readable 2>/dev/null))
 
 # Re-enable -e.
 set -e
@@ -114,7 +114,7 @@ done
 # Wait for a short time to ensure the messages from inotifywait are displayed first.
 sleep 1
 
-printf >&2 "\e[1;33mMonitoring all file accesses in $num_directories_found directories. Press Ctrl+C to stop monitoring...\e[0m\n"
+printf >&2 "\e[1;33mMonitoring all file accesses in $num_directories_found readable directories. Press Ctrl+C to stop monitoring...\e[0m\n"
 
 # Wait for user input to exit the monitoring.
 wait
