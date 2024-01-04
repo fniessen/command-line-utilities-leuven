@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Directory to be monitored
-watch_dir="/path/to/watch/directory"
+watch_dir="/PATH/TO/watch-directory"
 
 # Function to send a notification when a change is detected
 function send_notification {
