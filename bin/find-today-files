@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2023-12-22 Fri 22:46>
-#? Copyright (C) 2023 Fabrice Niessen
+#? find-today-files, Time-stamp: <2024-01-04 Thu 10:44>
+#? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -36,14 +36,18 @@ args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
 # If DIRECTORY is an empty string, set it to the current directory (.).
-DIRECTORY=${DIRECTORY:=.}
+readonly DIRECTORY=${DIRECTORY:=.}
 
 # If EXTENSION is not provided, set it to an empty string.
-EXTENSION=${EXTENSION:-}
+readonly EXTENSION=${EXTENSION:-}
 
-# List all files modified TODAY only (since start of day only, i.e. 00:00).
+# Set color codes for formatting.
+readonly DIR_COLOR='\033[1;34m'         # Blue color.
+readonly NC='\033[0m'                   # No color.
+
+# List all files modified TODAY only (since start of day only, i.e., 00:00).
 if [[ -n "$EXTENSION" ]]; then
-    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - ${DIR_COLOR}%h/${NC}%f\n"
 else
-    find "$DIRECTORY" -type f -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find "$DIRECTORY" -type f -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - ${DIR_COLOR}%h/${NC}%f\n"
 fi
