@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-01-04 Thu 15:50>
+#? find-today-files, Time-stamp: <2024-01-04 Thu 16:03>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -48,11 +48,13 @@ readonly NC='\033[0m'                   # No color.
 
 # List files modified TODAY only (since start of day, i.e., 00:00).
 if [[ -n "$EXTENSION" ]]; then
-    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 \
+    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 2>/dev/null \
          -printf "  ${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h/${NC}%f\n" \
-        | sort -k4
+        | sort -k4 \
+        | sed 's|./||'
 else
-    find "$DIRECTORY" -type f -daystart -mtime 0 \
+    find "$DIRECTORY" -type f -daystart -mtime 0 2>/dev/null \
          -printf "  ${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h/${NC}%f\n" \
-        | sort -k4
+        | sort -k4 \
+        | sed 's|./||'
 fi
