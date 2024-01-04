@@ -70,8 +70,9 @@ elif [[ $num_directories_found -gt 32768 ]]; then
     exit 2
 fi
 
-# Create a log file for file accesses.
-log_file="file_access_log.txt"
+# Create a log file for file accesses in the parent of the current directory.
+parent_directory=$(dirname "$(realpath "$DIRECTORY")")
+log_file="$parent_directory/file_access_log_$(date +"%Y-%m-%d_%H:%M:%S").txt"
 
 # Remove the log file if it already exists.
 if [[ -e "$log_file" ]]; then
