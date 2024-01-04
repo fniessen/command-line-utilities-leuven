@@ -87,21 +87,29 @@ if [[ $max_user_instances -gt $current_value ]]; then
     sudo sh -c "echo $max_user_instances > /proc/sys/fs/inotify/max_user_instances"
 fi
 
+# Trap the interrupt signal (Ctrl+C).
+trap 'cleanup' INT
+
+cleanup() {
+    # Terminate all inotifywait processes.
+    pkill inotifywait
+
+    # Restore the original value only if necessary.
+    if [[ $max_user_instances -gt $current_value ]]; then
+        sudo sh -c "echo $current_value > /proc/sys/fs/inotify/max_user_instances"
+    fi
+
+    printf "\nMonitoring stopped. Exiting...\n"
+    exit
+}
+
 # Loop through each subdirectory and set up monitoring.
 for subdirectory in "${subdirectories[@]}"; do
     # Monitor the subdirectory for access events and append to the log file.
     inotifywait -m -r -e access "$subdirectory" >> "$log_file" &
 done
 
-printf >&2 "Monitoring all file accesses. Press Enter to stop monitoring...\n"
+printf >&2 "Monitoring all file accesses. Press Ctrl+C to stop monitoring...\n"
 
 # Wait for user input to exit the monitoring.
-read
-
-# Terminate all inotifywait processes.
-pkill inotifywait
-
-# Restore the original value only if necessary.
-if [[ $max_user_instances -gt $current_value ]]; then
-    sudo sh -c "echo $current_value > /proc/sys/fs/inotify/max_user_instances"
-fi
+wait
