@@ -2,9 +2,13 @@
 
 # Find files in parent directories.
 
-set -e
+# Recursively list the contents of each directory starting from the current
+# working directory and moving upwards towards the root directory, excluding the
+# root directory itself.
 
-while [[ $PWD != / ]]; do
-    find "$PWD"/ -maxdepth 1 -mindepth 1 "$@"
+set -euo pipefail
+
+while [[ "$PWD" != "/" ]]; do
+    find "$PWD" -maxdepth 1 -mindepth 1 "$@"
     cd ..
 done
