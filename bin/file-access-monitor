@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+
+#? Time-stamp: 20201230.1033
+#? Copyright (C) 2023-2024 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: file-access-monitor [options] [DIRECTORY]
+##?
+##? Monitor file access events in a specified directory and its subdirectories,
+##? logging them to a file.
+##?
+##? Arguments:
+##?   DIRECTORY                     directory to start monitoring
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+set -euo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Get command-line arguments.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Check if inotifywait command is available.
+if ! command -v inotifywait > /dev/null 2>&1; then
+    printf >&2 "Error: 'inotifywait' command not found. Please install inotify-tools.\n"
+    exit 2
+fi
+
+# If DIRECTORY is an empty string, set it to the current directory (.).
+readonly DIRECTORY=${DIRECTORY:=.}
+
+# Check if the root directory exists.
+if [[ ! -d "$DIRECTORY" ]]; then
+    printf >&2 'Error: The specified root directory does not exist.\n'
+    exit 2
+fi
+
+# Disable -e for the find command.
+set +e
+
+# Use find to locate all subdirectories, hiding "permission denied" errors.
+subdirectories=($(find "$DIRECTORY" -type d 2>/dev/null))
+
+# Re-enable -e.
+set -e
+
+# Check if there are subdirectories to monitor.
+if [[ ${#subdirectories[@]} -eq 0 ]]; then
+    printf >&2 'Warning: No subdirectories found to monitor under the root directory.\n'
+fi
+
+# Create a log file for file accesses.
+log_file="file_access_log.txt"
+
+# Remove the log file if it already exists.
+if [[ -e "$log_file" ]]; then
+    rm "$log_file"
+fi
+
+max_user_instances=4096
+current_value=$(sudo cat /proc/sys/fs/inotify/max_user_instances)
+
+# Increase max_user_instances.
+sudo sh -c "echo $max_user_instances > /proc/sys/fs/inotify/max_user_instances"
+
+# Loop through each subdirectory and set up monitoring.
+for subdirectory in "${subdirectories[@]}"; do
+    # Monitor the subdirectory for access events and append to the log file.
+    inotifywait -m -r -e access "$subdirectory" >> "$log_file" &
+done
+
+printf >&2 "Monitoring all file accesses. Press Enter to stop monitoring...\n"
+
+# Wait for user input to exit the monitoring.
+read
+
+# Terminate all inotifywait processes.
+pkill inotifywait
+
+# Restore the original value.
+sudo sh -c "echo $current_value > /proc/sys/fs/inotify/max_user_instances"
