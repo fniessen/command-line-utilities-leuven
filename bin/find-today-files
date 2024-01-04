@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-01-04 Thu 10:44>
+#? find-today-files, Time-stamp: <2024-01-04 Thu 10:59>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -42,12 +42,15 @@ readonly DIRECTORY=${DIRECTORY:=.}
 readonly EXTENSION=${EXTENSION:-}
 
 # Set color codes for formatting.
-readonly DIR_COLOR='\033[1;34m'         # Blue color.
+readonly DATE_TIME_COLOR='\033[0;36m'   # Cyan color for date and time.
+readonly DIR_COLOR='\033[1;34m'         # Blue color for directory names.
 readonly NC='\033[0m'                   # No color.
 
-# List all files modified TODAY only (since start of day only, i.e., 00:00).
+# List files modified TODAY only (since start of day, i.e., 00:00).
 if [[ -n "$EXTENSION" ]]; then
-    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - ${DIR_COLOR}%h/${NC}%f\n"
+    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 \
+         -printf "  ${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h/${NC}%f\n"
 else
-    find "$DIRECTORY" -type f -daystart -mtime 0 -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - ${DIR_COLOR}%h/${NC}%f\n"
+    find "$DIRECTORY" -type f -daystart -mtime 0 \
+         -printf "  ${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h/${NC}%f\n"
 fi
