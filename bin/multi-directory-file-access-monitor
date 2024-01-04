@@ -7,7 +7,7 @@
 #? This is free software: you are free to change and redistribute it.
 #? There is NO WARRANTY, to the extent permitted by law.
 
-##? Usage: file-access-monitor [options] [DIRECTORY]
+##? Usage: multi-directory-file-access-monitor [options] [DIRECTORY]
 ##?
 ##? Monitor file access events in a specified directory and its subdirectories,
 ##? logging them to a file.
