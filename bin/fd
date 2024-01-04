@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2023-11-17 Fri 11:48>
-#? Copyright (C) 2020-2023 Fabrice Niessen. All rights reserved.
+#? fd, Time-stamp: <2024-01-04 Thu 11:02>
+#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -41,8 +41,8 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
-# Define color.
-MATCH_COLOR="1;37;1;44"                 # White text on blue background.
+# Set color codes for formatting.
+readonly MATCH_COLOR="1;37;1;44"        # White text on blue background.
 
 # Find directories and colorize matching filenames, hiding permission denied
 # errors.
