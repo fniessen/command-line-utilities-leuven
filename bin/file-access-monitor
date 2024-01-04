@@ -53,19 +53,17 @@ fi
 # Disable -e for the find command.
 set +e
 
-# Use find to locate all subdirectories, hiding "permission denied" errors.
-subdirectories=($(find "$DIRECTORY" -type d 2>/dev/null))
+# Use find to locate all directories, hiding "permission denied" errors.
+directories=($(find "$DIRECTORY" -type d 2>/dev/null))
 
 # Re-enable -e.
 set -e
 
 # Check if there are subdirectories to monitor.
-num_directories_found=${#subdirectories[@]}
+num_directories_found=${#directories[@]}
 if [[ $num_directories_found -eq 1 ]]; then
+    # Display the warning if there are no subdirectories.
     printf >&2 'Warning: No subdirectories found to monitor under the root directory.\n'
-else
-    # Debugging: Print the number of subdirectories found.
-    printf "Number of subdirectories found: %s\n" "$num_directories_found"
 fi
 
 # Create a log file for file accesses.
@@ -103,13 +101,16 @@ cleanup() {
     exit
 }
 
-# Loop through each subdirectory and set up monitoring.
-for subdirectory in "${subdirectories[@]}"; do
-    # Monitor the subdirectory for access events and append to the log file.
-    inotifywait -m -r -e access "$subdirectory" >> "$log_file" &
+# Loop through each directory and set up monitoring.
+for directory in "${directories[@]}"; do
+    # Monitor the directory for access events and append to the log file.
+    inotifywait -m -r -e access "$directory" >> "$log_file" &
 done
 
-printf >&2 "Monitoring all file accesses. Press Ctrl+C to stop monitoring...\n"
+# Wait for a short time to ensure the messages from inotifywait are displayed first.
+sleep 1
+
+printf >&2 "\e[1;33mMonitoring all file accesses in $num_directories_found directories. Press Ctrl+C to stop monitoring...\e[0m\n"
 
 # Wait for user input to exit the monitoring.
 wait
