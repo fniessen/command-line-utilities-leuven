@@ -60,8 +60,12 @@ subdirectories=($(find "$DIRECTORY" -type d 2>/dev/null))
 set -e
 
 # Check if there are subdirectories to monitor.
-if [[ ${#subdirectories[@]} -eq 0 ]]; then
+num_directories_found=${#subdirectories[@]}
+if [[ $num_directories_found -eq 1 ]]; then
     printf >&2 'Warning: No subdirectories found to monitor under the root directory.\n'
+else
+    # Debugging: Print the number of subdirectories found.
+    printf "Number of subdirectories found: %s\n" "$num_directories_found"
 fi
 
 # Create a log file for file accesses.
@@ -72,11 +76,16 @@ if [[ -e "$log_file" ]]; then
     rm "$log_file"
 fi
 
-max_user_instances=4096
-current_value=$(sudo cat /proc/sys/fs/inotify/max_user_instances)
+# Determine the maximum number of instances.
+max_user_instances=$((num_directories_found > 128 ? num_directories_found : 128))
 
-# Increase max_user_instances.
-sudo sh -c "echo $max_user_instances > /proc/sys/fs/inotify/max_user_instances"
+current_value=$(sudo cat /proc/sys/fs/inotify/max_user_instances)
+printf "Current value of max_user_instances: %s\n" "$current_value"
+
+# Increase max_user_instances only if necessary.
+if [[ $max_user_instances -gt $current_value ]]; then
+    sudo sh -c "echo $max_user_instances > /proc/sys/fs/inotify/max_user_instances"
+fi
 
 # Loop through each subdirectory and set up monitoring.
 for subdirectory in "${subdirectories[@]}"; do
@@ -92,5 +101,7 @@ read
 # Terminate all inotifywait processes.
 pkill inotifywait
 
-# Restore the original value.
-sudo sh -c "echo $current_value > /proc/sys/fs/inotify/max_user_instances"
+# Restore the original value only if necessary.
+if [[ $max_user_instances -gt $current_value ]]; then
+    sudo sh -c "echo $current_value > /proc/sys/fs/inotify/max_user_instances"
+fi
