@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? f, Time-stamp: <2024-01-04 Thu 15:31>
+#? f, Time-stamp: <2024-01-04 Thu 17:49>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -25,7 +25,7 @@
 ##?   f                             list all directories and files
 ##?   f doc                         list directories or files matching doc in their name
 
-set -uo pipefail
+set -euo pipefail
 
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
@@ -43,6 +43,9 @@ eval "$args"
 
 # Set color codes for formatting.
 readonly MATCH_COLOR="1;37;1;44"        # White text on blue background.
+
+# Disable -e for the find commands.
+set +e
 
 # Find and colorize matching directory or file names, hiding permission denied
 # errors.
