@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? f, Time-stamp: <2024-01-04 Thu 15:08>
+#? f, Time-stamp: <2024-01-04 Thu 15:31>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -44,7 +44,7 @@ eval "$args"
 # Set color codes for formatting.
 readonly MATCH_COLOR="1;37;1;44"        # White text on blue background.
 
-# Find directories or files and colorize matching filenames, hiding permission
-# denied errors.
+# Find and colorize matching directory or file names, hiding permission denied
+# errors.
 fd "$PATTERN"
 ff "$PATTERN"
