@@ -1,4 +1,4 @@
-#+TITLE:     command-line-utilities-leuven
+#+TITLE:     Optimize your workflow: Command-line utilities for efficient task automation
 #+AUTHOR:    Fabrice Niessen
 #+EMAIL:     (concat "fniessen" at-sign "pirilampo.org")
 #+DESCRIPTION: Shell extra utilities
@@ -77,7 +77,7 @@ Swap the contents of two files.
 
 Run a command 100 times and print its average and median execution time.
 
-* Contribute to command-line-utilities-leuven
+* Contribute to the project!
 
 ** Best Practices
 
@@ -137,7 +137,7 @@ and maintainable. Here are some best practices to keep in mind:
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
 
-** Notes
+*** Notes
 
 Writing a Bash script in functions can make the code easier to reuse, more
 readable, and easier to test and debug, which can save time and reduce the
@@ -145,7 +145,7 @@ likelihood of errors.
 
 See https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-script-in-functions
 
-** Code style
+*** Code style
 
 - Beautiful Bash: Let's make reading and writing bash scripts fun again!
   https://fr.slideshare.net/a_z_e_t/inpresentation
@@ -163,10 +163,57 @@ See https://unix.stackexchange.com/questions/313256/why-write-an-entire-bash-scr
   ~function_name~ \\
   ~CONSTANT_NAME~
 
-** Shell formatter + checker
+*** Shell formatter + checker
 
 - https://github.com/mvdan/sh
 - https://google.github.io/styleguide/shell.xml
 - https://www.shellcheck.net/ (online checker!)
 
 http://www.skybert.net/emacs/bash-linting-in-emacs/
+
+** Report issues and enhancements
+
+Found a bug or have an idea for a new feature?  Share your thoughts on the
+[[https://github.com/fniessen/command-line-utilities-leuven/issues/new][GitHub issue tracker]].
+
+** Submit patches
+
+I welcome contributions in any form!  Feel free to submit patches to enhance the
+project.
+
+** Support development with a donation!
+
+If you find the "command-line-utilities-leuven" project (or any of
+[[https://github.com/fniessen/][my other projects]]) enhancing your Shell experience and simplifying your
+workflow, seize the opportunity to express your appreciation!  Help fuel future
+development by making a [[https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VCVAS6KPDQ4JC&lc=BE&item_number=command%2dline%2dutilities%2dleuven&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted][donation]] through PayPal. Your support is invaluable --
+thank you!
+
+Remember, regardless of donations, "command-line-utilities-leuven" will always
+remain freely accessible, both as in Belgian beer and as in speech.
+
+* License
+
+Copyright (C) 2012-2024 Fabrice Niessen
+
+Author: Fabrice Niessen \\
+Keywords: command-line utilities scripts
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see http://www.gnu.org/licenses/.
+
+#+html: <a href="http://opensource.org/licenses/GPL-3.0">
+#+html:   <img src="http://img.shields.io/:license-gpl-blue.svg" alt=":license-gpl-blue.svg" />
+#+html: </a>
+#+html: <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=VCVAS6KPDQ4JC&lc=BE&item_number=command%2dline%2dutilities%2dleuven&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted">
+#+html:   <img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="btn_donate_LG.gif" />
+#+html: </a>
