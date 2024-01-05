@@ -108,8 +108,15 @@ cleanup() {
 
 # Loop through each directory and set up monitoring.
 for directory in "${directories[@]}"; do
-    # Monitor the directory for access events and append to the log file.
-    inotifywait -m -r -e access "$directory" >> "$log_file" &
+    # Monitor directory for file creation, modification, and access (excluding
+    # certain events), and append to the log file.
+    inotifywait -m -r --exclude '/\.git/' -e create -e modify -e access --format '%w%f %e' "$directory" |
+        while read -r line; do
+            # Exclude events with ACCESS and ISDIR.
+            if [[ "$line" != *"ACCESS,ISDIR"* ]]; then
+                echo "$line"
+            fi
+        done >> "$log_file" &
 done
 
 # Wait for a short time to ensure the messages from inotifywait are displayed first.
