@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-01-04 Thu 16:03>
+#? find-today-files, Time-stamp: <2024-01-04 Thu 16:21>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -42,7 +42,7 @@ readonly DIRECTORY=${DIRECTORY:=.}
 readonly EXTENSION=${EXTENSION:-}
 
 # Set color codes for formatting.
-readonly DATE_TIME_COLOR='\033[0;36m'   # Cyan color for date and time.
+readonly DATE_TIME_COLOR='\033[1;41m'   # Red for date and time.
 readonly DIR_COLOR='\033[1;34m'         # Blue color for directory names.
 readonly NC='\033[0m'                   # No color.
 
