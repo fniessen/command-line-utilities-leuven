@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2023-12-27 Wed 10:43>
-#? Copyright (C) 2023 Fabrice Niessen
+#? find-recent-files, Time-stamp: <2024-01-05 Fri 15:40>
+#? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
 #? There is NO WARRANTY, to the extent permitted by law.
 
-##? Usage: find-recently-modified-files [options] [DIRECTORY]
+##? Usage: find-recent-files [options] [DIRECTORY]
 ##?
 ##? Find all files modified in the last 7 days (including today).
 ##?
