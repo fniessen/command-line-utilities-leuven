@@ -54,7 +54,7 @@ fi
 set +e
 
 # Use find to locate all READABLE directories, hiding "permission denied" errors.
-directories=($(find "$DIRECTORY" -type d -readable 2>/dev/null))
+directories=($(find "$DIRECTORY" -type d -readable -not -name '*.git*' 2>/dev/null))
 
 # Re-enable -e.
 set -e
