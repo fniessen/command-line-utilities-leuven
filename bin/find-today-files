@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-01-05 Fri 18:38>
+#? find-today-files, Time-stamp: <2024-01-18 Thu 17:16>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -15,7 +15,7 @@
 ##?   DIRECTORY                     starting directory
 ##?
 ##? Options:
-##?   -e, --extension=EXTENSION     filter files by extension
+##?   --ext=EXTENSION               filter files by extension
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 
@@ -38,8 +38,8 @@ eval "$args"
 # If DIRECTORY is an empty string, set it to the current directory (.).
 readonly DIRECTORY=${DIRECTORY:=.}
 
-# If EXTENSION is not provided, set it to an empty string.
-readonly EXTENSION=${EXTENSION:-}
+# If ext is not provided, set it to an empty string.
+readonly ext=${ext:-}
 
 # Set color codes for formatting.
 readonly DATE_TIME_COLOR='\033[1;41m'   # Red for date and time.
@@ -48,8 +48,8 @@ readonly FILE_COLOR='\033[1;33m'        # Yellow for filename
 readonly NC='\033[0m'                   # No color.
 
 # List files modified TODAY only (since start of day, i.e., 00:00).
-if [[ -n "$EXTENSION" ]]; then
-    find "$DIRECTORY" -type f -name "*.$EXTENSION" -daystart -mtime 0 2>/dev/null \
+if [[ -n "$ext" ]]; then
+    find "$DIRECTORY" -type f -name "*.$ext" -daystart -mtime 0 2>/dev/null \
          -printf "  ${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h${DIR_COLOR}/${NC}${FILE_COLOR}%f${NC}\n" \
         | sort -k4 \
         | sed 's|./||'
