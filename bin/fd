@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2024-01-04 Thu 15:21>
+#? fd, Time-stamp: <2024-02-06 Tue 09:00>
 #? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -25,7 +25,8 @@
 ##?   fd                            list all directories
 ##?   fd doc                        list directories matching doc in their name
 
-set -euo pipefail
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
 
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
@@ -40,6 +41,9 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 # Get command-line arguments.
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
 
 # Set color codes for formatting.
 readonly DIR_COLOR="1;34"               # Blue color for directory names.
