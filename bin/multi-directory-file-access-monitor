@@ -19,7 +19,8 @@
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 
-set -euo pipefail
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
 
 # Check if docopts command is available.
 if ! command -v docopts > /dev/null 2>&1; then
@@ -34,6 +35,9 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 # Get command-line arguments.
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
 
 # Check if inotifywait command is available.
 if ! command -v inotifywait > /dev/null 2>&1; then
