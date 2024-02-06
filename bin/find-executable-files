@@ -2,7 +2,8 @@
 
 # Find executable files in the current directory and its subdirectories.
 
-set -euo pipefail
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
 
 # Use the find command to search for executable files.
 find . -type f -executable -print
