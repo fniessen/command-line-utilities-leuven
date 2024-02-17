@@ -5,13 +5,19 @@
 
 # Define arrays for paths and file patterns.
 paths=(
+    # Recycle bin.
     "$HOME/.local/"
+
+    # Emacs related directories.
     "$HOME/.emacs.d/auctex-auto-generated-info/"
     "$HOME/.emacs.d/auto-save-list/"
     "$HOME/.emacs.d/backups/"
     "$HOME/.emacs.d/url/"
+
+    # Gnus cache directory.
     "$HOME/.gnus.d/cache/nnimap"
-    "$HOME/.dotfiles/lib/received-emails/"
+
+    # Dotfiles related directories.
     "$HOME/.dotfiles/plugins/oh-my-zsh/cache/"
 )
 
