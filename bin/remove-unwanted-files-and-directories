@@ -29,14 +29,14 @@ patterns=(
 
 # Remove unwanted files and directories from defined paths.
 for path in "${paths[@]}"; do
-    find "$path" -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
+    find "$path" -mindepth 1 -maxdepth 1 -exec rm -rf -v {} + 2>/dev/null
 done
 
 # Remove specific files.
-rm -v "$HOME/.emacs.d/projectile.cache"
-rm -v "$HOME/.lesshst"
+rm -v "$HOME/.emacs.d/projectile.cache" 2>/dev/null
+rm -v "$HOME/.lesshst" 2>/dev/null
 
 # Remove files matching patterns with sudo to handle permission denied errors.
 for pattern in "${patterns[@]}"; do
-    sudo find "$HOME" -iname "$pattern" -exec rm -rf -v {} +
+    sudo find "$HOME" -iname "$pattern" -exec rm -rf -v {} + 2>/dev/null
 done
