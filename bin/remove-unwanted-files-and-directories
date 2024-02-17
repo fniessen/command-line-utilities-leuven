@@ -15,10 +15,9 @@ find ~/.dotfiles/lib/received-emails/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {}
 find ~/.dotfiles/plugins/oh-my-zsh/cache/ -mindepth 1 -maxdepth 1 -exec rm -rf -v {} +
 
 rm -v ~/.emacs.d/projectile.cache
-# rm -v ~/.histfile
 rm -v ~/.lesshst
 
-find ~/ -iname 'nul' -exec rm -rf -v {} +
-find ~/ -iname 'null' -exec rm -rf -v {} +
-find ~/ -iname 'MDB_ODBC.Trace.Txt' -exec rm -rf -v {} +
-find ~/ -iname '*.exe.stackdump' -exec rm -rf -v {} +
+# Permission denied errors are suppressed using 'sudo'.
+sudo find ~/ -iname 'nul' -exec rm -rf -v {} +
+sudo find ~/ -iname 'null' -exec rm -rf -v {} +
+sudo find ~/ -iname '*.exe.stackdump' -exec rm -rf -v {} +
