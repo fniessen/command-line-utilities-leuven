@@ -15,7 +15,7 @@ paths=(
     "$HOME/.emacs.d/url/"
 
     # Gnus cache directory.
-    "$HOME/.gnus.d/cache/nnimap"
+    "$HOME/.gnus.d/cache/nnimap/"
 
     # Dotfiles related directories.
     "$HOME/.dotfiles/plugins/oh-my-zsh/cache/"
