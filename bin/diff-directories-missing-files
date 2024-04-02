@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Check if the correct number of arguments is provided.
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 directory1 directory2"
+    exit 1
+fi
+
+# Compare directories and display files that exist in one directory but not in
+# the other.
+diff <(find "$1" -printf '%P\n' | sort) <(find "$2" -printf '%P\n' | sort) \
+    | grep '^[<>]'
