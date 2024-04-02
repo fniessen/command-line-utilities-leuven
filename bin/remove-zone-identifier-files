@@ -51,7 +51,7 @@ if ! command -v getfattr &> /dev/null; then
 fi
 
 # Find and remove files ending with ":Zone.Identifier".
-find "$directory_path" -type f -name "*:Zone.Identifier" -print0 \
+find "$directory_path" -type f -name "*:Zone.Identifier" -print0 2>/dev/null \
     | while IFS= read -r -d '' file; do
     if [[ -e "$file" ]]; then
         rm "$file"
