@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+cleanup() {
+    # Remove temporary files.
+    rm -f "$temp_file1" "$temp_file2"
+}
+
+trap cleanup INT
+
 if [ $# -ne 2 ]; then
     printf >&2 "Usage: %s file1 file2\n" "$0"
     exit 2
@@ -40,5 +47,7 @@ else
     printf "%s\n" "$common_lines"
 fi
 
-# Remove temporary files.
-rm "$temp_file1" "$temp_file2"
+# Remove temporary files at the end of normal execution.
+cleanup
+
+exit 0
