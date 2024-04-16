@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+if [ $# -ne 2 ]; then
+    printf >&2 "Usage: %s file1 file2\n" "$0"
+    exit 2
+fi
+
+file1="$1"
+file2="$2"
+
+if [ ! -f "$file1" ] || [ ! -f "$file2" ]; then
+    printf >&2 "Error: Both files must exist.\n"
+    exit 2
+fi
+
+# Check if dos2unix is available.
+if ! command -v dos2unix &>/dev/null; then
+    printf >&2 "Error: dos2unix is not installed or not found in PATH.\n"
+    exit 2
+fi
+
+# Create temporary copies of the files.
+temp_file1=$(mktemp)
+temp_file2=$(mktemp)
+
+# Copy the content of the original files to the temporary files.
+cp "$file1" "$temp_file1"
+cp "$file2" "$temp_file2"
+
+# Convert temporary files to Unix format.
+dos2unix "$temp_file1" "$temp_file2" >/dev/null 2>&1
+
+# Sort both temporary files and use `comm` to find common lines.
+common_lines=$(comm -12 <(sort "$temp_file1") <(sort "$temp_file2"))
+
+if [ -z "$common_lines" ]; then
+    printf "No common lines found.\n"
+else
+    printf "Common lines:\n"
+    printf "%s\n" "$common_lines"
+fi
+
+# Remove temporary files.
+rm "$temp_file1" "$temp_file2"
