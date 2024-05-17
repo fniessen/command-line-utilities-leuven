@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-common-lines, Time-stamp: <2024-05-17 Fri 10:50>
+#? find-common-lines, Time-stamp: <2024-05-17 Fri 13:55>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -75,7 +75,7 @@ common_lines=$(comm -12 <(sort "$temp_file1") <(sort "$temp_file2"))
 if [ -z "$common_lines" ]; then
     printf "No common lines found.\n"
 else
-    printf "Common lines:\n"
+    printf >&2 "Common lines:\n"
     printf "%s\n" "$common_lines"
 fi
 
