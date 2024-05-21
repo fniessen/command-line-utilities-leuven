@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-files-with-2-strings, Time-stamp: <2024-05-21 Tue 15:33>
+#? find-files-with-2-strings, Time-stamp: <2024-05-21 Tue 15:51>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -9,7 +9,7 @@
 
 ##? Usage: find-files-with-2-strings [options] STRING1 STRING2
 ##?
-##? Search for STRING1 and STRING2 in AXVW files.
+##? Search for STRING1 and STRING2 in files.
 ##?
 ##? Arguments:
 ##?   STRING1                       string
@@ -77,9 +77,9 @@ if [[ "$debug" = true ]]; then
 
     # Check if both outputs are the same.
     if [[ "$output_command1" != "$output_command2" ]]; then
-        printf "Warning: The outputs of the two commands differ!\n"
-        printf "Output of the first command:\n%s\n\n" "$output_command1"
-        printf "Output of the second command:\n%s\n" "$output_command2"
+        printf "\n\e[33mWarning: The outputs of the two commands differ!\e[0m\n"
+        printf "\e[1mOutput of the first command:\e[0m\n%s\n\n" "$output_command1"
+        printf "\e[1mOutput of the second command:\e[0m\n%s\n" "$output_command2"
     else
         printf "%s\n" "$output_command1"
     fi
