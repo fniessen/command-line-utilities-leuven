@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+
+#? find-files-with-3-strings, Time-stamp: <2024-05-21 Tue 15:51>
+#? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: find-files-with-3-strings [options] STRING1 STRING2 STRING3
+##?
+##? Search for STRING1, STRING2, and STRING3 in files.
+##?
+##? Arguments:
+##?   STRING1                       string
+##?   STRING2                       string
+##?   STRING3                       string
+##?
+##? Options:
+##?   -d, --debug                   enable debug information
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+##?
+##? Examples:
+##?   find-files-with-3-strings "pattern1" "pattern2" "pattern3"
+##?                                 search for patterns in files
+##?   find-files-with-3-strings -d "pattern1" "pattern2" "pattern3"
+##?                                 search with debug information
+
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
+fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Get command-line arguments.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
+
+# Function for debugging.
+debug() {
+    if [[ "$debug" = true ]]; then
+        printf >&2 "Debug: %s\n" "$1"
+    fi
+}
+
+debug "STRING1: $STRING1"
+debug "STRING2: $STRING2"
+debug "STRING3: $STRING3"
+
+# Disable 'set -e' temporarily to handle potential errors during command
+# execution.
+set +e
+
+# Run the first command and capture its output.
+output_command1=$(grep -lZR --include="*" "$STRING1" 2>/dev/null \
+                      | xargs -0 grep -l "$STRING2" \
+                      | xargs -0 grep -l "$STRING3")
+
+# Run the second command and capture its output only if debug is true.
+if [[ "$debug" = true ]]; then
+    debug "Running additional debug command"
+    output_command2=$(find . -type f -print0 2>/dev/null \
+                          | xargs -0 -r grep --files-with-matches --null -- "$STRING1" \
+                          | xargs -0 -r grep --files-with-matches --null -- "$STRING2" \
+                          | xargs -0 -r grep --files-with-matches -- "$STRING3" \
+                          | sed 's#./##')
+
+    # Re-enable 'set -e' after command execution.
+    set -e
+
+    # Check if both outputs are the same.
+    if [[ "$output_command1" != "$output_command2" ]]; then
+        printf "\n\e[33mWarning: The outputs of the two commands differ!\e[0m\n"
+        printf "\e[1mOutput of the first command:\e[0m\n%s\n\n" "$output_command1"
+        printf "\e[1mOutput of the second command:\e[0m\n%s\n" "$output_command2"
+    else
+        printf "%s\n" "$output_command1"
+    fi
+else
+    printf "%s\n" "$output_command1"
+fi
