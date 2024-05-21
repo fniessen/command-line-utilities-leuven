@@ -1,22 +1,7 @@
 #!/usr/bin/env bash
 
-find -type f > names.lst
+# specify directory to search
+dir="./"
 
-> names.out
-
-TAB=$(echo -ne "\t")
-while read -r name; do
-    bn="$(basename "$name")"
-    name2="$(grep "$bn" names.lst | grep -v "$name")"
-    if [[ "$name2" != "" ]]; then
-        if ! (grep -q "^${name}${TAB}" names.out); then
-            size=$(stat --format=%s "$name")
-            size2=$(stat --format=%s "$name2")
-            echo -e "$name${TAB}$size" >> names.out
-            echo -e "$name2${TAB}$size" >> names.out
-        fi
-    fi
-done < names.lst
-
-cat names.out
-rm -f names.lst
+# find duplicate files and print their names
+find $dir -type f -printf "%f\n" | sort | uniq -d
