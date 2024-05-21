@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-files-with-2-strings, Time-stamp: <2024-05-21 Tue 15:51>
+#? find-files-with-2-strings, Time-stamp: <2024-05-21 Tue 16:11>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -60,29 +60,16 @@ debug "STRING2: $STRING2"
 # execution.
 set +e
 
-# Run the first command and capture its output.
-output_command1=$(grep -lZR --include="*" "$STRING1" 2>/dev/null \
-                      | xargs -0 grep -l "$STRING2")
+# Run the command and capture its output.
+output_command=$(find . -type f -print0 2>/dev/null \
+                     | xargs -0 -r grep --files-with-matches --null -- "$STRING1" \
+                     | xargs -0 -r grep --files-with-matches -- "$STRING2" \
+                     | sed 's#./##')
 
-# Run the second command and capture its output only if debug is true.
-if [[ "$debug" = true ]]; then
-    debug "Running additional debug command"
-    output_command2=$(find . -type f -print0 2>/dev/null \
-                          | xargs -0 -r grep --files-with-matches --null -- "$STRING1" \
-                          | xargs -0 -r grep --files-with-matches -- "$STRING2" \
-                          | sed 's#./##')
+# Re-enable 'set -e' after command execution.
+set -e
 
-    # Re-enable 'set -e' after command execution.
-    set -e
-
-    # Check if both outputs are the same.
-    if [[ "$output_command1" != "$output_command2" ]]; then
-        printf "\n\e[33mWarning: The outputs of the two commands differ!\e[0m\n"
-        printf "\e[1mOutput of the first command:\e[0m\n%s\n\n" "$output_command1"
-        printf "\e[1mOutput of the second command:\e[0m\n%s\n" "$output_command2"
-    else
-        printf "%s\n" "$output_command1"
-    fi
-else
-    printf "%s\n" "$output_command1"
+# Print the output only if it's not empty.
+if [[ -n "$output_command" ]]; then
+    printf "%s\n" "$output_command"
 fi
