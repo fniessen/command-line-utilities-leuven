@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-files-with-3-strings, Time-stamp: <2024-05-21 Tue 16:07>
+#? find-files-with-3-strings, Time-stamp: <2024-05-21 Tue 16:27>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -17,6 +17,7 @@
 ##?   STRING3                       string
 ##?
 ##? Options:
+##?   -i, --ignore-case             search case insensitively
 ##?   -d, --debug                   enable debug information
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
@@ -26,6 +27,8 @@
 ##?                                 search for patterns in files
 ##?   find-files-with-3-strings -d "pattern1" "pattern2" "pattern3"
 ##?                                 search with debug information
+##?   find-files-with-3-strings -i "pattern1" "pattern2" "pattern3"
+##?                                 search case insensitively
 
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
@@ -62,11 +65,17 @@ debug "STRING3: $STRING3"
 # execution.
 set +e
 
+# Prepare grep options.
+grep_options=""
+if [[ "${ignore_case}" = true ]]; then
+    grep_options="-i"
+fi
+
 # Run the command and capture its output.
 output_command=$(find . -type f -print0 2>/dev/null \
-                     | xargs -0 -r grep --files-with-matches --null -- "$STRING1" \
-                     | xargs -0 -r grep --files-with-matches --null -- "$STRING2" \
-                     | xargs -0 -r grep --files-with-matches -- "$STRING3" \
+                     | xargs -0 -r grep --files-with-matches --null $grep_options -- "$STRING1" \
+                     | xargs -0 -r grep --files-with-matches --null $grep_options -- "$STRING2" \
+                     | xargs -0 -r grep --files-with-matches $grep_options -- "$STRING3" \
                      | sed 's#./##')
 
 # Re-enable 'set -e' after command execution.
