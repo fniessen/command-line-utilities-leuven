@@ -8,6 +8,12 @@
 command=("$1")
 shift
 
+# Check if the command exists.
+if ! command -v "${command[0]}" > /dev/null 2>&1; then
+    printf >&2 "Error: Command '%s' not found.\n" "${command[0]}"
+    exit 2
+fi
+
 printf "Command: %s " "${command[*]}"
 for arg in "$@"; do
     printf "'%s' " "$arg"
