@@ -1,1 +1,0 @@
-find . -type f | sort | uniq -c | grep -v "^[ \t]*1 "

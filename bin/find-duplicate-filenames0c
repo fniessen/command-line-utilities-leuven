@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# specify directory to search
-
-find . -type f -printf "%h/%f\n" | sort | uniq -d -w1 | xargs -I{} find {} -ls
