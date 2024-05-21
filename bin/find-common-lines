@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-common-lines, Time-stamp: <2024-05-17 Fri 13:55>
+#? find-common-lines, Time-stamp: <2024-05-21 Tue 13:55>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -39,11 +39,12 @@ eval "$args"
 # Set -e to exit on non-zero command status.
 set -e
 
+# Function to remove temporary files.
 cleanup() {
-    # Remove temporary files.
     rm -f "$temp_file1" "$temp_file2"
 }
 
+# Register cleanup function to be called on script interrupt.
 trap cleanup INT
 
 # Check if files exist.
@@ -79,7 +80,7 @@ else
     printf "%s\n" "$common_lines"
 fi
 
-# Remove temporary files at the end of normal execution.
+# Explicitly call cleanup at script exit.
 cleanup
 
 exit 0
