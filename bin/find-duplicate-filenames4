@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
-# Find Duplicate File Names - By Dev (dk_mahadeva@yahoo.com)
+
 # If no command-line parameter (path to begin from) is specified, then the
 # default is to begin from the current (.) directory.
 
-# Set the path to the first command line argument or default to the current directory.
+# Set the path to the first command line argument or default to the current
+# directory.
 path=${1:-.}
 
 printf "Building file list...\n" >&2
 
-# Generate a list of all files, not directories, with their full paths.
-fullList=$(find "$path" -type f | awk -F '/' '{print $NF,$0}' | sort +0 -1)
+# Generate a list of all files, not directories, with their full paths, ignoring
+# .git contents.
+fullList=$(find "$path" -type f -not -path "*/.git/*" | awk -F '/' '{print $NF,$0}' | sort +0 -1)
 
-# Find duplicate file names.
-fileNames=$(find "$path" -type f | awk -F '/' '{print $NF}' | sort | uniq -d)
+# Find duplicate file names, ignoring .git contents.
+fileNames=$(find "$path" -type f -not -path "*/.git/*" | awk -F '/' '{print $NF}' | sort | uniq -d)
 
 # For each duplicate file name, print the corresponding full path.
 for EACH in $fileNames; do
