@@ -1,24 +1,59 @@
 #!/usr/bin/env bash
 
-# By default, case_sensitive is true.
-case_sensitive=true
+#? find-duplicate-filenames1, Time-stamp: <2024-05-22 Wed 11:54>
+#? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
 
-# Check if the first argument is provided and is equal to "--ignore-case".
-if [[ $# -ge 1 && $1 == "--ignore-case" ]]; then
-    case_sensitive=false
+##? Usage: find-duplicate-filenames1 [options] [DIRECTORY]
+##?
+##? Search for duplicate filenames.
+##?
+##? Arguments:
+##?   DIRECTORY                     directory to search (default is current directory)
+##?
+##? Options:
+##?   --ignore-case                 perform case-insensitive search
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
+
+# Check if docopts command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 'Error: docopts command not found.\n'
+    exit 2
 fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Get command-line arguments.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
+
+# Set default values if they are not provided by the user.
+ignore_case="${ignore_case:-true}"
+DIRECTORY="${DIRECTORY:-./}"
 
 # Function to convert filenames to lowercase if case-insensitive mode is enabled.
 to_lower() {
-    if [ "$case_sensitive" = true ]; then
+    if [ "$ignore_case" = true ]; then
         echo "$1"
     else
         echo "$1" | tr '[:upper:]' '[:lower:]'
     fi
 }
 
-# XXX Specify directory to search, ignoring .git contents.
-find -type f -not -path "*/.git/*" -printf "%f\n" \
+# Find duplicate files and print their names, ignoring .git contents.
+find "$DIRECTORY" -type f -not -path "*/.git/*" -printf "%f\n" \
     | awk '{ names[tolower($0)]++; }
            END { for (name in names) { if (names[name] > 1) { print name; } } }' \
     | sort
