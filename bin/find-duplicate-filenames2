@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Specify directory to search.
-dir="./"
-
-# Find duplicate files and print their names, ignoring .git contents.
-find "$dir" -type f -not -path "*/.git/*" -printf "%f\n" | sort | uniq -d
