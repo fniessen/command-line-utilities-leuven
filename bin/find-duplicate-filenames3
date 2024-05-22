@@ -8,8 +8,9 @@ path=${1:-.}
 # Print status message.
 printf "Building file list...\n" >&2
 
-# Find all files in specified directory and subdirectories, exclude hidden files.
-fullList=$(find "$(pwd)" "$path" -not -path '*/\.*' -type f -printf '%f\t%p\n' | sort -t $'\t' -k1,1)
+# Find all files in specified directory and subdirectories, exclude hidden files
+# and .git contents.
+fullList=$(find "$path" -not -path '*/\.*' -not -path '*/.git/*' -type f -printf '%f\t%p\n' | sort -t $'\t' -k1,1)
 
 # Find duplicated file names.
 fileNames=$(echo "$fullList" | cut -f1 | uniq -d)
