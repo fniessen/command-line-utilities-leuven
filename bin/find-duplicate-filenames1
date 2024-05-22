@@ -3,4 +3,4 @@
 # Specify directory to search, ignoring .git contents.
 
 find -type f -not -path "*/.git/*" -printf "%f\n" \
-    | awk '{ names[$0]++; } END { for (name in names) { if (names[name] > 1) { print name; } } }'
+    | awk '{ names[$0]++; } END { for (name in names) { if (names[name] > 1) { print name; } } }' | sort
