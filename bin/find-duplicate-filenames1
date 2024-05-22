@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-filenames1, Time-stamp: <2024-05-22 Wed 11:54>
+#? find-duplicate-filenames1, Time-stamp: <2024-05-22 Wed 12:01>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -54,6 +54,12 @@ to_lower() {
 
 # Find duplicate files and print their names, ignoring .git contents.
 find "$DIRECTORY" -type f -not -path "*/.git/*" -printf "%f\n" \
-    | awk '{ names[tolower($0)]++; }
-           END { for (name in names) { if (names[name] > 1) { print name; } } }' \
+    | awk '{ names[tolower($0)]++ }
+           END {
+               for (name in names) {
+                   if (names[name] > 1) {
+                       print name
+                   }
+               }
+           }' \
     | sort
