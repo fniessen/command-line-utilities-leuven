@@ -1,6 +1,24 @@
 #!/usr/bin/env bash
 
-# Specify directory to search, ignoring .git contents.
+# By default, case_sensitive is true.
+case_sensitive=true
 
+# Check if the first argument is provided and is equal to "--ignore-case".
+if [[ $# -ge 1 && $1 == "--ignore-case" ]]; then
+    case_sensitive=false
+fi
+
+# Function to convert filenames to lowercase if case-insensitive mode is enabled.
+to_lower() {
+    if [ "$case_sensitive" = true ]; then
+        echo "$1"
+    else
+        echo "$1" | tr '[:upper:]' '[:lower:]'
+    fi
+}
+
+# XXX Specify directory to search, ignoring .git contents.
 find -type f -not -path "*/.git/*" -printf "%f\n" \
-    | awk '{ names[$0]++; } END { for (name in names) { if (names[name] > 1) { print name; } } }' | sort
+    | awk '{ names[tolower($0)]++; }
+           END { for (name in names) { if (names[name] > 1) { print name; } } }' \
+    | sort
