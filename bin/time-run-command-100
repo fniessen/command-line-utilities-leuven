@@ -23,6 +23,9 @@ printf "\n"
 # Create an array to store the execution times in hundredths of a second.
 execution_times=()
 
+# Print the repeating sequence line.
+printf "0        1         2         3         4         5         6         7         8         9        10\n"
+
 # Run the command 100 times and store the execution times.
 for i in {1..100}; do
     start_time=$(date +%s%N) # Current time in nanoseconds.
@@ -42,11 +45,12 @@ for i in {1..100}; do
     # done
     # printf "(Exit Code: %d)\n" "$exit_code"
 
-    # Print a dot for each command run.
-    printf "."
+    # Print a number for each command run.
+    printf "%d" "$(( i % 10 ))"
 done
 
-echo # Print a new line after the dots.
+# Print a new line after the numbers.
+printf "\n"
 
 # Calculate the average execution time in hundredths of a second.
 sum=0
