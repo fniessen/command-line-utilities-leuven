@@ -46,7 +46,7 @@ if ! command -v inotifywait > /dev/null 2>&1; then
 fi
 
 # If DIRECTORY is an empty string, set it to the current directory (.).
-readonly DIRECTORY=${DIRECTORY:=.}
+readonly DIRECTORY="${DIRECTORY:-./}"
 
 # Check if the root directory exists.
 if [[ ! -d "$DIRECTORY" ]]; then
