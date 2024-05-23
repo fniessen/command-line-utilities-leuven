@@ -3,8 +3,8 @@
 # Remove unwanted files and directories from the system, potentially freeing up
 # disk space.
 
-# Define arrays for paths and file patterns.
-paths=(
+# Define arrays for directories and file patterns.
+directories=(
     # Recycle bin.
     "$HOME/.local/"
 
@@ -27,10 +27,10 @@ patterns=(
     '*.exe.stackdump'
 )
 
-# Remove unwanted files and directories from defined paths.
-for path in "${paths[@]}"; do
-    printf "Removing files and directories from %s...\n" "$path"
-    find "$path" -mindepth 1 -maxdepth 1 -exec rm -rf -v {} + 2>/dev/null
+# Remove unwanted files and directories from defined directories.
+for directory in "${directories[@]}"; do
+    printf "Removing files and directories from %s...\n" "$directory"
+    find "$directory" -mindepth 1 -maxdepth 1 -exec rm -rf -v {} + 2>/dev/null
 done
 
 # Remove specific files.
