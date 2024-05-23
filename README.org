@@ -137,6 +137,26 @@ and maintainable. Here are some best practices to keep in mind:
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
 
+*** Naming convention: path or directory?
+
+If your script specifically requires a directory path and you want to avoid
+ambiguity, ~DIRECTORY~ is a clearer choice.
+
+If your script needs to accept both file and directory paths and you want to
+keep the argument name more general, ~PATH~ might be more suitable.
+
+*** Find -- Excluding Git directories and files
+
+To exclude Git directories and files,
+
+: find "$DIRECTORY" -type f -not -path "*/.git/*" -printf "%f\n"
+: find "$DIRECTORY" -type d -name .git -prune -o -type f -printf "%f\n"
+
+the second option with the ~-prune~ action is generally better and more efficient.
+
+The ~-prune~ action stops find from descending into =.git= directories, making it
+more efficient as it avoids unnecessary checks within these directories.
+
 *** Notes
 
 Writing a Bash script in functions can make the code easier to reuse, more
