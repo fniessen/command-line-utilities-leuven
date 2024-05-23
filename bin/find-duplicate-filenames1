@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-filenames1, Time-stamp: <2024-05-22 Wed 12:01>
+#? find-duplicate-filenames1, Time-stamp: <2024-05-23 Thu 11:42>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -40,8 +40,8 @@ eval "$args"
 set -e
 
 # Set default values if they are not provided by the user.
-ignore_case="${ignore_case:-true}"
-DIRECTORY="${DIRECTORY:-./}"
+readonly ignore_case="${ignore_case:-true}"
+readonly DIRECTORY="${DIRECTORY:-./}"
 
 # Function to convert filenames to lowercase if case-insensitive mode is enabled.
 to_lower() {
@@ -53,7 +53,7 @@ to_lower() {
 }
 
 # Find duplicate files and print their names, ignoring .git contents.
-find "$DIRECTORY" -type f -not -path "*/.git/*" -printf "%f\n" \
+find "$DIRECTORY" -type d -name .git -prune -o -type f -printf "%f\n" \
     | awk '{ names[tolower($0)]++ }
            END {
                for (name in names) {
