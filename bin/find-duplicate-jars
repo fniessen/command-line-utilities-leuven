@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-jars, Time-stamp: <2024-02-06 Tue 09:00>
+#? find-duplicate-jars, Time-stamp: <2024-05-23 Thu 11:51>
 #? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -35,12 +35,12 @@ eval "$args"
 # Set -e to exit on non-zero command status.
 set -e
 
-# Specify the path to the directory containing the jar files.
-path="WEB-INF/lib"
-path=${path%/}
+# Specify the directory containing the jar files.
+directory="WEB-INF/lib"
+directory=${directory%/}
 
 # Find all the jar files in the directory.
-find "$path" -type f -name "*.jar" -print0 |
+find "$directory" -type f -name "*.jar" -print0 |
     while IFS= read -r -d '' jar_file; do
         # Extract the base name and the version number from the jar file name.
         base_name=$(basename "$jar_file" .jar)
@@ -48,7 +48,7 @@ find "$path" -type f -name "*.jar" -print0 |
         key=$(echo "$base_name" | sed "s/-${version}//")
 
         # Find all the jar files with the same base name.
-        versions=$(find "$path" -type f -name "$key*.jar")
+        versions=$(find "$directory" -type f -name "$key*.jar")
 
         # Sort the jar files by version number in reverse order.
         sorted_versions=$(echo "$versions" | sort -r -t- -k2,2)
