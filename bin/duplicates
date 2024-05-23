@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? duplicates, Time-stamp: <2024-02-06 Tue 11:02>
+#? duplicates, Time-stamp: <2024-05-23 Thu 12:04>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -46,7 +46,7 @@ else
     input="$FILE"
 fi
 
-sort "$input" | uniq -c | awk '$1 > 1 {print $2}'
+sort "$input" | uniq -d
 
 # Exit with a success code.
 exit 0
