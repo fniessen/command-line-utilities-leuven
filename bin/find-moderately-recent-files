@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2024-05-17 Fri 17:16>
+#? find-recently-modified-files, Time-stamp: <2024-05-23 Thu 12:00>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -40,7 +40,7 @@ eval "$args"
 set -e
 
 # Set the default directory if not provided.
-readonly DIRECTORY=${DIRECTORY:-.}
+readonly DIRECTORY="${DIRECTORY:-./}"
 
 # Build the find-recent-files command with the necessary options.
 find_cmd=("find-recent-files" "-e" "$extension" "30" "$DIRECTORY")

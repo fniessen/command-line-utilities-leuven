@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recent-files, Time-stamp: <2024-05-23 Thu 10:35>
+#? find-recent-files, Time-stamp: <2024-05-23 Thu 10:53>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -50,7 +50,7 @@ if ! [[ "$THRESHOLD" =~ ^[0-9]+$ ]]; then
 fi
 
 # Set the default directory if not provided.
-readonly DIRECTORY=${DIRECTORY:-.}
+readonly DIRECTORY="${DIRECTORY:-./}"
 
 # Define the format for printing file information.
 readonly PRINT_FORMAT="  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"

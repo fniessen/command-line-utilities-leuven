@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-02-06 Tue 08:58>
+#? find-today-files, Time-stamp: <2024-05-23 Thu 12:00>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -40,7 +40,7 @@ eval "$args"
 set -e
 
 # If DIRECTORY is an empty string, set it to the current directory (.).
-readonly DIRECTORY=${DIRECTORY:=.}
+readonly DIRECTORY="${DIRECTORY:-./}"
 
 # If ext is not provided, set it to an empty string.
 readonly ext=${ext:-}
