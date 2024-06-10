@@ -2,4 +2,4 @@
 
 # Delete all empty directories in the current directory and its subdirectories, except for the current directory.
 
-find . -type d -empty -delete -mindepth 1
+find . -mindepth 1 -type d -empty -delete
