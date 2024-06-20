@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-05-28 Tue 11:22>
+#? unbak, Time-stamp: <2024-06-20 Thu 13:28>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -44,9 +44,26 @@ set -e
 # Define the backup file extension constant.
 readonly BAK_EXTENSION="_bak"
 
+# Function to check if the file name contains '_bak'.
+function file_contains_bak {
+    local filename=$(basename -- "$1")
+    if [[ "$filename" == *"${BAK_EXTENSION}"* ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Check if the backed-up file exists.
 if [[ ! -f "$FILE" ]]; then
     printf >&2 "Error: Backed-up file '%s' does not exist.\n" "$FILE"
+    exit 2
+fi
+
+# Check if the file name contains '_bak'.
+if ! file_contains_bak "$FILE"; then
+    printf >&2 "Error: File '%s' does not contain '%s' in its name.\n" \
+           "$FILE" "$BAK_EXTENSION"
     exit 2
 fi
 
