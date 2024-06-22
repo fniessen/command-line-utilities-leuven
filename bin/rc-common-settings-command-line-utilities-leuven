@@ -1,1 +1,6 @@
-export PATH="$HOME/winbin:$PATH"
+#!/usr/bin/env bash
+
+# Add ~/winbin to PATH if not already present.
+if [[ ":$PATH:" != *":$HOME/winbin:"* ]]; then
+    export PATH="$HOME/winbin:$PATH";
+fi
