@@ -6,7 +6,8 @@
 set -uo pipefail
 
 printf "Searching for broken symbolic links...\n"
-broken_symlinks=$(find . -type l ! -exec test -e {} \; -print)
+# Use null termination (\0) for find and xargs to handle filenames with spaces.
+broken_symlinks=$(find . -type l ! -exec test -e {} \; -print0)
 printf "%s\n" "$broken_symlinks"
 
 # Check if any links were found.
@@ -25,7 +26,8 @@ fi
 
 # Remove the broken symbolic links.
 printf "Removing broken symbolic links...\n"
-printf "%s\n" "$broken_symlinks" | xargs rm -f
+# Use null termination (\0) for xargs to handle filenames with spaces.
+printf "%s\n" "$broken_symlinks" | xargs -0 rm -f
 
 printf "Done.\n"
 exit 0
