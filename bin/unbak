@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-06-20 Thu 13:28>
+#? unbak, Time-stamp: <2024-06-20 Thu 13:41>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -54,16 +54,19 @@ function file_contains_bak {
     fi
 }
 
+# ANSI color codes for bold text.
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # Check if the backed-up file exists.
 if [[ ! -f "$FILE" ]]; then
-    printf >&2 "Error: Backed-up file '%s' does not exist.\n" "$FILE"
+    printf >&2 "Error: Backed-up file '${bold}$FILE${normal}' does not exist.\n"
     exit 2
 fi
 
 # Check if the file name contains '_bak'.
 if ! file_contains_bak "$FILE"; then
-    printf >&2 "Error: File '%s' does not contain '%s' in its name.\n" \
-           "$FILE" "$BAK_EXTENSION"
+    printf >&2 "Error: File '${bold}$FILE${normal}' does not contain '${bold}$BAK_EXTENSION${normal}' in its name.\n"
     exit 2
 fi
 
@@ -85,7 +88,7 @@ fi
 # Check if the original file exists.
 original_file_with_extension="$original_file$extension"
 if [[ -f "$original_file_with_extension" ]]; then
-    read -p "The original file '$original_file_with_extension' already exists. Do you want to overwrite it? (y/N) " confirm
+    read -p "The original file '${bold}$original_file_with_extension${normal}' already exists. Do you want to overwrite it? (y/N) " confirm
     if [[ "$confirm" =~ ^[yY]$ ]]; then
         rm "$original_file_with_extension"
     else
@@ -97,7 +100,7 @@ fi
 # Restore the original file to its original path.
 original_directory=$(dirname -- "$FILE")
 mv "$FILE" "$original_directory/$original_file_with_extension"
-printf "File restored from %s to %s/%s.\n" \
+printf "File restored from ${bold}%s${normal} to ${bold}%s/%s${normal}.\n" \
        "$FILE" "$original_directory" "$original_file_with_extension"
 
 # Exit with a success code.
