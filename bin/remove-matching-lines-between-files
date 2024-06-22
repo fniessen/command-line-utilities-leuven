@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? remove-matching-lines-between-files, Time-stamp: <2024-02-06 Tue 09:00>
+#? remove-matching-lines-between-files, Time-stamp: <2024-05-28 Tue 11:18>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -22,9 +22,9 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Check if docopts command is available.
+# Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 'Error: docopts command not found.\n'
+    printf >&2 "Error: 'docopts' command not found.\n"
     exit 2
 fi
 
@@ -41,12 +41,12 @@ set -e
 
 # Check that both files exist.
 if [[ ! -f "$FILE_A" ]]; then
-    printf "Error: %s does not exist\n" "$FILE_A" >&2
+    printf >&2 "Error: '%s' does not exist\n" "$FILE_A"
     exit 2
 fi
 
 if [[ ! -f "$FILE_B" ]]; then
-    printf "Error: %s does not exist\n" "$FILE_B" >&2
+    printf >&2 "Error: '%s' does not exist\n" "$FILE_B"
     exit 2
 fi
 

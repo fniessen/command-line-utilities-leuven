@@ -18,9 +18,9 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Check if docopts command is available.
+# Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 'Error: docopts command not found.\n'
+    printf >&2 "Error: 'docopts' command not found.\n"
     exit 2
 fi
 
@@ -44,9 +44,9 @@ if [[ ! -d "$directory_path" ]]; then
     exit 1
 fi
 
-# Check if getfattr command is available.
+# Check if 'getfattr' command is available.
 if ! command -v getfattr &> /dev/null; then
-    printf "Error: 'getfattr' command not found. Please install the 'attr' package.\n"
+    printf >&2 "Error: 'getfattr' command not found. Please install the 'attr' package.\n"
     exit 2
 fi
 

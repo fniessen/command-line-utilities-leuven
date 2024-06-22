@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? replace-in-directory, Time-stamp: <2024-02-06 Tue 08:57>
+#? replace-in-directory, Time-stamp: <2024-05-28 Tue 11:21>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -24,9 +24,9 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Check if docopts command is available.
+# Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 'Error: docopts command not found.\n'
+    printf >&2 "Error: 'docopts' command not found.\n"
     exit 2
 fi
 
@@ -43,7 +43,7 @@ set -e
 
 # Check if directory exists.
 if [[ ! -d "$DIRECTORY" ]]; then
-    echo "Error: $DIRECTORY is not a directory."
+    printf >&2 "Error: '%s' is not a directory.\n" "$DIRECTORY"
     exit 2
 fi
 
@@ -63,7 +63,7 @@ num_files=$(find "$DIRECTORY" -type f | wc -l)
 curr_file=1
 for file in "$DIRECTORY"/*; do
     if [[ -f "$file" ]]; then
-        echo "Processing file $curr_file of $num_files: $file"
+        printf "Processing file %d of %d: %s\n" "$curr_file" "$num_files" "$file"
         sed -i "$sed_args" "$file"
         ((curr_file++))
     fi
