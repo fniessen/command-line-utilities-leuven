@@ -18,9 +18,9 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Check if docopts command is available.
+# Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 'Error: docopts command not found.\n'
+    printf >&2 "Error: 'docopts' command not found.\n"
     exit 2
 fi
 
