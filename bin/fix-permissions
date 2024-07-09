@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Change permissions of all files to 644.
+find . -type f -exec chmod 644 {} \;
+
+# Change permissions of all directories to 755.
+find . -type d -exec chmod 755 {} \;
