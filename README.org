@@ -137,6 +137,18 @@ and maintainable. Here are some best practices to keep in mind:
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
 
+*** Check for required commands at the beginning
+
+#+begin_src shell
+# Check if required commands are available.
+for cmd in docopts nmap; do
+    if ! command -v "$cmd" > /dev/null 2>&1; then
+        printf >&2 "Error: '$cmd' command not found."
+        exit 2
+    fi
+done
+#+end_src
+
 *** Naming convention: path or directory?
 
 If your script specifically requires a directory path and you want to avoid
