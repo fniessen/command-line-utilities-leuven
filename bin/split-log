@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+#? split-log, Time-stamp: <2024-07-24 Wed 11:05>
+#? Copyright (C) 2024 Fabrice Niessen
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: split-log [options] FILE
+##?
+##? Splits a large log file into smaller files and converts it from UTF-16 to
+##? UTF-8 if necessary.
+##?
+##? Arguments:
+##?   FILE                          The log file to split
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
+
+# Check if 'docopts' command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 "Error: 'docopts' command not found.\n"
+    exit 2
+fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Get command-line arguments.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
+
+# Define the input log file and the desired output prefix.
+LOGFILE="$1"
+BASENAME=$(basename "$LOGFILE" .log)
+OUTPREFIX="${BASENAME}_part_"
+SIZE=1G
+
+# Check if the input log file exists.
+if [[ ! -f "$LOGFILE" ]]; then
+    printf >&2 "Log file %s does not exist.\n" "$LOGFILE"
+    exit 2
+fi
+
+# Detect if the file is UTF-16 encoded.
+ENCODING=$(file -b --mime-encoding "$LOGFILE")
+
+if [[ "$ENCODING" == "utf-16le" || "$ENCODING" == "utf-16be" ]]; then
+    printf "Converting %s from UTF-16 to UTF-8... " "$LOGFILE"
+    CONVERTED_LOGFILE="${LOGFILE%.log}_utf8.log"
+    iconv -f UTF-16 -t UTF-8 "$LOGFILE" -o "$CONVERTED_LOGFILE"
+    if [[ $? -ne 0 ]]; then
+        printf >&2 "Failed to convert %s to UTF-8.\n" "$LOGFILE"
+        exit 2
+    fi
+    printf "Completed successfully\n" "$LOGFILE"
+    LOGFILE="$CONVERTED_LOGFILE"
+fi
+
+# Start the split process in the background.
+split -b $SIZE -d --additional-suffix=.log "$LOGFILE" "$OUTPREFIX" &
+SPLIT_PID=$!
+
+# Disable 'set -e' temporarily to handle potential errors during command
+# execution.
+set +e
+
+# Show a progress indicator.
+printf "Splitting in progress:\n"
+while kill -0 "$SPLIT_PID" 2> /dev/null; do
+    # Count the number of split files created.
+    FILE_COUNT=$(ls "${OUTPREFIX}"*.log 2> /dev/null | wc -l)
+    # Display progress.
+    printf "\rNumber of files created: %d" "$FILE_COUNT"
+    sleep 1
+done
+
+# Re-enable 'set -e' after command execution.
+set -e
+
+# Wait for the split process to finish.
+wait "$SPLIT_PID"
+
+printf "\nLog file has been split into smaller files of approximately %s each.\n" "$SIZE"
