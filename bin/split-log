@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-07-24 Wed 11:05>
+#? split-log, Time-stamp: <2024-07-24 Wed 11:15>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -66,6 +66,9 @@ if [[ "$ENCODING" == "utf-16le" || "$ENCODING" == "utf-16be" ]]; then
     LOGFILE="$CONVERTED_LOGFILE"
 fi
 
+# Remove BOM if present.
+sed -i '1s/^\xEF\xBB\xBF//' "$LOGFILE"
+
 # Start the split process in the background.
 split -b $SIZE -d --additional-suffix=.log "$LOGFILE" "$OUTPREFIX" &
 SPLIT_PID=$!
@@ -90,4 +93,5 @@ set -e
 # Wait for the split process to finish.
 wait "$SPLIT_PID"
 
-printf "\nLog file has been split into smaller files of approximately %s each.\n" "$SIZE"
+printf "\nLog file has been split into smaller files of approximately %s each.\n" \
+       "$SIZE"
