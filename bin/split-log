@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-07-24 Wed 11:15>
+#? split-log, Time-stamp: <2024-07-24 Wed 11:18>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -48,6 +48,12 @@ SIZE=1G
 # Check if the input log file exists.
 if [[ ! -f "$LOGFILE" ]]; then
     printf >&2 "Log file %s does not exist.\n" "$LOGFILE"
+    exit 2
+fi
+
+# Ensure the log file has a '.log' extension.
+if [[ "$LOGFILE" != *.log ]]; then
+    printf >&2 "Log file must have a .log extension.\n"
     exit 2
 fi
 
