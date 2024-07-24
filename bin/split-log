@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-07-24 Wed 12:13>
+#? split-log, Time-stamp: <2024-07-24 Wed 12:22>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -25,7 +25,7 @@ set -uo pipefail
 # Check if required commands are available.
 for cmd in docopts bc; do
     if ! command -v "$cmd" > /dev/null 2>&1; then
-        printf >&2 "Error: '$cmd' command not found.\n"
+        printf >&2 "Error: '%s' command not found.\n" "$cmd"
         exit 2
     fi
 done
@@ -45,17 +45,17 @@ set -e
 LOGFILE="$1"
 BASENAME=$(basename "$LOGFILE" .log)
 OUTPREFIX="${BASENAME}_part_"
-SIZE=1G
+SIZE=2G
 
 # Check if the input log file exists.
 if [[ ! -f "$LOGFILE" ]]; then
-    printf >&2 "Log file %s does not exist.\n" "$LOGFILE"
+    printf >&2 "Error: Log file %s does not exist.\n" "$LOGFILE"
     exit 2
 fi
 
 # Ensure the log file has a '.log' extension.
 if [[ "$LOGFILE" != *.log ]]; then
-    printf >&2 "Log file must have a .log extension.\n"
+    printf >&2 "Error: Log file must have a .log extension.\n"
     exit 2
 fi
 
@@ -100,7 +100,8 @@ sed -i 's/\r$//' "$LOGFILE"
 printf "Done\n"
 
 # Start the split process in the background.
-split -b $SIZE -d --additional-suffix=.log "$LOGFILE" "$OUTPREFIX" &
+# Add `--numeric-suffixes=1` to start numbering at 01.
+split -b $SIZE -d --additional-suffix=.log --numeric-suffixes=1 "$LOGFILE" "$OUTPREFIX" &
 SPLIT_PID=$!
 
 # Disable 'set -e' temporarily to handle potential errors during command
