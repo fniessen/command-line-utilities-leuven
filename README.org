@@ -143,7 +143,7 @@ understand, maintain, and debug.
 # Check if required commands are available.
 for cmd in docopts nmap; do
     if ! command -v "$cmd" > /dev/null 2>&1; then
-        printf >&2 "Error: '$cmd' command not found.\n"
+        printf >&2 "Error: '%s' command not found.\n" "$cmd"
         exit 2
     fi
 done
