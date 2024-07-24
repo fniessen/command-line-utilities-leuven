@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-07-24 Wed 11:59>
+#? split-log, Time-stamp: <2024-07-24 Wed 12:13>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -22,11 +22,13 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Check if 'docopts' command is available.
-if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 "Error: 'docopts' command not found.\n"
-    exit 2
-fi
+# Check if required commands are available.
+for cmd in docopts bc; do
+    if ! command -v "$cmd" > /dev/null 2>&1; then
+        printf >&2 "Error: '$cmd' command not found.\n"
+        exit 2
+    fi
+done
 
 # Extract help and version information from the script.
 help=$(grep "^##?" "$0" | cut -c 5-)
@@ -53,8 +55,20 @@ fi
 
 # Ensure the log file has a '.log' extension.
 if [[ "$LOGFILE" != *.log ]]; then
-    printf >&2 "Error: Log file must have a .log extension.\n"
+    printf >&2 "Log file must have a .log extension.\n"
     exit 2
+fi
+
+# Get the file size in bytes.
+FILE_SIZE=$(stat -c%s "$LOGFILE")
+
+# Convert SIZE to bytes using bc
+SIZE_BYTES=$(echo "$SIZE" | sed -e 's/G/*1024*1024*1024/' -e 's/M/*1024*1024/' -e 's/K/*1024/' -e 's/^ *//' -e 's/ *$//' | bc)
+
+# Check if the file is smaller than the specified size; exit if it is.
+if [[ "$FILE_SIZE" -lt "$SIZE_BYTES" ]]; then
+    printf "Log file is smaller than %s; skipping split.\n" "$SIZE"
+    exit 0
 fi
 
 # Detect if the file is UTF-16 encoded.
