@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-07-24 Wed 11:18>
+#? split-log, Time-stamp: <2024-07-24 Wed 11:59>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -53,7 +53,7 @@ fi
 
 # Ensure the log file has a '.log' extension.
 if [[ "$LOGFILE" != *.log ]]; then
-    printf >&2 "Log file must have a .log extension.\n"
+    printf >&2 "Error: Log file must have a .log extension.\n"
     exit 2
 fi
 
@@ -64,16 +64,26 @@ if [[ "$ENCODING" == "utf-16le" || "$ENCODING" == "utf-16be" ]]; then
     printf "Converting %s from UTF-16 to UTF-8... " "$LOGFILE"
     CONVERTED_LOGFILE="${LOGFILE%.log}_utf8.log"
     iconv -f UTF-16 -t UTF-8 "$LOGFILE" -o "$CONVERTED_LOGFILE"
+
     if [[ $? -ne 0 ]]; then
-        printf >&2 "Failed to convert %s to UTF-8.\n" "$LOGFILE"
+        printf >&2 "\nFailed to convert %s to UTF-8.\n" "$LOGFILE"
         exit 2
     fi
-    printf "Completed successfully\n" "$LOGFILE"
-    LOGFILE="$CONVERTED_LOGFILE"
+
+    # Replace the original log file with the UTF-8 version.
+    mv "$CONVERTED_LOGFILE" "$LOGFILE"
+    printf "Done\n"
 fi
 
-# Remove BOM if present.
-sed -i '1s/^\xEF\xBB\xBF//' "$LOGFILE"
+# Remove BOM from all lines.
+printf "Removing BOM characters... "
+sed -i 's/^\xEF\xBB\xBF//' "$LOGFILE"
+printf "Done\n"
+
+# Remove trailing ^M characters from all lines.
+printf "Removing trailing ^M characters... "
+sed -i 's/\r$//' "$LOGFILE"
+printf "Done\n"
 
 # Start the split process in the background.
 split -b $SIZE -d --additional-suffix=.log "$LOGFILE" "$OUTPREFIX" &
