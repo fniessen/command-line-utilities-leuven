@@ -3,7 +3,7 @@
 # The overhead of starting a new process ('file' command) for each file in the
 # first command (\;) causes it to be much slower.
 #
-# find . -type f -exec file --mime {} \; | grep -v '.git' | grep "charset=utf-16"
+# find . -path '*/.git/*' -prune -o -type f -exec file --mime {} \; | grep "charset=utf-16"
 #
 # In the second command (+), combining all file arguments into a single
 # invocation reduces this overhead, leading to an execution 4x faster:
