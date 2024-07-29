@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Remove blank lines from the output.
+sed '/^$/d'
