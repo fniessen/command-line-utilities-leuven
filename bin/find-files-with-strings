@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-files-with-strings, Time-stamp: <2024-07-30 Tue 11:23>
+#? find-files-with-strings, Time-stamp: <2024-07-30 Tue 12:56>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -112,3 +112,6 @@ set -e
 if [[ -n "$output_command" ]]; then
     printf "%s\n" "$output_command"
 fi
+
+# Exit with a success code.
+exit 0
