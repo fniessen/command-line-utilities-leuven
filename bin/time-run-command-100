@@ -14,9 +14,9 @@ if ! command -v "${command[0]}" > /dev/null 2>&1; then
     exit 2
 fi
 
-printf "Command: %s " "${command[*]}"
+printf "Command: \033[1m%s\033[0m " "${command[*]}"
 for arg in "$@"; do
-    printf "'%s' " "$arg"
+    printf "'\033[1m%s\033[0m' " "$arg"
 done
 printf "\n"
 
