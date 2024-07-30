@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-files-with-strings, Time-stamp: <2024-07-30 Tue 10:55>
+#? find-files-with-strings, Time-stamp: <2024-07-30 Tue 11:23>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -98,6 +98,9 @@ done
 
 # Combine find and grep commands.
 complete_command="$find_command | $grep_command | tr '\0' '\n'"
+
+# Debug output for the complete command.
+debug "Complete command: $complete_command"
 
 # Execute the command and capture its output.
 output_command=$(eval "$complete_command")
