@@ -98,6 +98,14 @@ and maintainable. Here are some best practices to keep in mind:
 
 - Use functions to avoid code repetition.
 
+  The preferred and most commonly used style in /modern shell scripting/ is:
+
+  #+begin_src shell
+  name() {
+      ...
+  }
+  #+end_src
+
 - Use ~set -u~ to treat unset variables as errors.
 
 - Use ~set -e~ to exit immediately if a command fails.
@@ -136,6 +144,15 @@ and maintainable. Here are some best practices to keep in mind:
 
 By following these best practices, you can write Bash scripts that are easier to
 understand, maintain, and debug.
+
+*** Temporarily disable 'set -e' for diff command execution
+
+#+begin_src shell
+# Disable 'set -e' temporarily to handle potential errors during command execution.
+set +e
+diff_output=$(diff "$FILE" "$original_directory/$original_file_with_extension")
+set -e
+#+end_src
 
 *** Check for required commands at the beginning
 
