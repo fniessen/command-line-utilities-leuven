@@ -2,8 +2,11 @@
 
 # Date Modified.
 
-# find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
+# Search for files containing the specified pattern in their names
+# (case-insensitive), print their modification timestamp, sort the results by
+# the timestamp, and filter the output.
+
 find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
     | sort -n \
-    | cut -d " " -f 2- \ \
+    | cut -d " " -f 2- \
     | grep -i "$@";
