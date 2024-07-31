@@ -16,7 +16,7 @@ MAGENTA='\033[0;45m'
 NC='\033[0m' # No Color
 
 # Use find to locate files matching the pattern and avoid .git directories.
-find . -type d -name ".git" -prune -o -type f -iname "*$@*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
+find . -type d -name ".git" -prune -o -type f -iname "*$@*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" 2>/dev/null \
     | sort -n \
     | cut -d " " -f 2- \
     | grep -i "$@" \
