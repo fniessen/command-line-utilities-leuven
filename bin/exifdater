@@ -6,35 +6,35 @@
 # program to sequentially extract the image creation date from
 # JPEG EXIF headers.
 
-function usage() {
+usage() {
     if [[ $# -ne 1 ]]; then
         echo "Usage: $0 /path/to/jpg/directory"
         exit 0
     fi
 }
 
-function exiftagsexist() {
+exiftagsexist() {
     if ! which exiftool > /dev/null 2>&1; then
         echo "Unable to locate exiftool binary. Please make sure it is installed and is in your path."
         exit 0
     fi
 }
 
-function gotodir() {
+gotodir() {
     if ! cd $1 > /dev/null 2>&1; then
         echo "Directory does not exist. Please try again."
         exit 0
     fi
 }
 
-function jpgexist() {
+jpgexist() {
     if ! find . -iname "*.jpg" -type f >/dev/null 2>&1; then
         echo "There are no JPEG pictures in this directory. Please try again."
         exit 0
     fi
 }
 
-function myexifdater() {
+myexifdater() {
     for i in *.jpg *.JPG *.jpeg *.JPEG; do
         echo $i
         create_date=$(exiftool "$i" 2>&1 | grep "Create Date" | cut -d" " -f3 | sed -e 's/:/-/g')
