@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-06-20 Thu 13:41>
+#? unbak, Time-stamp: <2024-07-31 Wed 15:45>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -85,20 +85,31 @@ if [[ -z "$extension" ]]; then
     original_file="${filename%$BAK_EXTENSION}"
 fi
 
+original_directory=$(dirname -- "$FILE")
+
 # Check if the original file exists.
 original_file_with_extension="$original_file$extension"
-if [[ -f "$original_file_with_extension" ]]; then
-    read -p "The original file '${bold}$original_file_with_extension${normal}' already exists. Do you want to overwrite it? (y/N) " confirm
-    if [[ "$confirm" =~ ^[yY]$ ]]; then
-        rm "$original_file_with_extension"
+if [[ -f "$original_directory/$original_file_with_extension" ]]; then
+    printf "The original file '${bold}$original_file_with_extension${normal}' already exists.\n"
+set +e
+    diff_output=$(diff "$FILE" "$original_directory/$original_file_with_extension")
+set -e
+    if [[ -n "$diff_output" ]]; then
+        printf "Differences between backed-up file and the current file:\n\n%s\n" "$diff_output"
     else
+        printf "No differences found between the backed-up file and the current file.\n"
+    fi
+
+    read -p "Do you want to overwrite the existing file with the backed-up file? (y/N) " confirm
+    if [[ ! "$confirm" =~ ^[yY]$ ]]; then
         printf "Operation cancelled.\n"
         exit 0
     fi
+
+    rm "$original_directory/$original_file_with_extension"
 fi
 
 # Restore the original file to its original path.
-original_directory=$(dirname -- "$FILE")
 mv "$FILE" "$original_directory/$original_file_with_extension"
 printf "File restored from ${bold}%s${normal} to ${bold}%s/%s${normal}.\n" \
        "$FILE" "$original_directory" "$original_file_with_extension"
