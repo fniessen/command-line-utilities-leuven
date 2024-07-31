@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-files-with-strings, Time-stamp: <2024-07-30 Tue 12:56>
+#? find-files-with-strings, Time-stamp: <2024-07-31 Wed 09:17>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -25,10 +25,10 @@
 ##?                                 search for a single pattern in files
 ##?   find-files-with-strings "pattern1" "pattern2"
 ##?                                 search for two patterns in files
-##?   find-files-with-strings -d "pattern1" "pattern2"
-##?                                 search with debug information
 ##?   find-files-with-strings -i "pattern1" "pattern2"
 ##?                                 search case insensitively
+##?   find-files-with-strings -d "pattern1" "pattern2"
+##?                                 search with debug information
 ##?   find-files-with-strings "pattern1" "pattern2" "pattern3"
 ##?                                 search for multiple patterns in files
 
@@ -110,7 +110,8 @@ set -e
 
 # Print the output only if it's not empty.
 if [[ -n "$output_command" ]]; then
-    printf "%s\n" "$output_command"
+    # Remove leading './' from each line of the output.
+    printf "%s\n" "$output_command" | sed 's#^\./##'
 fi
 
 # Exit with a success code.
