@@ -39,7 +39,7 @@ find . -type d -name ".git" -prune -o -type f -iname "*$@*" -printf "%T@ %TY-%Tm
         } else if (age_in_days == 1) {
             color = ORANGE;             # Yesterday''s Changes (1 day).
         } else if (age_in_days <= 7) {
-            color = YELLOW;             # Recent Changes (0-7 days).
+            color = YELLOW;             # Recent Changes (2-7 days).
         } else if (age_in_days <= 30) {
             color = GREEN;              # Moderate Age (8-30 days).
         } else if (age_in_days <= 90) {
@@ -49,5 +49,5 @@ find . -type d -name ".git" -prune -o -type f -iname "*$@*" -printf "%T@ %TY-%Tm
         }
 
         # Print the timestamp in color and the rest of the line in default color.
-        printf "%s%s - %s%s\n", color, timestamp_part, NC, file_part;
+        printf "%s%s%s - %s\n", color, timestamp_part, NC, file_part;
     }'
