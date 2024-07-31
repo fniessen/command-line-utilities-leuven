@@ -19,6 +19,8 @@ directories=(
 
     # Dotfiles related directories.
     "$HOME/.dotfiles/plugins/oh-my-zsh/cache/"
+
+    ".cache/org-persist/"
 )
 
 patterns=(
