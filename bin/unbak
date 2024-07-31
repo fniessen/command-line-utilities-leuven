@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-07-31 Wed 15:45>
+#? unbak, Time-stamp: <2024-07-31 Wed 16:09>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -45,7 +45,7 @@ set -e
 readonly BAK_EXTENSION="_bak"
 
 # Function to check if the file name contains '_bak'.
-function file_contains_bak {
+file_contains_bak() {
     local filename=$(basename -- "$1")
     if [[ "$filename" == *"${BAK_EXTENSION}"* ]]; then
         return 0
@@ -86,16 +86,19 @@ if [[ -z "$extension" ]]; then
 fi
 
 original_directory=$(dirname -- "$FILE")
+original_file_with_extension="$original_file$extension"
 
 # Check if the original file exists.
-original_file_with_extension="$original_file$extension"
 if [[ -f "$original_directory/$original_file_with_extension" ]]; then
     printf "The original file '${bold}$original_file_with_extension${normal}' already exists.\n"
-set +e
+
+    # Disable 'set -e' temporarily to handle potential errors during command execution.
+    set +e
     diff_output=$(diff "$FILE" "$original_directory/$original_file_with_extension")
-set -e
+    set -e
+
     if [[ -n "$diff_output" ]]; then
-        printf "Differences between backed-up file and the current file:\n\n%s\n" "$diff_output"
+        printf "Differences between backed-up file and the current file:\n\n%s\n\n" "$diff_output"
     else
         printf "No differences found between the backed-up file and the current file.\n"
     fi
