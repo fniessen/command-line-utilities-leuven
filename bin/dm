@@ -6,7 +6,44 @@
 # (case-insensitive), print their modification timestamp, sort the results by
 # the timestamp, and filter the output.
 
+# Color codes.
+RED='\033[0;31m'
+ORANGE='\033[0;33m' # Orange is not directly supported, so using light red
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
 find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
     | sort -n \
     | cut -d " " -f 2- \
-    | grep -i "$@";
+    | grep -i "$@" \
+    | awk -v RED="$RED" -v ORANGE="$ORANGE" -v GREEN="$GREEN" -v YELLOW="$YELLOW" -v BLUE="$BLUE" -v NC="$NC" '
+    {
+        # Extract the entire timestamp part.
+        timestamp_part = $1 " " $2 " " $3;
+        # Extract the rest of the line, starting after the timestamp part.
+        file_part = substr($0, length(timestamp_part) + 4);
+
+        # Convert timestamp to seconds since epoch.
+        split($1, date, "-");
+        timestamp = mktime(date[1] " " date[2] " " date[3] " 00 00 00");
+        now = systime();
+        age_in_days = int((now - timestamp) / 86400);
+
+        # Determine color based on age.
+        if (age_in_days == 0) {
+            color = RED;
+        } else if (age_in_days == 1) {
+            color = ORANGE;
+        } else if (age_in_days < 7) {
+            color = GREEN;
+        } else if (age_in_days < 30) {
+            color = YELLOW;
+        } else {
+            color = BLUE;
+        }
+
+        # Print the timestamp in color and the rest of the line in default color.
+        printf "%s%s - %s%s\n", color, timestamp_part, NC, file_part;
+    }'
