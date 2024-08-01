@@ -18,6 +18,9 @@ NC='\033[0m' # No Color
 # Check if a pattern argument was provided; if not, use a default pattern.
 PATTERN="${1:-*}"
 
+# TODO: Sort on seconds and milliseconds like in:
+# find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head
+
 # Use find to locate files matching the pattern and avoid .git directories.
 find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" 2>/dev/null \
     | sort -n \
