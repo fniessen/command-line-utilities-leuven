@@ -166,39 +166,10 @@ We sometimes have to check that the ~PATH~ is set right, so that Cygwin
 executables (for example, ~whoami~ and ~hostname~) are found before their Windows
 counterpart -- to avoid problems of spurious ~\r~ added to the output.
 
-#+begin_src shell
-command_exists() {
-    local cmd="$1"
-    [[ "$(command -v "$cmd")" = "/usr/bin/$cmd" ]]
-}
-
-check_cygwin_executables() {
-    for x in "$@"; do
-        command_exists "$x" || die "$x is not a Cygwin executable."
-    done
-}
-#+end_src
-
-** Find the name of the parent process
-
-The following is supposed to work on Linux, but doesn't on Cygwin.
-
-#+begin_src shell
-pname() {
-    ps -o command= -p "$PPID" | tail -n 1 | awk '{print $1}' | awk -F/ '{print $NF}'
-}
-#+end_src
-
 ** Find files
 
 #+begin_src shell :tangle no
-find . -type d -iname "*$1*" -printf '%P\n'
-#+end_src
-
-#+begin_src shell
-find_files() {
-    find . -type f -iname "*$1*" -printf '%P\n'
-}
+find . -type f -iname "*$1*" -printf '%P\n'
 #+end_src
 
 Alternatively, if piping commands, avoid *buffered output* by applying ~stdbuf -oL~
@@ -220,7 +191,7 @@ http://www.voidtools.com/forum/viewtopic.php?p=6200#p6200
 #+begin_src shell
 # List all files modified YESTERDAY.
 yesterday() {
-    find . -daystart -mtime 1 -type f -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+    find . -daystart -mtime 1 -type f -printf "%CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 }
 #+end_src
 
@@ -249,33 +220,10 @@ Options (to ~es~, Everything):
 -n <num> Limit the amount of results shown to <num>.
 -s Sort by full path.
 
-#+begin_src shell :tangle bin/dc
-# Date Created.
-find . -iname "*"$@"*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" \
-    | sort -n \
-    | cut -d " " -f 2- \ \
-    | grep -i "$@";
-#+end_src
-
-#+begin_src shell :tangle bin/dm
-# Date Modified.
-# find . -mmin 1440 -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
-find . -iname "*"$@"*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" \
-    | sort -n \
-    | cut -d " " -f 2- \ \
-    | grep -i "$@";
-#+end_src
-
 ~dm~ will show files and folders that have been altered in content today (their
 "date modified" field has been changed).
 
 XXX Includes copies?
-
-#+begin_src shell
-last_modified() {
-    find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head
-}
-#+end_src
 
 #+begin_src shell :tangle bin/rc
 # Recent Change.
@@ -500,10 +448,6 @@ blat -to "$MAILTO" \
 # mail ends here
 #+end_src
 
-** grep2 -- Find all AXVW files with two strings (Show AXVW files with both matches only)
-
-(See Utilities.)
-
 ** Utils
 
 #+begin_src shell :tangle bin/strip-dashes
@@ -516,7 +460,7 @@ sed "s/NULL//g"
 sed "s/NULL//g"
 #+end_src
 
-* Find-up
+** Find-up
 :PROPERTIES:
 :header-args+: :tangle bin/find-up :shebang #!/usr/bin/env bash
 :END:
