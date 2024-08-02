@@ -21,4 +21,4 @@ for each in $fileNames; do
     echo ""
 done
 
-exit 0
+# Exit with a success or failure code.

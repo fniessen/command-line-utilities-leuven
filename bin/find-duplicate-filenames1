@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-filenames1, Time-stamp: <2024-05-28 Tue 11:15>
+#? find-duplicate-filenames1, Time-stamp: <2024-08-02 Fri 10:00>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -63,3 +63,5 @@ find "$DIRECTORY" -type d -name .git -prune -o -type f -printf "%f\n" \
                }
            }' \
     | sort
+
+# Exit with a success or failure code.

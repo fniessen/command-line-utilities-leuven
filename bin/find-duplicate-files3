@@ -24,3 +24,5 @@ else
     }
   '
 fi
+
+# Exit with a success or failure code.

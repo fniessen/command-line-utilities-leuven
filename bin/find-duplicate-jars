@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-jars, Time-stamp: <2024-05-28 Tue 11:15>
+#? find-duplicate-jars, Time-stamp: <2024-08-02 Fri 10:00>
 #? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -62,3 +62,5 @@ find "$directory" -type f -name "*.jar" -print0 |
             echo "The most recent version is: $(echo "$sorted_versions" | head -n 1)"
         done <<< "$to_delete"
     done
+
+# Exit with a success or failure code.

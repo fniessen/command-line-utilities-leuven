@@ -4,3 +4,5 @@
 
 # LC_ALL=C find . -type f -print0 | grep -a -v '^[[:ascii:]]*$' -z | xargs -0 -I {} echo {}
 LC_COLLATE=C find . -name '*[! -~]*'
+
+# Exit with a success or failure code.

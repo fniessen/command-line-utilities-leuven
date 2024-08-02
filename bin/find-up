@@ -13,3 +13,5 @@ while [[ "$PWD" != "/" ]]; do
     find "$PWD" -maxdepth 1 -mindepth 1 "$@"
     cd ..
 done
+
+# Exit with a success or failure code.

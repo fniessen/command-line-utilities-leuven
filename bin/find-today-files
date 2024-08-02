@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-08-01 Thu 10:13>
+#? find-today-files, Time-stamp: <2024-08-02 Fri 10:02>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -64,3 +64,5 @@ find "$DIRECTORY" -type d -name ".git" -prune -o -type f $find_filter -daystart 
      -printf "${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h${DIR_COLOR}/${NC}${FILE_COLOR}%f${NC}\n" \
     | sort -k5 \
     | sed 's|./||'
+
+# Exit with a success or failure code.

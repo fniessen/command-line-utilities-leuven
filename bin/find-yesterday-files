@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-yesterday-files, Time-stamp: <2024-05-28 Tue 11:15>
+#? find-yesterday-files, Time-stamp: <2024-08-02 Fri 10:03>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -52,3 +52,5 @@ if [[ -n "$EXTENSION" ]]; then
 else
     find "$DIRECTORY" -type f -newermt "yesterday 00:00" ! -newermt "today 00:00" -printf "  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 fi
+
+# Exit with a success or failure code.

@@ -3,3 +3,5 @@
 # Find all UTF-8 encoded files that contain the BOM (ignoring binary files).
 
 grep -rlI $'\xEF\xBB\xBF' .
+
+# Exit with a success or failure code.

@@ -37,3 +37,5 @@ set -e
 
 # Find empty files in the current directory and its subdirectories
 find . -type f -empty
+
+# Exit with a success or failure code.
