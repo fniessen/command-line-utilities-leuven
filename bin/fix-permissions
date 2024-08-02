@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+# Ask for confirmation before making changes.
+read -p "This script will change permissions of all files to 644 and all directories to 755. Do you want to proceed? (y/n): " response
+
+# Convert the response to lowercase for consistency.
+response=$(echo "$response" | tr '[:upper:]' '[:lower:]')
+
+if [[ "$response" != "y" && "$response" != "yes" ]]; then
+    echo "Operation canceled."
+    exit 1
+fi
+
 # Change permissions of all files to 644.
 printf "Changing permissions of all files to 644...\n"
 find . -type f -exec chmod 644 {} \;
