@@ -29,8 +29,11 @@ printf "Checking and setting execute permissions for R and Awk scripts...\n"
 # Make R and Awk scripts executable if they have the appropriate shebang.
 find . -type f \( -name "*.R" -o -name "*.awk" \) -exec bash -c '
   for file do
-    if [[ "$(head -n 1 "$file")" = "#!/usr/bin/env Rscript" ]] \
-    || [[ "$(head -n 1 "$file")" = "#!/usr/bin/env awk" ]]; then
+    first_line=$(head -n 1 "$file")
+    if [[ "$first_line" = "#!/usr/bin/env awk" ]] \
+    || [[ "$first_line" = "#!/usr/bin/env Rscript" ]] \
+    || [[ "$first_line" = "#!/usr/bin/awk -f" ]] \
+    || [[ "$first_line" = "#!/usr/bin/gawk -f" ]]; then
       chmod +x "$file"
     fi
   done
