@@ -33,7 +33,8 @@ find . -type f \( -name "*.R" -o -name "*.awk" \) -exec bash -c '
     if [[ "$first_line" = "#!/usr/bin/env awk" ]] \
     || [[ "$first_line" = "#!/usr/bin/env Rscript" ]] \
     || [[ "$first_line" = "#!/usr/bin/awk -f" ]] \
-    || [[ "$first_line" = "#!/usr/bin/gawk -f" ]]; then
+    || [[ "$first_line" = "#!/usr/bin/gawk -f" ]] \
+    || [[ "$first_line" = "#!/usr/bin/expect -f" ]]; then
       chmod +x "$file"
     fi
   done
