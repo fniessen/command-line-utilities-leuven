@@ -1,13 +1,37 @@
 #!/usr/bin/env bash
 
 # Usage: newer FILE REF
+#
+# Check if FILE is newer than REF.
 
-file="$1"
-ref="$2"
-
-if [[ "$file" -nt "$ref" ]]; then
-    printf "%s is newer than %s\n" "$file" "$ref"
-else
-    printf >&2 "%s is older than %s\n" "$file" "$ref"
+# Check for required arguments.
+if [[ $# -ne 2 ]]; then
+    printf >&2 "Usage: %s FILE REF\n" "$(basename "$0")"
     exit 2
 fi
+
+FILE="$1"
+REF="$2"
+
+# Check if both arguments are files and exist.
+if [[ ! -e "$FILE" ]]; then
+    printf >&2 "Error: File '%s' does not exist.\n" "$FILE"
+    exit 2
+fi
+
+if [[ ! -e "$REF" ]]; then
+    printf >&2 "Error: Reference file '%s' does not exist.\n" "$REF"
+    exit 2
+fi
+
+# Compare file timestamps.
+if [[ "$FILE" -le "$REF" ]]; then
+    printf >&2 "%s is older than or the same age as %s\n" "$FILE" "$REF"
+    exit 2
+fi
+
+# If the file is newer than the reference, print message.
+printf "%s is newer than %s\n" "$FILE" "$REF"
+
+# Exit with a success code.
+exit 0
