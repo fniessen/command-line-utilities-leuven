@@ -45,3 +45,6 @@ for pattern in "${patterns[@]}"; do
     printf "Removing files matching pattern %s...\n" "$pattern"
     sudo find "$HOME" -iname "$pattern" -exec rm -rf -v {} + 2>/dev/null
 done
+
+# Exit with a success code.
+exit 0

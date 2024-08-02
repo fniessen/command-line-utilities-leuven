@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? expand-zips, Time-stamp: <2024-05-28 Tue 11:15>
+#? expand-zips, Time-stamp: <2024-08-02 Fri 09:58>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,3 +38,6 @@ set -e
 for file in ./*.zip; do
     mkdir "${file%.*}" && unzip "$file" -d "${file%.*}";
 done
+
+# Exit with a success code.
+exit 0

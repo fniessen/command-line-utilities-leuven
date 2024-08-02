@@ -200,3 +200,6 @@ print_color_attributes() {
 print_ansi_test
 print_extended_colors
 print_color_attributes
+
+# Exit with a success code.
+exit 0

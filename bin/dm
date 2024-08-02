@@ -21,6 +21,15 @@ PATTERN="${1:-*}"
 # TODO: Sort on seconds and milliseconds like in:
 # find . -type f -print0 | xargs -0 stat --format "%Y :%y %n" 2>/dev/null | sort -nr | cut -d: -f2- | head
 
+
+# find . -type f -printf "%A@ %T@ %C@ %p\n" | while IFS=' ' read -r atime mtime ctime path; do
+#     access_time=$(date -d "@$atime" --iso-8601=seconds)
+#     modification_time=$(date -d "@$mtime" --iso-8601=seconds)
+#     creation_time=$(date -d "@$ctime" --iso-8601=seconds)
+#     printf "Access Time: %s\nModification Time: %s\nCreation Time: %s\nFile: %s\n\n" "$access_time" "$modification_time" "$creation_time" "$path"
+# done
+
+
 # Use find to locate files matching the pattern and avoid .git directories.
 find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%T@ %TY-%Tm-%Td %Ta %TH:%TM - %P\n" 2>/dev/null \
     | sort -n \
@@ -56,3 +65,6 @@ find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%T@ %
         # Print the timestamp in color and the rest of the line in default color.
         printf "%s%s%s - %s\n", color, timestamp_part, NC, file_part;
     }'
+
+# Exit with a success code.
+exit 0

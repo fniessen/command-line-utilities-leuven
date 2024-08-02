@@ -1,3 +1,8 @@
+#!/usr/bin/env bash
+
 # Delete all empty files in the current directory and its subdirectories.
 
 find . -type f -size 0 -delete
+
+# Exit with a success code.
+exit 0

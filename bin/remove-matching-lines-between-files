@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? remove-matching-lines-between-files, Time-stamp: <2024-05-28 Tue 11:18>
+#? remove-matching-lines-between-files, Time-stamp: <2024-08-02 Fri 10:04>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -58,3 +58,6 @@ filtered=$(grep -v -F -f <(echo "$patterns") "$FILE_A")
 
 # Overwrite FILE_A with filtered contents.
 printf '%s' "$filtered" > "$FILE_A"
+
+# Exit with a success code.
+exit 0

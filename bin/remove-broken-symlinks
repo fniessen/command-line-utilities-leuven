@@ -30,4 +30,6 @@ printf "Removing broken symbolic links...\n"
 printf "%s\n" "$broken_symlinks" | xargs -0 rm -f
 
 printf "Done.\n"
+
+# Exit with a success code.
 exit 0

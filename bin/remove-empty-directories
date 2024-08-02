@@ -3,3 +3,6 @@
 # Delete all empty directories in the current directory and its subdirectories, except for the current directory.
 
 find . -mindepth 1 -type d -empty -delete
+
+# Exit with a success code.
+exit 0

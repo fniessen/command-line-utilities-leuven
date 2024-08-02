@@ -79,3 +79,6 @@ printf "\nAverage execution time: %d.%02ds\n" \
        $average_execution_time_seconds $average_execution_time_hundredths
 printf "Median execution time: %d.%02ds\n" \
        $median_execution_time_seconds $median_execution_time_hundredths
+
+# Exit with a success code.
+exit 0

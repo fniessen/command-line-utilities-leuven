@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-07-24 Wed 12:22>
+#? split-log, Time-stamp: <2024-08-02 Fri 10:06>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -126,3 +126,6 @@ wait "$SPLIT_PID"
 
 printf "\nLog file has been split into smaller files of approximately %s each.\n" \
        "$SIZE"
+
+# Exit with a success code.
+exit 0

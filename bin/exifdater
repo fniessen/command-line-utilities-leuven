@@ -53,3 +53,6 @@ exiftagsexist
 gotodir $1
 jpgexist
 myexifdater
+
+# Exit with a success code.
+exit 0

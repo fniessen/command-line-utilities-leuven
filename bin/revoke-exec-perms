@@ -37,3 +37,6 @@ find . -type f \( -name "*.R" -o -name "*.awk" \) -exec bash -c '
 ' bash {} +
 
 printf "Done.\n"
+
+# Exit with a success code.
+exit 0

@@ -33,3 +33,6 @@ printf "%s" "$files_with_crlf" | xargs -I {} flip -u {}
 
 printf "-------------------------\n"
 printf "Conversion complete.\n"
+
+# Exit with a success code.
+exit 0

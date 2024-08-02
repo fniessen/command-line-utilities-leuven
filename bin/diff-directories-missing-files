@@ -10,3 +10,6 @@ fi
 # the other.
 diff <(find "$1" -printf '%P\n' | sort) <(find "$2" -printf '%P\n' | sort) \
     | grep '^[<>]'
+
+# Exit with a success code.
+exit 0
