@@ -1,160 +1,32 @@
 #!/usr/bin/env bash
 
-printf "Revoke exec permission for specified file extensions...\n"
+printf "Revoking exec permission for specified file extensions...\n"
 
-find . -type f \
-     \( -name "*.DTD" \
-     -o -name "*.DWG" \
-     -o -name "*.MF" \
-     -o -name "*.PDF" \
-     -o -name "*.PNG" \
-     -o -name "*.R" \
-     -o -name "*.SQL" \
-     -o -name "*.TTF" \
-     -o -name "*.TXT" \
-     -o -name "*.Txt" \
-     -o -name "*.XE" \
-     -o -name "*.actionScriptProperties" \
-     -o -name "*.acts" \
-     -o -name "*.appcache" \
-     -o -name "*.as" \
-     -o -name "*.asa" \
-     -o -name "*.asp" \
-     -o -name "*.awk" \
-     -o -name "*.axvw" \
-     -o -name "*.bak" \
-     -o -name "*.bat" \
-     -o -name "*.bin" \
-     -o -name "*.bmp" \
-     -o -name "*.c" \
-     -o -name "*.ced" \
-     -o -name "*.cfg" \
-     -o -name "*.checkstyle" \
-     -o -name "*.class" \
-     -o -name "*.classpath" \
-     -o -name "*.cls" \
-     -o -name "*.css" \
-     -o -name "*.csv" \
-     -o -name "*.db" \
-     -o -name "*.dflt" \
-     -o -name "*.doc" \
-     -o -name "*.docx" \
-     -o -name "*.dtd" \
-     -o -name "*.duw" \
-     -o -name "*.dwg" \
-     -o -name "*.el" \
-     -o -name "*.emf" \
-     -o -name "*.env-FNI" \
-     -o -name "*.env-PRD" \
-     -o -name "*.env-STG" \
-     -o -name "*.env-TST" \
-     -o -name "*.eot" \
-     -o -name "*.fbprefs" \
-     -o -name "*.flexProperties" \
-     -o -name "*.frms" \
-     -o -name "*.gemspec" \
-     -o -name "*.gif" \
-     -o -name "*.gitignore" \
-     -o -name "*.gitkeep" \
-     -o -name "*.gradle" \
-     -o -name "*.htm" \
-     -o -name "*.html" \
-     -o -name "*.ico" \
-     -o -name "*.idx" \
-     -o -name "*.iml" \
-     -o -name "*.ini" \
-     -o -name "*.jar" \
-     -o -name "*.java" \
-     -o -name "*.jpeg" \
-     -o -name "*.jpg" \
-     -o -name "*.js" \
-     -o -name "*.jsb" \
-     -o -name "*.jshintignore" \
-     -o -name "*.jshintrc" \
-     -o -name "*.json" \
-     -o -name "*.jsp" \
-     -o -name "*.lang" \
-     -o -name "*.launch" \
-     -o -name "*.ldif" \
-     -o -name "*.less" \
-     -o -name "*.lex" \
-     -o -name "*.lic" \
-     -o -name "*.lock" \
-     -o -name "*.log" \
-     -o -name "*.m" \
-     -o -name "*.m4" \
-     -o -name "*.map" \
-     -o -name "*.md" \
-     -o -name "*.md5" \
-     -o -name "*.model" \
-     -o -name "*.mp4" \
-     -o -name "*.mpp" \
-     -o -name "*.mxml" \
-     -o -name "*.name" \
-     -o -name "*.number" \
-     -o -name "*.org" \
-     -o -name "*.orig" \
-     -o -name "*.otf" \
-     -o -name "*.pack" \
-     -o -name "*.pcx" \
-     -o -name "*.pdf" \
-     -o -name "*.php" \
-     -o -name "*.pid" \
-     -o -name "*.pmd" \
-     -o -name "*.png" \
-     -o -name "*.pptx" \
-     -o -name "*.prefs" \
-     -o -name "*.project" \
-     -o -name "*.properties" \
-     -o -name "*.psd" \
-     -o -name "*.pspimage" \
-     -o -name "*.py" \
-     -o -name "*.rb" \
-     -o -name "*.rpt" \
-     -o -name "*.rptdesign" \
-     -o -name "*.rptlibrary" \
-     -o -name "*.sample" \
-     -o -name "*.scss" \
-     -o -name "*.scssc" \
-     -o -name "*.scssx" \
-     -o -name "*.sed" \
-     -o -name "*.snap" \
-     -o -name "*.springBeans" \
-     -o -name "*.sql" \
-     -o -name "*.stackdump" \
-     -o -name "*.sty" \
-     -o -name "*.svg" \
-     -o -name "*.swc" \
-     -o -name "*.swf" \
-     -o -name "*.tex" \
-     -o -name "*.tgrp" \
-     -o -name "*.tif" \
-     -o -name "*.tld" \
-     -o -name "*.tsv" \
-     -o -name "*.ttf" \
-     -o -name "*.txt" \
-     -o -name "*.vm" \
-     -o -name "*.war" \
-     -o -name "*.woff" \
-     -o -name "*.woff2" \
-     -o -name "*.wsdl" \
-     -o -name "*.xhtml" \
-     -o -name "*.xls" \
-     -o -name "*.xlsx" \
-     -o -name "*.xml" \
-     -o -name "*.xsd" \
-     -o -name "*.xsl" \
-     -o -name "*.xslt" \
-     -o -name "*.xslx" \
-     -o -name "*.zip" \
-     -o -name "*.zlib" \
-     -o -name "ChangeLog" \
-     -o -name "Makefile" \
-     -o -name "README" \
-     \) \
-     -exec chmod -x {} +
+# Array of file extensions to revoke execute permissions.
+file_extensions=("DTD" "DWG" "MF" "PDF" "PNG" "R" "SQL" "TTF" "TXT" "Txt" "XE" "actionScriptProperties" "acts" "appcache" "as" "asa" "asp" "awk" "axvw" "bak" "bat" "bin" "bmp" "c" "ced" "cfg" "checkstyle" "class" "classpath" "cls" "css" "csv" "db" "dflt" "doc" "docx" "dtd" "duw" "dwg" "el" "emf" "env-FNI" "env-PRD" "env-STG" "env-TST" "eot" "fbprefs" "flexProperties" "frms" "gemspec" "gif" "gitignore" "gitkeep" "gradle" "htm" "html" "ico" "idx" "iml" "ini" "jar" "java" "jpeg" "jpg" "js" "jsb" "jshintignore" "jshintrc" "json" "jsp" "lang" "launch" "ldif" "less" "lex" "lic" "lock" "log" "m" "m4" "map" "md" "md5" "model" "mp4" "mpp" "mxml" "name" "number" "org" "orig" "otf" "pack" "pcx" "pdf" "php" "pid" "pmd" "png" "pptx" "prefs" "project" "properties" "psd" "pspimage" "py" "rb" "rpt" "rptdesign" "rptlibrary" "sample" "scss" "scssc" "scssx" "sed" "snap" "springBeans" "sql" "stackdump" "sty" "svg" "swc" "swf" "tex" "tgrp" "tif" "tld" "tsv" "ttf" "txt" "vm" "war" "woff" "woff2" "wsdl" "xhtml" "xls" "xlsx" "xml" "xsd" "xsl" "xslt" "xslx" "zip" "zlib")
 
-# Find all R and Awk scripts with the shebang and make them executable.
+# Array of filenames to revoke execute permissions.
+file_names=("ChangeLog" "Makefile" "README")
+
+# Construct the find command with all extensions.
+find_command="find . -type f"
+for extension in "${file_extensions[@]}"
+do
+    find_command+=" -o -name '*.$extension'"
+done
+
+# Add filenames to the find command.
+for name in "${file_names[@]}"
+do
+    find_command+=" -o -name '$name'"
+done
+
+# Execute the constructed find command to revoke execute permissions.
+eval "$find_command -exec chmod -x {} +"
+
+printf "Checking and setting execute permissions for R and Awk scripts...\n"
+
+# Make R and Awk scripts executable if they have the appropriate shebang.
 find . -type f \( -name "*.R" -o -name "*.awk" \) -exec bash -c '
   for file do
     if [[ "$(head -n 1 "$file")" = "#!/usr/bin/env Rscript" ]] \
@@ -163,3 +35,5 @@ find . -type f \( -name "*.R" -o -name "*.awk" \) -exec bash -c '
     fi
   done
 ' bash {} +
+
+printf "Done.\n"
