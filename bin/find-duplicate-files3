@@ -25,4 +25,5 @@ else
   '
 fi
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

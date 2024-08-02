@@ -17,4 +17,5 @@ fi
 # Find files with the specified extension.
 find . -type f -name "*.$extension"
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

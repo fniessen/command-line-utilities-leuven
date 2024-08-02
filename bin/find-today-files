@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-08-02 Fri 10:02>
+#? find-today-files, Time-stamp: <2024-08-02 Fri 10:21>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -65,4 +65,5 @@ find "$DIRECTORY" -type d -name ".git" -prune -o -type f $find_filter -daystart 
     | sort -k5 \
     | sed 's|./||'
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

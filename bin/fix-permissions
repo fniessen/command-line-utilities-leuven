@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 # Change permissions of all files to 644.
+printf "Changing permissions of all files to 644...\n"
 find . -type f -exec chmod 644 {} \;
 
 # Change permissions of all directories to 755.
+printf "Changing permissions of all directories to 755...\n"
 find . -type d -exec chmod 755 {} \;
+
+# Exit with a success code.
+exit 0

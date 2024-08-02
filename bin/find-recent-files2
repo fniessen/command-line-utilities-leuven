@@ -13,4 +13,5 @@ find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
     | cut -d " " -f 2- \
     | grep -i "$@";
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

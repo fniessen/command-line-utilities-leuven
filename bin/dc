@@ -53,3 +53,6 @@ find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%A@ %
         # Print the timestamp in color and the rest of the line in default color.
         printf "%s%s%s - %s\n", color, timestamp_part, NC, file_part;
     }'
+
+# Exit with a success code.
+exit 0

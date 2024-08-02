@@ -3,3 +3,5 @@
 # Usage: html2text input-file
 
 cat $1 | w3m -dump -T text/html
+
+# Exit with a success or failure code.

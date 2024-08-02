@@ -8,4 +8,5 @@ fdupes -r . \
     | uniq \
     | awk 'BEGIN {RS="\n\n"; ORS="\n\n"; FS="\n"} {if (NF>1) print}'
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

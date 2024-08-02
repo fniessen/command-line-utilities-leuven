@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recent-files, Time-stamp: <2024-08-02 Fri 10:02>
+#? find-recent-files, Time-stamp: <2024-08-02 Fri 10:21>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -66,4 +66,5 @@ else
     find "$DIRECTORY" -type d -name .git -prune -o -type f -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT"
 fi
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

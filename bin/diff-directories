@@ -8,3 +8,6 @@ fi
 
 # Perform recursive directory comparison and sort the output.
 diff -rq "$1" "$2" 2>/dev/null | sort
+
+# Exit with a success code.
+exit 0

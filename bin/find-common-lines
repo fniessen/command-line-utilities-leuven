@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-common-lines, Time-stamp: <2024-05-28 Tue 11:19>
+#? find-common-lines, Time-stamp: <2024-08-02 Fri 10:00>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -83,4 +83,5 @@ fi
 # Explicitly call cleanup at script exit.
 cleanup
 
+# Exit with a success code.
 exit 0

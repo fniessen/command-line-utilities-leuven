@@ -12,4 +12,5 @@ find . -path '*/.git/*' -prune -o -not -empty -type f -printf "%s\n" \
     | uniq -w32 --all-repeated=separate \
     | awk '{print $2}'
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

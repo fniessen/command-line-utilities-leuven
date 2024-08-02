@@ -27,3 +27,5 @@ rg --no-heading --no-line-number --context=3 --glob='*.css.split' "$1"
 # Remove all split CSS files.
 printf "Cleaning up split files...\n"
 find . -name '*.css.split' -type f -delete
+
+# Exit with a success or failure code.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-big-files, Time-stamp: <2024-05-28 Tue 11:16>
+#? find-big-files, Time-stamp: <2024-08-02 Fri 10:20>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -42,4 +42,5 @@ MIN_SIZE=100
 find . -type f -size +${MIN_SIZE}M -readable -exec ls -lh {} \; 2>/dev/null \
     | awk '{ print $5, $NF }'
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0

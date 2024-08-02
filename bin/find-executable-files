@@ -8,4 +8,5 @@ set -uo pipefail
 # Use the find command to search for executable files.
 find . -type f -executable -print
 
-# Exit with a success or failure code.
+# Exit with a success code.
+exit 0
