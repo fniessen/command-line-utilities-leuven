@@ -4,10 +4,10 @@
 read -p "This script will change permissions of all files to 644 and all directories to 755. Do you want to proceed? (y/n): " response
 
 # Convert the response to lowercase for consistency.
-response=$(echo "$response" | tr '[:upper:]' '[:lower:]')
+response=$(printf "%s" "$response" | tr '[:upper:]' '[:lower:]')
 
 if [[ "$response" != "y" && "$response" != "yes" ]]; then
-    echo "Operation canceled."
+    printf "Operation canceled.\n"
     exit 1
 fi
 
