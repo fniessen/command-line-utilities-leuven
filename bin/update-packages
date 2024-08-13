@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Update package list and upgrade all installed packages to their latest
+# versions.
+
+printf "Updating package list...\n"
+sudo apt update
+
+printf "Upgrading installed packages...\n"
+sudo apt upgrade -y
+
+printf "Upgrade completed.\n"
