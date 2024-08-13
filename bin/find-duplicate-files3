@@ -2,16 +2,16 @@
 
 if command -v fdupes >/dev/null; then
     # fdupes is found, use it to find duplicate files
-    echo "Using fdupes command to find duplicate files"
+    printf "Using fdupes command to find duplicate files\n"
     fdupes -r /path/to/directory
 else
     # fdupes is not found, use find command
-    echo "fdupes command not found, using find command to find duplicate files"
+    printf "fdupes command not found, using find command to find duplicate files\n"
     # specify directory to search
     dir="./"
 
     # find duplicate files and print their names
-    find $dir -type f -exec md5sum {} + | sort | awk '
+    find "$dir" -type f -exec md5sum {} + | sort | awk '
     BEGIN {
       FS=" ";
     }
