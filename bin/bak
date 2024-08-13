@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2024-06-20 Thu 13:42>
+#? bak, Time-stamp: <2024-08-13 Tue 11:11>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,7 +38,7 @@ confirm_overwrite() {
         if [[ "$confirm" =~ ^[yY]$ ]]; then
             return 0
         else
-            echo "Operation cancelled."
+            printf "Operation cancelled.\n"
             return 1
         fi
     else
@@ -89,12 +89,12 @@ fi
 if [[ "$rename" == "true" ]]; then
     if confirm_overwrite "$new_file"; then
         mv "$FILE" "$new_file"
-        echo "File renamed from ${bold}$FILE${normal} to ${bold}$new_file${normal}."
+        printf "File renamed from ${bold}$FILE${normal} to ${bold}$new_file${normal}.\n"
     fi
 else
     if confirm_overwrite "$new_file"; then
         cp "$FILE" "$new_file"
-        echo "File copied from ${bold}$FILE${normal} to ${bold}$new_file${normal}."
+        printf "File copied from ${bold}$FILE${normal} to ${bold}$new_file${normal}.\n"
     fi
 fi
 
