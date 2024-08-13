@@ -3,10 +3,14 @@
 # Update package list and upgrade all installed packages to their latest
 # versions.
 
-printf "Updating package list...\n"
+# Define ANSI escape codes for bold text.
+BOLD=$(tput bold)
+NORMAL=$(tput sgr0)
+
+printf "${BOLD}Updating package list...${NORMAL}\n"
 sudo apt update
 
-printf "Upgrading installed packages...\n"
+printf "\n${BOLD}Upgrading installed packages...${NORMAL}\n"
 sudo apt upgrade -y
 
-printf "Upgrade completed.\n"
+printf "\n${BOLD}Upgrade completed.${NORMAL}\n"
