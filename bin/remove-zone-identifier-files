@@ -40,7 +40,7 @@ directory_path="."
 
 # Check if the directory exists.
 if [[ ! -d "$directory_path" ]]; then
-    echo "Error: Directory does not exist: $directory_path"
+    printf "Error: Directory does not exist: %s\n" "$directory_path"
     exit 1
 fi
 

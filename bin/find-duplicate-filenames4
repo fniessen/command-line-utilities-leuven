@@ -18,8 +18,8 @@ fileNames=$(find "$DIRECTORY" -type d -name .git -prune -o -type f -print | awk 
 
 # For each duplicate file name, print the corresponding full path.
 for EACH in $fileNames; do
-    echo "$fullList" | grep -wE "^$EACH "
-    echo ""
+    printf "%s\n" "$(printf "%s\n" "$fullList" | grep -wE "^$EACH ")"
+    printf "\n"
 done
 
 # Exit with a success code.
