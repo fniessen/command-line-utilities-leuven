@@ -7,7 +7,7 @@ watch_dir="/PATH/TO/watch-directory"
 send_notification() {
   subject="Change detected in $watch_dir"
   message="A change has been detected in the directory $watch_dir at $(date +%Y-%m-%d_%H-%M-%S)."
-  echo $message | mail -s "$subject" your.email@example.com
+  printf "%s\n" "$message" | mail -s "$subject" your.email@example.com
 }
 
 # Watch the directory for changes using the inotifywait command.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2024-08-02 Fri 10:06>
+#? split-log, Time-stamp: <2024-08-13 Tue 11:32>
 #? Copyright (C) 2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -63,7 +63,7 @@ fi
 FILE_SIZE=$(stat -c%s "$LOGFILE")
 
 # Convert SIZE to bytes using bc
-SIZE_BYTES=$(echo "$SIZE" | sed -e 's/G/*1024*1024*1024/' -e 's/M/*1024*1024/' -e 's/K/*1024/' -e 's/^ *//' -e 's/ *$//' | bc)
+SIZE_BYTES=$(printf "%s\n" "$SIZE" | sed -e 's/G/*1024*1024*1024/' -e 's/M/*1024*1024/' -e 's/K/*1024/' -e 's/^ *//' -e 's/ *$//' | bc)
 
 # Check if the file is smaller than the specified size; exit if it is.
 if [[ "$FILE_SIZE" -lt "$SIZE_BYTES" ]]; then

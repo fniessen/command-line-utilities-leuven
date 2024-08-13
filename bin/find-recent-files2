@@ -4,14 +4,14 @@
 
 # Check if a search pattern is provided.
 if [ $# -eq 0 ]; then
-    echo "Please provide a search pattern."
+    printf "Please provide a search pattern.\n"
     exit 1
 fi
 
-find . -iname "*"$@"*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
+find . -iname "*$1*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
     | sort -n \
     | cut -d " " -f 2- \
-    | grep -i "$@";
+    | grep -i "$1"
 
 # Exit with a success code.
 exit 0

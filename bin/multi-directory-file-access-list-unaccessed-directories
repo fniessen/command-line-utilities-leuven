@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? file-access-list-unaccessed-directories, Time-stamp: <2024-05-28 Tue 11:15>
+#? file-access-list-unaccessed-directories, Time-stamp: <2024-08-13 Tue 11:25>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -53,7 +53,7 @@ unaccessed_dirs="unaccessed_directories.txt"
 
 for dir in $all_dirs; do
     if ! grep -q "$dir" <<< "$accessed_dirs"; then
-        echo "$dir" >> "$unaccessed_dirs"
+        printf "%s\n" "$dir" >> "$unaccessed_dirs"
     fi
 done
 

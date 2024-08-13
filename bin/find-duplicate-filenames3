@@ -13,12 +13,12 @@ printf "Building file list...\n" >&2
 fullList=$(find "$DIRECTORY" -type d -name .git -prune -o -type f -printf '%f\t%p\n' | sort -t $'\t' -k1,1)
 
 # Find duplicated file names.
-fileNames=$(echo "$fullList" | cut -f1 | uniq -d)
+fileNames=$(printf "%s\n" "$fullList" | cut -f1 | uniq -d)
 
 # Print paths of duplicated files.
 for each in $fileNames; do
-    echo "$fullList" | grep -w "^$each" | cut -f2-
-    echo ""
+    printf "%s\n" "$(printf "%s\n" "$fullList" | grep -w "^$each" | cut -f2-)"
+    printf "\n"
 done
 
 # Exit with a success code.
