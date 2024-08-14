@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Search files (and directories?) matching the specified pattern, sort by timestamp.
+# Search files matching the specified pattern, sort by timestamp.
 
 # Check if a search pattern is provided.
 if [ $# -eq 0 ]; then
