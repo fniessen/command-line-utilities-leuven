@@ -8,7 +8,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-find . -iname "*$1*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
+find . -type f -iname "*$1*" -printf "%C@ %CY-%Cm-%Cd %Ca %CH:%CM - %P\n" \
     | sort -n \
     | cut -d " " -f 2- \
     | grep -i "$1"
