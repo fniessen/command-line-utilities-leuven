@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
 
-# Usage: time-run-command-100 [options] COMMAND [PARAMETERS...]
+# Usage: time-run-command-100 [options] COMMAND [ARGS...]
 #
 # Run a command 100 times and print its average and median execution time.
 
-# Get the command to run.
-command=("$1")
-shift
+# Get the command and arguments.
+COMMAND=("$@")
 
 # Check if the command exists.
-if ! command -v "${command[0]}" > /dev/null 2>&1; then
-    printf >&2 "Error: Command '%s' not found.\n" "${command[0]}"
+if ! command -v "${COMMAND[0]}" > /dev/null 2>&1; then
+    printf >&2 "Error: Command '%s' not found.\n" "${COMMAND[0]}"
     exit 2
 fi
 
-printf "Command: \033[1m%s\033[0m " "${command[*]}"
-for arg in "$@"; do
-    printf "'\033[1m%s\033[0m' " "$arg"
+# Print the command and each argument with bold text.
+printf "Command: $(tput bold)%s$(tput sgr0) " "${COMMAND[0]}"
+for arg in "${COMMAND[@]:1}"; do
+    printf "'$(tput bold)%s$(tput sgr0)' " "$arg"
 done
 printf "\n"
 
@@ -29,7 +29,7 @@ printf "0        1         2         3         4         5         6         7  
 # Run the command 100 times and store the execution times.
 for i in {1..100}; do
     start_time=$(date +%s%N) # Current time in nanoseconds.
-    "${command[@]}" "$@" > /dev/null 2>&1 # Run the command and discard output.
+    "${COMMAND[@]}" > /dev/null 2>&1 # Run the command and discard output.
     # exit_code=$?
     end_time=$(date +%s%N)
 
@@ -39,7 +39,7 @@ for i in {1..100}; do
     execution_times+=($execution_time_hundredths)
 
     # # Print the executed command and its exit code.
-    # printf "Run %d: %s " "$i" "${command[*]}"
+    # printf "Run %d: %s " "$i" "${COMMAND[*]}"
     # for arg in "$@"; do
     #     printf "'%s' " "$arg"
     # done
