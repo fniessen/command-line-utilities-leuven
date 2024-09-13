@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-big-files, Time-stamp: <2024-08-02 Fri 10:20>
+#? find-big-files, Time-stamp: <2024-09-13 Fri 15:27>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,9 +38,11 @@ set -e
 # Set the minimum file size (in MegaBytes).
 MIN_SIZE=100
 
-# Find all files that are larger than the minimum size.
-find . -type f -size +${MIN_SIZE}M -readable -exec ls -lh {} \; 2>/dev/null \
-    | awk '{ print $5, $NF }'
+# Find all files that are larger than the minimum size, sort by size in descending order.
+find . -type f -size +${MIN_SIZE}M -readable -exec ls -lh {} + 2>/dev/null \
+    | awk '{ print $5, $NF }' \
+    | sort -rh -k1,1 \
+    | awk '{ print $1, $2 }'
 
 # Exit with a success code.
 exit 0
