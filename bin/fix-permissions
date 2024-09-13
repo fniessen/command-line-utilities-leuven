@@ -13,11 +13,11 @@ fi
 
 # Change permissions of all files to 644.
 printf "Changing permissions of all files to 644...\n"
-find . -type f -exec chmod 644 {} \;
+find . -type f -print0 | xargs -0 chmod 644
 
 # Change permissions of all directories to 755.
 printf "Changing permissions of all directories to 755...\n"
-find . -type d -exec chmod 755 {} \;
+find . -type d -print0 | xargs -0 chmod 755
 
 # Exit with a success code.
 exit 0
