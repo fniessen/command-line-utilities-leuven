@@ -1,6 +1,6 @@
 #!/bin/bash
 
-find "$@" -type f -print0 \
+find "$@" -type d -name '.git' -prune -o -type f -print0 \
     | xargs -0 -n1 md5sum \
     | sort --key=1,32 \
     | uniq -w 32 -d --all-repeated=separate
