@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Usage: run-until-success COMMAND [PARAMETERS...]
+# Usage: run-until-success COMMAND [ARGS...]
 #
-# Run a command repeatedly until it exits with status code 0, with a timeout of 10 seconds per attempt.
+# Run a command repeatedly until it exits with status code 0, with a timeout of 20 seconds per attempt.
 
-# Get the command and parameters.
+# Get the command and arguments.
 COMMAND=("$@")
 
 # Check if the command exists.
@@ -22,8 +22,8 @@ printf "\n"
 
 # Retry loop until the command exits with status code 0.
 while true; do
-    # Run the command with a 10-second timeout.
-    output=$(timeout 10 "${COMMAND[@]}" 2>&1)
+    # Run the command with a 20-second timeout.
+    output=$(timeout 20 "${COMMAND[@]}" 2>&1)
     exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
@@ -31,7 +31,7 @@ while true; do
         break
     elif [ $exit_code -eq 124 ]; then
         # Timeout occurred.
-        printf "$(tput setaf 7)$(tput bold)$(tput setab 1)Command timed out after 10 seconds. Retrying...$(tput sgr0)\n"
+        printf "$(tput setaf 7)$(tput bold)$(tput setab 1)Command timed out after 20 seconds. Retrying...$(tput sgr0)\n"
     else
         # Other errors.
         printf "$(tput setaf 1)Command failed with exit code %d.$(tput sgr0)\n" $exit_code
