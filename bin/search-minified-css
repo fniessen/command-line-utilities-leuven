@@ -5,7 +5,7 @@
 # Define a function to clean up split files.
 cleanup() {
     printf "Cleaning up split files...\n"
-    find . -name '*.css.split' -type f -delete
+    find . -type f -name "*.css.split" -delete
     exit 2
 }
 
@@ -15,7 +15,7 @@ trap cleanup SIGINT
 
 # Split each CSS file in the current directory and its subdirectories into
 # multiple lines.
-find . -name '*.css' -type f -print0 | while read -r -d $'\0' file; do
+find . -type f -name "*.css" -print0 | while read -r -d $'\0' file; do
     printf "%s\n" "$file"
     sed 's/;/;\n/g' "$file" > "$file.split"
 done
@@ -26,6 +26,6 @@ rg --no-heading --no-line-number --context=3 --glob='*.css.split' "$1"
 
 # Remove all split CSS files.
 printf "Cleaning up split files...\n"
-find . -name '*.css.split' -type f -delete
+find . -type f -name "*.css.split" -delete
 
 # Exit with a success or failure code.
