@@ -2,7 +2,7 @@
 
 # Usage: run-until-success COMMAND [PARAMETERS...]
 #
-# Run a command repeatedly until it exits with status code 0.
+# Run a command repeatedly until it exits with status code 0, with a timeout of 10 seconds per attempt.
 
 # Get the command and parameters.
 COMMAND=("$@")
@@ -22,16 +22,26 @@ printf "\n"
 
 # Retry loop until the command exits with status code 0.
 while true; do
-    # Run the command.
-    "${COMMAND[@]}"
+    # Run the command with a 10-second timeout.
+    output=$(timeout 10 "${COMMAND[@]}" 2>&1)
     exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
         printf "$(tput setaf 2)Command succeeded with exit code 0.$(tput sgr0)\n"
         break
+    elif [ $exit_code -eq 124 ]; then
+        # Timeout occurred.
+        printf "$(tput setaf 7)$(tput bold)$(tput setab 1)Command timed out after 10 seconds. Retrying...$(tput sgr0)\n"
     else
-        printf "$(tput setaf 1)Command failed with exit code %d. Retrying...$(tput sgr0)\n" $exit_code
-        # Wait before retrying.
-        sleep 2
+        # Other errors.
+        printf "$(tput setaf 1)Command failed with exit code %d.$(tput sgr0)\n" $exit_code
     fi
+
+    # Wait before retrying.
+    sleep 2
 done
+
+# Print the output if there is any.
+if [ -n "$output" ]; then
+    printf "%s\n" "$output"
+fi
