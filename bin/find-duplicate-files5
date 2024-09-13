@@ -1,0 +1,36 @@
+#!/bin/bash
+
+find "$@" -type f -print0 \
+    | xargs -0 -n1 md5sum \
+    | sort --key=1,32 \
+    | uniq -w 32 -d --all-repeated=separate
+
+# Remove duplicate files
+#
+# Find duplicate (2 or more identical) files and output a new shell script
+# containing commented-out rm statements for deleting them. You then have to
+# edit the file to select which files to keep -- the script can't safely do it
+# automatically!
+#
+# #+begin_src sh
+# OUTF=rem-duplicates.sh;
+# echo "#! /bin/sh" > $OUTF;
+# find "$@" -type f -exec md5sum {} \; |
+#     sort --key=1,32 | uniq -w 32 -d --all-repeated=separate |
+#     sed -r 's/^[0-9a-f]*( )*//;s/([^a-zA-Z0-9./_-])/\\\1/g;s/(.+)/#rm \1/' >> $OUTF;
+# chmod a+x $OUTF; ls -l $OUTF
+# #+end_src
+#
+# 1. Write output script header
+# 2. List all files recursively under current directory
+# 3. Escape all the potentially dangerous characters with xargs
+# 4. Calculate MD5 sums
+# 5. Find duplicate sums
+# 6. Strip off MD5 sums and leave only file names
+# 7. Escape strange characters from the filenames
+# 8. Write out commented-out delete commands
+# 9. Make the output script writable and =ls -l= it
+#
+# If you prefer a C program, try e.g. =fdupes= (may also be available in the the
+# repository of you favorite Linux distribution). For a GUI based solution,
+# =fslint= might do it for you.
