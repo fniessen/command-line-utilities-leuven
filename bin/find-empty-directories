@@ -7,9 +7,9 @@
 #? This is free software: you are free to change and redistribute it.
 #? There is NO WARRANTY, to the extent permitted by law.
 
-##? Usage: find-empty-files [options]
+##? Usage: find-empty-directories [options]
 ##?
-##? Search for empty files in a directory hierarchy
+##? Search for empty directories in a directory hierarchy
 ##?
 ##? Options:
 ##?   -h, --help                    display this help and exit
@@ -35,8 +35,8 @@ eval "$args"
 # Set -e to exit on non-zero command status.
 set -e
 
-# Find empty files in the current directory and its subdirectories
-find . -type f -empty
+# Find empty directories in the current directory and its subdirectories
+find . -type d -empty
 
 # Exit with a success code.
 exit 0
