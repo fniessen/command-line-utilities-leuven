@@ -7,6 +7,10 @@
 # Get the command and arguments.
 COMMAND=("$@")
 
+# Define tput formatting variables for reuse.
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+
 # Check if the command exists.
 if ! command -v "${COMMAND[0]}" > /dev/null 2>&1; then
     printf >&2 "Error: Command '%s' not found.\n" "${COMMAND[0]}"
@@ -14,9 +18,9 @@ if ! command -v "${COMMAND[0]}" > /dev/null 2>&1; then
 fi
 
 # Print the command and each argument with bold text.
-printf "Command: $(tput bold)%s$(tput sgr0) " "${COMMAND[0]}"
+printf "Command: %s%s%s " "${BOLD}" "${COMMAND[0]}" "${RESET}"
 for arg in "${COMMAND[@]:1}"; do
-    printf "'$(tput bold)%s$(tput sgr0)' " "$arg"
+    printf "'%s%s%s' " "${BOLD}" "$arg" "${RESET}"
 done
 printf "\n"
 
