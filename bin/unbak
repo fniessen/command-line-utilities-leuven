@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-07-31 Wed 16:09>
+#? unbak, Time-stamp: <2024-09-19 Thu 15:55>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -54,19 +54,19 @@ file_contains_bak() {
     fi
 }
 
-# ANSI color codes for bold text.
-bold=$(tput bold)
-normal=$(tput sgr0)
+# Define tput formatting variables for reuse.
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
 
 # Check if the backed-up file exists.
 if [[ ! -f "$FILE" ]]; then
-    printf >&2 "Error: Backed-up file '${bold}$FILE${normal}' does not exist.\n"
+    printf >&2 "Error: Backed-up file '${BOLD}$FILE${RESET}' does not exist.\n"
     exit 2
 fi
 
 # Check if the file name contains '_bak'.
 if ! file_contains_bak "$FILE"; then
-    printf >&2 "Error: File '${bold}$FILE${normal}' does not contain '${bold}$BAK_EXTENSION${normal}' in its name.\n"
+    printf >&2 "Error: File '${BOLD}$FILE${RESET}' does not contain '${BOLD}$BAK_EXTENSION${RESET}' in its name.\n"
     exit 2
 fi
 
@@ -90,7 +90,7 @@ original_file_with_extension="$original_file$extension"
 
 # Check if the original file exists.
 if [[ -f "$original_directory/$original_file_with_extension" ]]; then
-    printf "The original file '${bold}$original_file_with_extension${normal}' already exists.\n"
+    printf "The original file '${BOLD}$original_file_with_extension${RESET}' already exists.\n"
 
     # Disable 'set -e' temporarily to handle potential errors during command execution.
     set +e
@@ -114,7 +114,7 @@ fi
 
 # Restore the original file to its original path.
 mv "$FILE" "$original_directory/$original_file_with_extension"
-printf "File restored from ${bold}%s${normal} to ${bold}%s/%s${normal}.\n" \
+printf "File restored from ${BOLD}%s${RESET} to ${BOLD}%s/%s${RESET}.\n" \
        "$FILE" "$original_directory" "$original_file_with_extension"
 
 # Exit with a success code.

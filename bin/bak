@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2024-08-13 Tue 11:11>
+#? bak, Time-stamp: <2024-09-19 Thu 15:55>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -26,15 +26,15 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# ANSI color codes for bold text.
-bold=$(tput bold)
-normal=$(tput sgr0)
+# Define tput formatting variables for reuse.
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
 
 # Define function to check if a file exists and prompt the user to confirm overwrite.
 confirm_overwrite() {
     local file="$1"
     if [[ -e "$file" ]]; then
-        read -p "The file ${bold}$file${normal} already exists. Do you want to overwrite it? (y/N) " confirm
+        read -p "The file ${BOLD}$file${RESET} already exists. Do you want to overwrite it? (y/N) " confirm
         if [[ "$confirm" =~ ^[yY]$ ]]; then
             return 0
         else
@@ -81,7 +81,7 @@ new_file="$(dirname -- "$FILE")/$basename$BAK_EXTENSION$extension"
 
 # Check if the input file exists.
 if [[ ! -f "$FILE" ]]; then
-    printf >&2 "Error: Input file '${bold}$FILE${normal}' does not exist.\n"
+    printf >&2 "Error: Input file '${BOLD}$FILE${RESET}' does not exist.\n"
     exit 2
 fi
 
@@ -89,12 +89,12 @@ fi
 if [[ "$rename" == "true" ]]; then
     if confirm_overwrite "$new_file"; then
         mv "$FILE" "$new_file"
-        printf "File renamed from ${bold}$FILE${normal} to ${bold}$new_file${normal}.\n"
+        printf "File renamed from ${BOLD}$FILE${RESET} to ${BOLD}$new_file${RESET}.\n"
     fi
 else
     if confirm_overwrite "$new_file"; then
         cp "$FILE" "$new_file"
-        printf "File copied from ${bold}$FILE${normal} to ${bold}$new_file${normal}.\n"
+        printf "File copied from ${BOLD}$FILE${RESET} to ${BOLD}$new_file${RESET}.\n"
     fi
 fi
 
