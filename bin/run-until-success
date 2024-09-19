@@ -7,6 +7,13 @@
 # Get the command and arguments.
 COMMAND=("$@")
 
+# Define tput formatting variables for reuse.
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+SUCCESS_COLOR=$(tput setaf 2)
+FAIL_COLOR=$(tput setaf 1)
+TIMEOUT_MSG_COLOR=$(tput setaf 7)$(tput bold)$(tput setab 1)
+
 # Check if the command exists.
 if ! command -v "${COMMAND[0]}" > /dev/null 2>&1; then
     printf >&2 "Error: Command '%s' not found.\n" "${COMMAND[0]}"
@@ -14,9 +21,9 @@ if ! command -v "${COMMAND[0]}" > /dev/null 2>&1; then
 fi
 
 # Print the command and each argument with bold text.
-printf "Command: $(tput bold)%s$(tput sgr0) " "${COMMAND[0]}"
+printf "Command: %s%s%s " "${BOLD}" "${COMMAND[0]}" "${RESET}"
 for arg in "${COMMAND[@]:1}"; do
-    printf "'$(tput bold)%s$(tput sgr0)' " "$arg"
+    printf "'%s%s%s' " "${BOLD}" "$arg" "${RESET}"
 done
 printf "\n"
 
@@ -27,14 +34,17 @@ while true; do
     exit_code=$?
 
     if [ $exit_code -eq 0 ]; then
-        printf "$(tput setaf 2)Command succeeded with exit code 0.$(tput sgr0)\n"
+        printf "%sCommand succeeded with exit code 0.%s\n" \
+               "${SUCCESS_COLOR}" "${RESET}"
         break
     elif [ $exit_code -eq 124 ]; then
         # Timeout occurred.
-        printf "$(tput setaf 7)$(tput bold)$(tput setab 1)Command timed out after 20 seconds. Retrying...$(tput sgr0)\n"
+        printf "%sCommand timed out after 20 seconds. Retrying...%s\n" \
+               "${TIMEOUT_MSG_COLOR}" "${RESET}"
     else
         # Other errors.
-        printf "$(tput setaf 1)Command failed with exit code %d.$(tput sgr0)\n" $exit_code
+        printf "%sCommand failed with exit code %d.%s\n" \
+               "${FAIL_COLOR}" $exit_code "${RESET}"
     fi
 
     # Wait before retrying.
