@@ -3,14 +3,14 @@
 # Update package list and upgrade all installed packages to their latest
 # versions.
 
-# Define ANSI escape codes for bold text.
+# Define tput formatting variables for reuse.
 BOLD=$(tput bold)
-NORMAL=$(tput sgr0)
+RESET=$(tput sgr0)
 
-printf "${BOLD}Updating package list...${NORMAL}\n"
+printf "${BOLD}Updating package list...${RESET}\n"
 sudo apt update
 
-printf "\n${BOLD}Upgrading installed packages...${NORMAL}\n"
+printf "\n${BOLD}Upgrading installed packages...${RESET}\n"
 sudo apt upgrade -y
 
-printf "\n${BOLD}Upgrade completed.${NORMAL}\n"
+printf "\n${BOLD}Upgrade completed.${RESET}\n"
