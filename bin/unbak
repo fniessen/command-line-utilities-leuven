@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-09-19 Thu 15:55>
+#? unbak, Time-stamp: <2024-09-24 Tue 16:46>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -94,7 +94,15 @@ if [[ -f "$original_directory/$original_file_with_extension" ]]; then
 
     # Disable 'set -e' temporarily to handle potential errors during command execution.
     set +e
-    diff_output=$(diff "$FILE" "$original_directory/$original_file_with_extension")
+
+    # Check if 'colordiff' is installed, and use it for colorized output,
+    # fallback to 'diff'.
+    diff_cmd="diff"
+    if command -v colordiff > /dev/null 2>&1; then
+        diff_cmd="colordiff"
+    fi
+
+    diff_output=$($diff_cmd "$FILE" "$original_directory/$original_file_with_extension")
     set -e
 
     if [[ -n "$diff_output" ]]; then
