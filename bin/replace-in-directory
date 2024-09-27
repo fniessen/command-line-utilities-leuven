@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? replace-in-directory, Time-stamp: <2024-08-02 Fri 10:05>
+#? replace-in-directory, Time-stamp: <2024-09-27 Fri 19:54>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,6 +38,9 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
+# Set default value for case_sensitive if not set.
+case_sensitive=${case_sensitive:-false}
+
 # Set -e to exit on non-zero command status.
 set -e
 
@@ -48,7 +51,7 @@ if [[ ! -d "$DIRECTORY" ]]; then
 fi
 
 # Prepare sed arguments based on case sensitivity.
-if [[ "$case-sensitive" == "true" ]]; then
+if [[ "$case_sensitive" == "true" ]]; then
     # Case-sensitive.
     sed_args="s/$OLD_STRING/$NEW_STRING/g"
 else
