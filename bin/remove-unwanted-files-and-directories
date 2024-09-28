@@ -24,9 +24,10 @@ directories=(
 )
 
 patterns=(
+    '*.exe.stackdump'
+    '*.yas-compiled-snippets.el'
     'nul'
     'null'
-    '*.exe.stackdump'
 )
 
 # Remove unwanted files and directories from defined directories.
@@ -39,10 +40,6 @@ done
 printf "Removing specific files...\n"
 rm -v "$HOME/.emacs.d/projectile.cache" 2>/dev/null
 rm -v "$HOME/.lesshst" 2>/dev/null
-
-# Remove .yas-compiled-snippets.el files.
-printf "Removing .yas-compiled-snippets.el files...\n"
-find "$HOME" -name "*.yas-compiled-snippets.el" -exec rm -v {} + 2>/dev/null
 
 # Remove files matching patterns with sudo to handle permission denied errors.
 for pattern in "${patterns[@]}"; do
