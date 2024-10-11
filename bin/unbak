@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2024-10-11 Fri 10:29>
+#? unbak, Time-stamp: <2024-10-11 Fri 11:57>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -56,6 +56,8 @@ file_contains_bak() {
 
 # Define tput formatting variables for reuse.
 BOLD=$(tput bold)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
 RESET=$(tput sgr0)
 
 # Check if the backed-up file exists.
@@ -106,12 +108,13 @@ if [[ -f "$original_directory/$original_file_with_extension" ]]; then
     set -e
 
     if [[ -n "$diff_output" ]]; then
-        printf "Differences between backed-up file and the current file:\n\n%s\n\n" "$diff_output"
+        # Print message with colored text.
+        printf "Differences found between the ${BOLD}${GREEN}backed-up file${RESET} and the ${BOLD}${RED}current file${RESET}:\n\n%s\n\n" "$diff_output"
     else
         printf "No differences found between the backed-up file and the current file.\n"
     fi
 
-    read -p "Do you want to overwrite the existing file with the backed-up file? (y/N) " confirm
+    read -p "Do you want to overwrite the ${BOLD}${RED}existing file${RESET} with the ${BOLD}${GREEN}backed-up file${RESET}? (y/N) " confirm
     if [[ ! "$confirm" =~ ^[yY]$ ]]; then
         printf "Operation cancelled.\n"
         exit 0
@@ -122,7 +125,7 @@ fi
 
 # Restore the original file to its original path.
 mv "$FILE" "$original_directory/$original_file_with_extension"
-printf "File restored from ${BOLD}%s${RESET} to ${BOLD}%s/%s${RESET}.\n" \
+printf "File restored from ${BOLD}${GREEN}%s${RESET} to ${BOLD}${RED}%s/%s${RESET}.\n" \
        "$FILE" "$original_directory" "$original_file_with_extension"
 
 # Exit with a success code.
