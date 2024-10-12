@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recent-files, Time-stamp: <2024-08-02 Fri 10:21>
+#? find-recent-files, Time-stamp: <2024-08-14 Wed 15:16>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -53,17 +53,19 @@ fi
 readonly DIRECTORY="${DIRECTORY:-./}"
 
 # Define the format for printing file information.
-readonly PRINT_FORMAT="  %CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
+readonly PRINT_FORMAT="%CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 
 # Check if the extension variable is set.
 if [[ -n "$extension" ]]; then
     # If the extension variable is set, use it to find files with the specific
     # extension.
-    find "$DIRECTORY" -type d -name .git -prune -o -type f -name "*.$extension" -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT"
+    find "$DIRECTORY" -type d -name .git -prune -o -type f -iname "*.$extension" -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT" 2>/dev/null \
+        | sort -k5
 else
     # If the extension variable is not set, find all files without specifying an
     # extension.
-    find "$DIRECTORY" -type d -name .git -prune -o -type f -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT"
+    find "$DIRECTORY" -type d -name .git -prune -o -type f -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT" 2>/dev/null \
+        | sort -k5
 fi
 
 # Exit with a success code.
