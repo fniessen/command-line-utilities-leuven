@@ -26,15 +26,17 @@ eval "$find_command -exec chmod -x {} +"
 
 printf "Checking and setting execute permissions for R and Awk scripts...\n"
 
-# Make R and Awk scripts executable if they have the appropriate shebang.
-find . -type f \( -name "*.R" -o -name "*.awk" \) -exec bash -c '
+# Make R, Awk, and Perl scripts executable if they have an appropriate shebang.
+find . -type f \( -name "*.R" -o -name "*.awk" -o -name "*.pl" -o -name "*.perl" \) -exec bash -c '
   for file do
     first_line=$(head -n 1 "$file")
     if [[ "$first_line" = "#!/usr/bin/env awk" ]] \
     || [[ "$first_line" = "#!/usr/bin/env Rscript" ]] \
     || [[ "$first_line" = "#!/usr/bin/awk -f" ]] \
     || [[ "$first_line" = "#!/usr/bin/gawk -f" ]] \
-    || [[ "$first_line" = "#!/usr/bin/expect -f" ]]; then
+    || [[ "$first_line" = "#!/usr/bin/expect -f" ]] \
+    || [[ "$first_line" = "#!/usr/bin/env perl" ]] \
+    || [[ "$first_line" = "#!/usr/bin/perl" ]]; then
       chmod +x "$file"
     fi
   done
