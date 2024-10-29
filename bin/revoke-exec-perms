@@ -22,7 +22,7 @@ do
 done
 
 # Execute the constructed find command to revoke execute permissions.
-eval "$find_command -exec chmod -x {} +"
+eval "$find_command -exec chmod -x '{}' +"
 
 printf "Checking and setting execute permissions for R and Awk scripts...\n"
 
