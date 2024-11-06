@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2024-09-19 Thu 15:55>
+#? bak, Time-stamp: <2024-11-06 Wed 10:04>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -30,20 +30,27 @@ set -uo pipefail
 BOLD=$(tput bold)
 RESET=$(tput sgr0)
 
-# Define function to check if a file exists and prompt the user to confirm overwrite.
-confirm_overwrite() {
-    local file="$1"
-    if [[ -e "$file" ]]; then
-        read -p "The file ${BOLD}$file${RESET} already exists. Do you want to overwrite it? (y/N) " confirm
-        if [[ "$confirm" =~ ^[yY]$ ]]; then
-            return 0
-        else
-            printf "Operation cancelled.\n"
+# Define function to check if a file exists, compare it, and prompt the user for
+# overwrite if necessary.
+confirm_overwrite_or_skip() {
+    local source_file="$1"
+    local backup_file="$2"
+
+    if [[ -e "$backup_file" ]]; then
+        if cmp -s "$source_file" "$backup_file"; then
+            printf "Backup ${BOLD}$backup_file${RESET} already exists and is identical. No update needed.\n"
             return 1
+        else
+            read -p "The file ${BOLD}$backup_file${RESET} already exists but differs. Overwrite it? (y/N) " confirm
+            if [[ "$confirm" =~ ^[yY]$ ]]; then
+                return 0
+            else
+                printf "Operation cancelled.\n"
+                return 1
+            fi
         fi
-    else
-        return 0
     fi
+    return 0
 }
 
 # Check if 'docopts' command is available.
@@ -87,12 +94,12 @@ fi
 
 # Copy or rename the file depending on the options used.
 if [[ "$rename" == "true" ]]; then
-    if confirm_overwrite "$new_file"; then
+    if confirm_overwrite_or_skip "$FILE" "$new_file"; then
         mv "$FILE" "$new_file"
         printf "File renamed from ${BOLD}$FILE${RESET} to ${BOLD}$new_file${RESET}.\n"
     fi
 else
-    if confirm_overwrite "$new_file"; then
+    if confirm_overwrite_or_skip "$FILE" "$new_file"; then
         cp "$FILE" "$new_file"
         printf "File copied from ${BOLD}$FILE${RESET} to ${BOLD}$new_file${RESET}.\n"
     fi
