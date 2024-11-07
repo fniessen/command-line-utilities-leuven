@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2024-11-06 Wed 10:13>
+#? bak, Time-stamp: <2024-11-07 Thu 13:00>
 #? Copyright (C) 2020-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -28,6 +28,8 @@ set -uo pipefail
 
 # Define tput formatting variables for reuse.
 BOLD=$(tput bold)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
 RESET=$(tput sgr0)
 
 # Check if 'colordiff' is installed, and use it for colorized output, fallback
@@ -48,9 +50,10 @@ confirm_overwrite_or_skip() {
             printf "Backup ${BOLD}$backup_file${RESET} already exists and is identical. No update needed.\n"
             return 1
         else
-            printf "\nDifferences between ${BOLD}$source_file${RESET} and ${BOLD}$backup_file${RESET}:\n"
+            printf "\nDifferences between ${GREEN}${BOLD}$source_file${RESET} and ${RED}${BOLD}$backup_file${RESET}:\n\n"
             $diff_cmd -u "$backup_file" "$source_file"
-            read -p "The file ${BOLD}$backup_file${RESET} already exists but differs. Overwrite it? (y/N) " confirm
+            printf "\n"
+            read -p "The file ${RED}${BOLD}$backup_file${RESET} already exists but differs. Overwrite it? (y/N) " confirm
             if [[ "$confirm" =~ ^[yY]$ ]]; then
                 return 0
             else
@@ -110,7 +113,7 @@ if [[ "$rename" == "true" ]]; then
 else
     if confirm_overwrite_or_skip "$FILE" "$new_file"; then
         cp "$FILE" "$new_file"
-        printf "File copied from ${BOLD}$FILE${RESET} to ${BOLD}$new_file${RESET}.\n"
+        printf "File copied from ${GREEN}${BOLD}$FILE${RESET} to ${RED}${BOLD}$new_file${RESET}.\n"
     fi
 fi
 
