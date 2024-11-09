@@ -11,7 +11,7 @@ mapfile -d '' broken_symlinks < <(find . -type l ! -exec test -e {} \; -print0 2
 
 # Check if any links were found.
 if [[ ${#broken_symlinks[@]} -eq 0 ]]; then
-    printf "No broken symbolic links found. Exiting.\n"
+    printf "No broken symbolic links found.\n"
     exit 0
 fi
 
