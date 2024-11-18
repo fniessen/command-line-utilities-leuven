@@ -44,12 +44,6 @@ if [[ ! -d "$directory_path" ]]; then
     exit 1
 fi
 
-# Check if 'getfattr' command is available.
-if ! command -v getfattr &> /dev/null; then
-    printf >&2 "Error: 'getfattr' command not found. Please install the 'attr' package.\n"
-    exit 2
-fi
-
 # Find and remove files ending with ":Zone.Identifier".
 find "$directory_path" -type f -name "*:Zone.Identifier" -print0 2>/dev/null \
     | while IFS= read -r -d '' file; do
