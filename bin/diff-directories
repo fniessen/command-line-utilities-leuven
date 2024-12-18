@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? diff-directories, Time-stamp: <2024-12-18 Wed 12:44>
+#? diff-directories, Time-stamp: <2024-12-18 Wed 12:50>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -18,11 +18,11 @@
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 
-# Set -uo pipefail for undefined variable check and pipeline failure
+# Enable strict mode for undefined variable check and pipeline failure
 # propagation.
 set -uo pipefail
 
-# Verify that 'docopts' command is available.
+# Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
     printf >&2 "Error: 'docopts' command not found.\n"
     exit 2
@@ -36,10 +36,10 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
-# Set -e to exit on non-zero command status.
+# Exit on non-zero command status.
 set -e
 
-# Check that both directories exist.
+# Check if both directories exist.
 if [[ ! -d "$DIR1" ]]; then
     printf >&2 "Error: Directory '%s' does not exist.\n" "$DIR1"
     exit 2
@@ -52,7 +52,12 @@ fi
 
 # Perform a recursive directory comparison, suppress errors, sort the output,
 # and display it.
-diff -rq "$DIR1" "$DIR2" 2>/dev/null | sort
+diff_output=$(diff -rq "$DIR1" "$DIR2" 2>/dev/null)
+if [[ -n "$diff_output" ]]; then
+    printf "%s\n" "$diff_output" | sort
+else
+    printf "No differences found between directories.\n"
+fi
 
 # Exit successfully.
 exit 0
