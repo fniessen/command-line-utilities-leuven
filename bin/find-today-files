@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-today-files, Time-stamp: <2024-08-02 Fri 10:21>
+#? find-today-files, Time-stamp: <2024-12-18 Wed 13:26>
 #? Copyright (C) 2023-2024 Fabrice Niessen
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -13,12 +13,12 @@
 ##? extension, and sort by full path.
 ##?
 ##? Arguments:
-##?   DIRECTORY                     starting directory
+##?   DIRECTORY                     Starting directory
 ##?
 ##? Options:
-##?   --ext=EXTENSION               filter files by extension
-##?   -h, --help                    display this help and exit
-##?   -V, --version                 display version information and exit
+##?   --ext=EXTENSION               Filter files by extension
+##?   -h, --help                    Display this help and exit
+##?   -V, --version                 Display version information and exit
 
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
@@ -61,7 +61,7 @@ fi
 # List files modified TODAY only (since start of day, i.e., 00:00), excluding
 # .git directories, and sort by full path.
 find "$DIRECTORY" -type d -name ".git" -prune -o -type f $find_filter -daystart -mtime 0 2>/dev/null \
-     -printf "${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h${DIR_COLOR}/${NC}${FILE_COLOR}%f${NC}\n" \
+     -printf "${DATE_TIME_COLOR}%CY-%Cm-%Cd %Ca %CH:%CM${NC} - ${DIR_COLOR}%h/${NC}${FILE_COLOR}%f${NC}\n" \
     | sort -k5 \
     | sed 's|./||'
 
