@@ -1,13 +1,47 @@
 #!/usr/bin/env bash
 
-# Check if the correct number of arguments is provided.
-if [ "$#" -ne 2 ]; then
-    printf "Usage: %s directory1 directory2\n" "$0"
-    exit 1
+#? diff-directories, Time-stamp: <2024-12-18 Wed 11:32>
+#? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: diff-directories [options] DIR1 DIR2
+##?
+##? Compare two directories recursively and display sorted differences.
+##?
+##? Arguments:
+##?   PATTERN                       optional string
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+# Set -uo pipefail for undefined variable check and pipeline failure
+# propagation.
+set -uo pipefail
+
+# Verify that 'docopts' command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 "Error: 'docopts' command not found.\n"
+    exit 2
 fi
 
-# Perform recursive directory comparison and sort the output.
-diff -rq "$1" "$2" 2>/dev/null | sort
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
 
-# Exit with a success code.
+# Parse command-line arguments using docopts.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
+
+# Perform a recursive directory comparison, suppress errors, sort the output,
+# and display it.
+diff -rq "$DIR1" "$DIR2" 2>/dev/null | sort
+
+# Exit successfully.
 exit 0
