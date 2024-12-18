@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? diff-directories, Time-stamp: <2024-12-18 Wed 11:32>
+#? diff-directories, Time-stamp: <2024-12-18 Wed 12:44>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -38,6 +38,17 @@ eval "$args"
 
 # Set -e to exit on non-zero command status.
 set -e
+
+# Check that both directories exist.
+if [[ ! -d "$DIR1" ]]; then
+    printf >&2 "Error: Directory '%s' does not exist.\n" "$DIR1"
+    exit 2
+fi
+
+if [[ ! -d "$DIR2" ]]; then
+    printf >&2 "Error: Directory '%s' does not exist.\n" "$DIR2"
+    exit 2
+fi
 
 # Perform a recursive directory comparison, suppress errors, sort the output,
 # and display it.
