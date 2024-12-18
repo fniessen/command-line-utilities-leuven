@@ -41,10 +41,10 @@ printf "Removing specific files...\n"
 rm -v "$HOME/.emacs.d/projectile.cache" 2>/dev/null
 rm -v "$HOME/.lesshst" 2>/dev/null
 
-# Remove files matching patterns with sudo to handle permission denied errors.
+# Remove files matching patterns.
 for pattern in "${patterns[@]}"; do
     printf "Removing files matching pattern %s...\n" "$pattern"
-    sudo find "$HOME" -iname "$pattern" -exec rm -rf -v {} + 2>/dev/null
+    find "$HOME" -iname "$pattern" -exec rm -rf -v {} + 2>/dev/null
 done
 
 # Exit with a success code.
