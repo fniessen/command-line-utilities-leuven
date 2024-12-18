@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? diff-directories, Time-stamp: <2024-12-18 Wed 12:56>
+#? diff-directories, Time-stamp: <2024-12-18 Wed 13:10>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -12,11 +12,11 @@
 ##? Compare two directories recursively and display sorted differences.
 ##?
 ##? Arguments:
-##?   PATTERN                       optional string
+##?   PATTERN                       Optional string
 ##?
 ##? Options:
-##?   -h, --help                    display this help and exit
-##?   -V, --version                 display version information and exit
+##?   -h, --help                    Display this help and exit
+##?   -V, --version                 Display version information and exit
 
 # Enable strict mode for undefined variable check and pipeline failure
 # propagation.
