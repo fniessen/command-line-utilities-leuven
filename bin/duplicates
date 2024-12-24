@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? duplicates, Time-stamp: <2024-05-28 Tue 11:14>
+#? duplicates, Time-stamp: <2024-12-24 Tue 10:22>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -31,7 +31,7 @@ fi
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?" "$0" | cut -c 4-)
 
-# Get command-line arguments.
+# Parse command-line arguments using docopts.
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 

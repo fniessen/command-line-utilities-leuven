@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2024-08-02 Fri 10:20>
+#? fd, Time-stamp: <2024-12-24 Tue 10:20>
 #? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -15,15 +15,15 @@
 ##?   Permission denied errors are suppressed using '2>/dev/null'.
 ##?
 ##? Arguments:
-##?   PATTERN                       optional string
+##?   PATTERN                       Optional string
 ##?
 ##? Options:
-##?   -h, --help                    display this help and exit
-##?   -V, --version                 display version information and exit
+##?   -h, --help                    Display this help and exit
+##?   -V, --version                 Display version information and exit
 ##?
 ##? Examples:
-##?   fd                            list all directories
-##?   fd doc                        list directories matching doc in their name
+##?   fd                            List all directories
+##?   fd doc                        List directories matching doc in their name
 
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
@@ -38,7 +38,7 @@ fi
 help=$(grep "^##?" "$0" | cut -c 5-)
 version=$(grep "^#?" "$0" | cut -c 4-)
 
-# Get command-line arguments.
+# Parse command-line arguments using docopts.
 args="$(docopts -h "$help" -V "$version" : "$@")"
 eval "$args"
 
@@ -49,13 +49,14 @@ set -e
 readonly DIR_COLOR="1;34"               # Blue color for directory names.
 readonly MATCH_COLOR="1;37;1;44"        # White text on blue background.
 
-# Check if PATTERN is set, otherwise set it to an empty string.
+# Set PATTERN to an empty string if not provided.
 PATTERN="${PATTERN:-}"
 
-# Find and colorize matching directory names, hiding permission denied errors.
+# Find and colorize matching directory names, suppressing permission denied
+# errors.
 stdbuf -oL find . -type d -iname "*$PATTERN*" -exec printf '%s/\n' {} \; 2>/dev/null \
     | stdbuf -oL sed 's|^./||' \
     | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR" grep -i "$PATTERN" --color=always
 
-# Exit with a success code.
+# Exit successfully.
 exit 0
