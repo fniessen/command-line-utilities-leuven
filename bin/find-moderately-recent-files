@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2024-12-24 Tue 10:24>
-#? Copyright (C) 2023-2024 Fabrice Niessen
+#? find-recently-modified-files, Time-stamp: <2025-01-05 Sun 11:56>
+#? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.

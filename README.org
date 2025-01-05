@@ -276,7 +276,7 @@ remain freely accessible, both as in Belgian beer and as in speech.
 
 * License
 
-Copyright (C) 2012-2024 Fabrice Niessen
+Copyright (C) 2012-2025 Fabrice Niessen. All rights reserved.
 
 Author: Fabrice Niessen \\
 Keywords: command-line utilities scripts
