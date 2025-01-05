@@ -67,3 +67,7 @@ https://stackoverflow.blog/2020/02/12/when-laziness-is-efficient-make-the-most-o
 http://www.marinamele.com/2014/05/customize-colors-of-your-terminal-in-mac-os-x.html
 https://github.com/jondot/awesome-devenv
 https://github.com/mrzool/bash-sensible
+
+** TODO [#A] Remplacer [[ par [ (utiliser le Bashism) dans les if
+
+Également à faire dans le repo "Shell"...
