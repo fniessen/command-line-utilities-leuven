@@ -37,7 +37,7 @@ SCRIPT_NAME=$(basename "$0")
 
 . shellutils || exit 2
 
-if [ $# -eq 0 ]; then
+if [[ $# -eq 0 ]]; then
     Usage
 fi
 
@@ -67,7 +67,7 @@ done
 shift $((OPTIND - 1))
 
 MAILTO="$1"
-if [ "$MAILTO" = "" ]; then
+if [[ "$MAILTO" = "" ]]; then
     Usage
 fi
 
@@ -80,12 +80,12 @@ has "blat"
 ATT_SWITCH=""
 for attach in $ATTFILES
 do
-    if [ ! -r "$attach" ]
+    if [[ ! -r "$attach" ]]
     then
         die "File $attach does not exist or is not readable."
     else
         # binary vs text file
-        if [ "$(file --brief --mime "$attach" 2> /dev/null | cut -d/ -f 1)" = "text" ]
+        if [[ "$(file --brief --mime "$attach" 2> /dev/null | cut -d/ -f 1)" = "text" ]]
         then
             ATT_SWITCH="$ATT_SWITCH -attacht $(cygpath -w "$attach")"
         else
