@@ -4,12 +4,25 @@
 * Tasks
 
 ** TODO [#A] Use '[[' over '[' in Bash scripts (use Bashisms)
+SCHEDULED: <2025-04-01 Tue>
 
 Advantages of '[[':
 - Improved functionality: You can use logical operators like '&&' and '||'
   directly within the test
 - Better handling of strings: does not require escaping and quoting
 - No word-splitting or filename expansion
+
+** TODO Use custom exit codes
+
+- ~64~ – Generic script error (can be used for unexpected failures).
+- ~65~ – Invalid input error (e.g., missing parameters, invalid arguments, missing
+  dependencies -- e.g., docopts).
+- ~66~ – File not found error (e.g., trying to access a file that doesn't exist).
+- ~67~ – Command-line arguments error (e.g., improper usage of flags or options).
+
+** TODO "Running XXX. This may take some time... done."
+
+** TODO Follow Bash style guides
 
 ** TODO Filter the output of 'find-big-files' by file extension
 
