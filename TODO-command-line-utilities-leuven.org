@@ -3,7 +3,7 @@
 
 * Tasks
 
-** TODO [#A] Use '[[' over '[' in Bash scripts (use Bashisms)
+** TODO Use '[[' over '[' in Bash scripts (use Bashisms)
 SCHEDULED: <2025-04-01 Tue>
 
 Advantages of '[[':
@@ -11,6 +11,9 @@ Advantages of '[[':
   directly within the test
 - Better handling of strings: does not require escaping and quoting
 - No word-splitting or filename expansion
+
+** TODO Use 'printf' instead of 'echo -e'
+SCHEDULED: <2025-04-01 Tue>
 
 ** TODO Use custom exit codes
 
