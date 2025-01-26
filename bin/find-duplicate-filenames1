@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-filenames1, Time-stamp: <2024-12-24 Tue 10:24>
-#? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
+#? find-duplicate-filenames1, Time-stamp: <2025-01-26 Sun 18:14>
+#? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -45,7 +45,7 @@ readonly DIRECTORY="${DIRECTORY:-./}"
 
 # Function to convert filenames to lowercase if case-insensitive mode is enabled.
 to_lower() {
-    if [ "$ignore_case" = true ]; then
+    if [[ "$ignore_case" = true ]]; then
         printf "%s\n" "$1"
     else
         printf "%s\n" "$1" | tr '[:upper:]' '[:lower:]'
