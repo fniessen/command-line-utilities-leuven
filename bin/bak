@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2025-01-05 Sun 11:58>
-#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
+#? bak, Time-stamp: <2025-01-26 Sun 18:59>
+#? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -68,7 +68,7 @@ confirm_overwrite_or_skip() {
 # Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
     printf >&2 "Error: 'docopts' command not found.\n"
-    exit 2
+    exit 65  # Invalid input error (docopts not found).
 fi
 
 # Extract help and version information from the script.
@@ -101,7 +101,7 @@ new_file="$(dirname -- "$FILE")/$basename$BAK_EXTENSION$extension"
 # Check if the input file exists.
 if [[ ! -f "$FILE" ]]; then
     printf >&2 "Error: Input file '${BOLD}$FILE${RESET}' does not exist.\n"
-    exit 2
+    exit 66  # File not found error.
 fi
 
 # Copy or rename the file depending on the options used.
