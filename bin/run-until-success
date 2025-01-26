@@ -33,11 +33,11 @@ while true; do
     output=$(timeout 20 "${COMMAND[@]}" 2>&1)
     exit_code=$?
 
-    if [ $exit_code -eq 0 ]; then
+    if [[ $exit_code -eq 0 ]]; then
         printf "%sCommand succeeded with exit code 0.%s\n" \
                "${SUCCESS_COLOR}" "${RESET}"
         break
-    elif [ $exit_code -eq 124 ]; then
+    elif [[ $exit_code -eq 124 ]]; then
         # Timeout occurred.
         printf "%sCommand timed out after 20 seconds. Retrying...%s\n" \
                "${TIMEOUT_MSG_COLOR}" "${RESET}"
@@ -52,6 +52,6 @@ while true; do
 done
 
 # Print the output if there is any.
-if [ -n "$output" ]; then
+if [[ -n "$output" ]]; then
     printf "%s\n" "$output"
 fi
