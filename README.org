@@ -5,26 +5,36 @@
 #+KEYWORDS:  shell, script, bash
 #+OPTIONS:   num:nil
 
-Command-line-utilities-leuven is a collection of useful Shell scripts and
-command-line tools that can simplify and automate tasks on the command line.
-From file manipulation to system administration, these scripts cover a wide
-range of tasks and can save you time and effort in your daily workflow.  Whether
-you're a seasoned command-line user or just getting started, this repository has
-something for everyone.
-
-"Running XXX. This may take some time... done."
+*command-line-utilities-leuven* is a collection of practical Shell scripts and
+command-line tools designed to simplify and automate tasks on the command
+line. From file management to system administration, these scripts cover a wide
+variety of functions and can save you time and effort in your everyday
+workflow. Whether you're an experienced command-line user or just getting
+started, this repository has something for everyone.
 
 * Requirements
 
-To be able to use the following commands, ensure that the following package is
-installed on your system.
+Before using the following commands, ensure that the necessary packages are
+installed on your system:
 
-- [[https://github.com/docopt/docopts][docopts]] (~docopt~ for shell -- make beautiful CLI with ease)
+- [[https://github.com/docopt/docopts][docopts]] ("docopt for shell" — create beautiful command-line interfaces with ease)
 
-  (I choose for the "with grep" syntax to have the help and version messages
-  parsed from script *comments*, while avoiding having to source =docopts.sh=.)
+  /Note:/ This script uses the "with grep" syntax to parse help and version
+  messages directly from script *comments*, avoiding the need to source
+  =docopts.sh=.
 
-- [[https://github.com/fniessen/wsl][wsl]] repository (for =bin/docopts=, needed in a WSL environment)
+- [[https://github.com/fniessen/wsl][wsl]] repository (for =bin/docopts=, required in a WSL environment)
+
+* Custom Exit Codes
+
+The following custom exit codes are used throughout the scripts:
+
+- ~64~ -- Generic script error (use for unexpected failures).
+- ~65~ -- Invalid input error (e.g., missing parameters, invalid arguments, or
+  missing dependencies like =docopts=).
+- ~66~ -- File not found error (e.g., attempting to access a file that doesn't
+  exist).
+- ~67~ -- Command-line arguments error (e.g., improper usage of flags or options).
 
 * Commands
 
