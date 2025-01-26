@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Check if the correct number of arguments is provided.
-if [ "$#" -ne 2 ]; then
+if [[ "$#" -ne 2 ]]; then
     printf "Usage: %s directory1 directory2\n" "$0"
     exit 1
 fi
