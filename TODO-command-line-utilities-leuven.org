@@ -1,9 +1,17 @@
 # Hey Emacs, this is a -*- org -*- file ...
-#+TITLE:     TODO
+#+TITLE:     Enhancements TODOs
 
 * Tasks
 
-** TODO Filter the output of find-big-files by the file extension?
+** TODO [#A] Use '[[' over '[' in Bash scripts (use Bashisms)
+
+Advantages of '[[':
+- Improved functionality: You can use logical operators like '&&' and '||'
+  directly within the test
+- Better handling of strings: does not require escaping and quoting
+- No word-splitting or filename expansion
+
+** TODO Filter the output of 'find-big-files' by file extension
 
 When stdin is not empty, the scripts should use it as a filter, so that we could
 pipe multiple scripts (use xargs) to find big files of a certain extension
@@ -11,7 +19,7 @@ pipe multiple scripts (use xargs) to find big files of a certain extension
 
 : find-files-by-extension.sh txt | xargs -n 1 ./find-big-files
 
-** TODO Error Zsh in prompt (décalage)
+** TODO Investigate Zsh prompt error (offset issue)
 
 Pour reproduire, générer une erreur
 
@@ -30,19 +38,19 @@ $ d
 1. Générer une erreur
 2. Rappeler la commande précédente (avec flèche up) -> il y a un décalage...
 
-** TODO Add other utilities
+** TODO Add other utility scripts or aliases
 
 See https://gitlab.com/bertrand-benoit/scripts-common for interesting ones.
 
-** NEW Docker aliases
+** MAYB Add Docker aliases for common workflows
 
 See docker in https://project-awesome.org/unixorn/awesome-zsh-plugins
 
-** NEW Shellder prompt
+** MAYB Experiment with Shellder as an alternative prompt
 
 https://github.com/simnalamburt/shellder
 
-** NEW Alternative to cat
+** MAYB Evaluate alternatives to 'cat' for specific use cases
 
 https://github.com/sharkdp/bat
 
@@ -55,19 +63,15 @@ There is a Docker image that you can use to run bat in a container:
 : docker pull danlynn/bat
 : alias bat='docker run -it --rm -e BAT_THEME -e BAT_STYLE -e BAT_TABS -v "$(pwd):/myapp" danlynn/bat'
 
-** NEW Echo vs Printf
+** MAYB Replace 'echo' by 'printf' for better output handling
 
 https://unix.stackexchange.com/questions/65803/why-is-printf-better-than-echo
 
 https://unix.stackexchange.com/questions/356686/whats-the-safest-most-portable-way-to-invoke-the-echo-binary
 
-** NEW Bash and others XXX
+** MAYB Explore enhancements for Bash and other shells
 
 https://stackoverflow.blog/2020/02/12/when-laziness-is-efficient-make-the-most-of-your-command-line/?cb=1
 http://www.marinamele.com/2014/05/customize-colors-of-your-terminal-in-mac-os-x.html
 https://github.com/jondot/awesome-devenv
 https://github.com/mrzool/bash-sensible
-
-** TODO [#A] Remplacer [[ par [ (utiliser le Bashism) dans les if
-
-Également à faire dans le repo "Shell"...
