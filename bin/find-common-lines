@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-common-lines, Time-stamp: <2024-12-24 Tue 10:25>
-#? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
+#? find-common-lines, Time-stamp: <2025-01-26 Sun 18:21>
+#? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -44,11 +44,11 @@ cleanup() {
     rm -f "$temp_file1" "$temp_file2"
 }
 
-# Register cleanup function to be called on script interrupt.
+# Ensure cleanup is performed on interrupt.
 trap cleanup INT
 
 # Check if files exist.
-if [ ! -f "$FILE1" ] || [ ! -f "$FILE2" ]; then
+if [[ ! -f "$FILE1" || ! -f "$FILE2" ]]; then
     printf >&2 "Error: Both files must exist.\n"
     exit 2
 fi
@@ -59,7 +59,7 @@ if ! command -v dos2unix &>/dev/null; then
     exit 2
 fi
 
-# Create temporary copies of the files.
+# Create temporary files to hold the contents of the input files.
 temp_file1=$(mktemp)
 temp_file2=$(mktemp)
 
@@ -67,13 +67,13 @@ temp_file2=$(mktemp)
 cp "$FILE1" "$temp_file1"
 cp "$FILE2" "$temp_file2"
 
-# Convert temporary files to Unix format.
+# Convert temporary files to Unix format (dos2unix).
 dos2unix "$temp_file1" "$temp_file2" >/dev/null 2>&1
 
 # Sort both temporary files and use `comm` to find common lines.
 common_lines=$(comm -12 <(sort "$temp_file1") <(sort "$temp_file2"))
 
-if [ -z "$common_lines" ]; then
+if [[ -z "$common_lines" ]]; then
     printf "No common lines found.\n"
 else
     printf >&2 "Common lines:\n"
