@@ -3,7 +3,7 @@
 # Search files matching the specified pattern, sort by timestamp.
 
 # Check if a search pattern is provided.
-if [ $# -eq 0 ]; then
+if [[ $# -eq 0 ]]; then
     printf "Please provide a search pattern.\n"
     exit 1
 fi
