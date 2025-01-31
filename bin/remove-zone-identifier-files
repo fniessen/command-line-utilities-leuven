@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? remove-zone-identifier-files, Time-stamp: <2025-01-05 Sun 12:27>
-#? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
+#? remove-zone-identifier-files, Time-stamp: <2025-01-31 Fri 20:01>
+#? Copyright (C) 2023-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -9,7 +9,7 @@
 
 ##? Usage: remove-zone-identifier-files [options]
 ##?
-##? Remove files ending with ":Zone.Identifier" in a directory hierarchy
+##? Remove files ending with "Zone.Identifier" in a directory hierarchy
 ##?
 ##? Options:
 ##?   -h, --help                    display this help and exit
@@ -18,10 +18,16 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
+# Define custom exit codes.
+readonly E_GENERIC=64
+readonly E_INVALID_INPUT=65
+readonly E_FILE_NOT_FOUND=66
+readonly E_CMDLINE_ARG=67
+
 # Check if 'docopts' command is available.
 if ! command -v docopts > /dev/null 2>&1; then
     printf >&2 "Error: 'docopts' command not found.\n"
-    exit 2
+    exit $E_INVALID_INPUT
 fi
 
 # Extract help and version information from the script.
@@ -30,28 +36,22 @@ version=$(grep "^#?" "$0" | cut -c 4-)
 
 # Parse command-line arguments using docopts.
 args="$(docopts -h "$help" -V "$version" : "$@")"
-eval "$args"
+eval "$args" || exit $E_CMDLINE_ARG
 
 # Set -e to exit on non-zero command status.
 set -e
 
-# Directory path where Zone.Identifier files will be removed.
+# Set directory path (where Zone.Identifier files will be removed).
 directory_path="."
 
 # Check if the directory exists.
 if [[ ! -d "$directory_path" ]]; then
-    printf "Error: Directory does not exist: %s\n" "$directory_path"
-    exit 1
+    printf >&2 "Error: Directory does not exist: %s\n" "$directory_path"
+    exit $E_FILE_NOT_FOUND
 fi
 
-# Find and remove files ending with ":Zone.Identifier".
-find "$directory_path" -type f -name "*:Zone.Identifier" -print0 2>/dev/null \
-    | while IFS= read -r -d '' file; do
-    if [[ -e "$file" ]]; then
-        rm "$file"
-        printf "Removed %s\n" "$file"
-    fi
-done
+# Find and remove files ending with "Zone.Identifier".
+find "$directory_path" -type f -name "*Zone.Identifier" -delete -print 2>/dev/null
 
 # Print completion message.
 printf "Script execution complete.\n"
