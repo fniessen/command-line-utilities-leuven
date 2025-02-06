@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-common-lines, Time-stamp: <2025-01-26 Sun 18:21>
+#? find-common-lines, Time-stamp: <2025-02-06 Thu 10:56>
 #? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -22,11 +22,13 @@
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Check if 'docopts' command is available.
-if ! command -v docopts > /dev/null 2>&1; then
-    printf >&2 "Error: 'docopts' command not found.\n"
-    exit 2
-fi
+# Check if required commands are available.
+for cmd in docopts dos2unix; do
+    if ! command -v "$cmd" > /dev/null 2>&1; then
+        printf >&2 "Error: '%s' command not found.\n" "$cmd"
+        exit 2
+    fi
+done
 
 # Extract help and version information from the script.
 help=$(grep "^##?" "$0" | cut -c 5-)
@@ -53,12 +55,6 @@ if [[ ! -f "$FILE1" || ! -f "$FILE2" ]]; then
     exit 2
 fi
 
-# Check if 'dos2unix' command is available.
-if ! command -v dos2unix &>/dev/null; then
-    printf >&2 "Error: 'dos2unix' is not installed or not found in PATH.\n"
-    exit 2
-fi
-
 # Create temporary files to hold the contents of the input files.
 temp_file1=$(mktemp)
 temp_file2=$(mktemp)
@@ -68,7 +64,7 @@ cp "$FILE1" "$temp_file1"
 cp "$FILE2" "$temp_file2"
 
 # Convert temporary files to Unix format (dos2unix).
-dos2unix "$temp_file1" "$temp_file2" >/dev/null 2>&1
+dos2unix "$temp_file1" "$temp_file2" > /dev/null 2>&1
 
 # Sort both temporary files and use `comm` to find common lines.
 common_lines=$(comm -12 <(sort "$temp_file1") <(sort "$temp_file2"))
