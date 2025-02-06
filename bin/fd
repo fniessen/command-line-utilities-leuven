@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2024-12-24 Tue 10:20>
+#? fd, Time-stamp: <2025-02-06 Thu 10:18>
 #? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -12,7 +12,7 @@
 ##? Find directories matching a string and print their full file name.
 ##?
 ##? Note:
-##?   Permission denied errors are suppressed using '2>/dev/null'.
+##?   Permission denied errors are suppressed using '2> /dev/null'.
 ##?
 ##? Arguments:
 ##?   PATTERN                       Optional string
@@ -54,7 +54,7 @@ PATTERN="${PATTERN:-}"
 
 # Find and colorize matching directory names, suppressing permission denied
 # errors.
-stdbuf -oL find . -type d -iname "*$PATTERN*" -exec printf '%s/\n' {} \; 2>/dev/null \
+stdbuf -oL find . -type d -iname "*$PATTERN*" -exec printf '%s/\n' {} \; 2> /dev/null \
     | stdbuf -oL sed 's|^./||' \
     | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR" grep -i "$PATTERN" --color=always
 
