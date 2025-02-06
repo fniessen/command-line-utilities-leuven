@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? remove-zone-identifier-files, Time-stamp: <2025-01-31 Fri 20:01>
+#? remove-zone-identifier-files, Time-stamp: <2025-02-06 Thu 10:13>
 #? Copyright (C) 2023-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -51,7 +51,8 @@ if [[ ! -d "$directory_path" ]]; then
 fi
 
 # Find and remove files ending with "Zone.Identifier".
-find "$directory_path" -type f -name "*Zone.Identifier" -delete -print 2>/dev/null
+find "$directory_path" -type f -name "*Zone.Identifier" -delete -print 2> /dev/null \
+    | sed 's|^./||'
 
 # Print completion message.
 printf "Script execution complete.\n"
