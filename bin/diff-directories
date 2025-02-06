@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? diff-directories, Time-stamp: <2024-12-18 Wed 13:10>
+#? diff-directories, Time-stamp: <2025-02-06 Thu 10:19>
 #? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -55,7 +55,7 @@ set +e
 
 # Perform a recursive directory comparison, suppress errors, sort the output,
 # and display it.
-diff_output=$(diff -rq "$DIR1" "$DIR2" 2>/dev/null)
+diff_output=$(diff -rq "$DIR1" "$DIR2" 2> /dev/null)
 if [[ -n "$diff_output" ]]; then
     printf "%s\n" "$diff_output" | sort
 else

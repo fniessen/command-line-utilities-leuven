@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if command -v fdupes >/dev/null; then
+if command -v fdupes > /dev/null; then
     # fdupes is found, use it to find duplicate files
     printf "Using fdupes command to find duplicate files\n"
     fdupes -r /path/to/directory

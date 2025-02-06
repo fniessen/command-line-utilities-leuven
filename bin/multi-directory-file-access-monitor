@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? Time-stamp: <2025-01-05 Sun 12:27>
+#? Time-stamp: <2025-02-06 Thu 10:19>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -58,7 +58,7 @@ fi
 set +e
 
 # Use find to locate all READABLE directories, hiding "permission denied" errors.
-directories=($(find "$DIRECTORY" -type d -readable -not -name '*.git*' 2>/dev/null))
+directories=($(find "$DIRECTORY" -type d -readable -not -name '*.git*' 2> /dev/null))
 
 # Re-enable -e.
 set -e

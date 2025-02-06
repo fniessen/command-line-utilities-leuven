@@ -28,7 +28,7 @@ gotodir() {
 }
 
 jpgexist() {
-    if ! find . -iname "*.jpg" -type f >/dev/null 2>&1; then
+    if ! find . -iname "*.jpg" -type f > /dev/null 2>&1; then
         echo "There are no JPEG pictures in this directory. Please try again."
         exit 0
     fi

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-recent-files, Time-stamp: <2025-01-05 Sun 11:57>
+#? find-recent-files, Time-stamp: <2025-02-06 Thu 10:16>
 #? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -59,12 +59,12 @@ readonly PRINT_FORMAT="%CY-%Cm-%Cd %Ca %CH:%CM - %P\n"
 if [[ -n "$extension" ]]; then
     # If the extension variable is set, use it to find files with the specific
     # extension.
-    find "$DIRECTORY" -type d -name .git -prune -o -type f -iname "*.$extension" -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT" 2>/dev/null \
+    find "$DIRECTORY" -type d -name .git -prune -o -type f -iname "*.$extension" -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT" 2> /dev/null \
         | sort -k5
 else
     # If the extension variable is not set, find all files without specifying an
     # extension.
-    find "$DIRECTORY" -type d -name .git -prune -o -type f -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT" 2>/dev/null \
+    find "$DIRECTORY" -type d -name .git -prune -o -type f -daystart -mtime -"$THRESHOLD" -printf "$PRINT_FORMAT" 2> /dev/null \
         | sort -k5
 fi
 
