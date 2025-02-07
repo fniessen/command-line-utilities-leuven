@@ -39,8 +39,25 @@ The following custom exit codes are used throughout the scripts:
 * Commands
 
 ** bak
+:PROPERTIES:
+:ID:       7829854b-1ab9-4615-afa7-5647db7e08e1
+:END:
 
 Create a quick back-up copy of a file.
+
+See also [[id:e59bc736-4850-4ca6-b284-544b80fda95e][unbak]].
+
+** diff-directories
+
+Compare two directories recursively and display sorted differences.
+
+** duplicates
+
+Print the duplicate lines from a file or standard input.
+
+** expand-zips
+
+Expand every .zip file into separate directories.
 
 ** f
 
@@ -54,30 +71,146 @@ Find directories matching a string and print their full file name.
 
 Find files matching a string and print their full file name.
 
-** find-duplicate-filenames
+** find-big-files
 
-Find files with duplicate or conflicting names.
+Find big files.
 
-** find-duplicate-files
+** find-commands
 
-Search for duplicated files.
+Find commands matching a string and print their full file name.
 
-** find-recently-modified-files
+** find-common-lines
 
-Find all files modified in the last 7 days (including today).
+Find common lines between two files.
+
+** find-duplicate-jars
+
+Find and delete duplicate jar files, keeping only the most recent version.
+
+** find-empty-directories
+
+Search for empty directories in a directory hierarchy
+
+** find-empty-files
+
+Search for empty files in a directory hierarchy
+
+** find-executable-files
+
+Find executable files in the current directory and its subdirectories.
+
+** find-files-by-extension
+
+Find files with specified extension.
+
+** find-files-with-strings
+
+Search for multiple strings in files.
+
+** find-moderately-recent-files
+
+Find all files modified in the last 30 days (including today).
+
+** find-nonascii-filenames
+
+Search for files with non-ASCII characters in their name
+
+** find-recent-files
+
+Find all files modified in the last THRESHOLD days (including today).
 
 ** find-today-files
 
-Find all files modified today in a specified directory or the current directory
-(if none is specified), with the option to filter by file extension.
+Find all files modified today in a specified directory, filtered by extension,
+and sort by full path.
+
+** find-up
+
+Recursively list the contents of each directory starting from the current
+working directory and moving upwards towards the root directory, excluding the
+root directory itself.
+
+** find-utf8-bom-files
+
+Find all UTF-8 encoded files that contain the BOM (ignoring binary files).
+
+** find-yesterday-files
+
+Find all files modified yesterday in a specified directory, filtered by
+extension.
+
+** newer
+
+Check if FILE is newer than REF.
+
+** remove-blank-lines
+
+Remove blank lines from the output.
+
+** remove-bom
+
+Remove the UTF-8 encoded BOM if it exists (make no changes if it doesn't).
+
+** remove-broken-symlinks
+
+Search for broken symbolic links.
+
+** remove-duplicate-lines
+
+Remove duplicate entries in a file without sorting.
+
+** remove-empty-directories
+
+Delete all empty directories in the current directory and its subdirectories,
+except for the current directory.
+
+** remove-empty-files
+
+Delete all empty files in the current directory and its subdirectories.
 
 ** remove-matching-lines-between-files
 
-Remove lines that match any lines between two files.
+Remove lines from FILE_A that match any lines in FILE_B.
 
-** uncolor
+** remove-thumbsdb-files
 
-Strip color sequences from the input text.
+Delete all Thumbs.db files from directory and its subdirectories.
+
+** remove-unwanted-files-and-directories
+
+Remove unwanted files and directories from the system, potentially freeing up
+disk space.
+
+** remove-zone-identifier-files
+
+Remove files ending with "Zone.Identifier" in a directory hierarchy.
+
+** replace-in-directory
+
+Replace all occurrences of a given string in all files within a specified
+directory.
+
+** revoke-exec-perms
+
+Revoking exec permission for specific file extensions.
+
+** run-command-with-notification
+
+Notify when task is done (even if it is running in some background screen
+session).
+
+** run-remote-command
+
+Use SSH to remotely execute a command.
+
+** run-until-success
+
+Run a command repeatedly until it exits with status code 0, with a timeout of 20
+seconds per attempt.
+
+** search-minified-css
+
+Search for a term in minified CSS files.
 
 ** swap
 
@@ -86,6 +219,28 @@ Swap the contents of two files.
 ** time-run-command-100
 
 Run a command 100 times and print its average and median execution time.
+
+** unaccent
+
+Replace accented characters (in ISO 8859-1 encoding) with their ASCII
+equivalents.
+
+** unbak
+:PROPERTIES:
+:ID:       e59bc736-4850-4ca6-b284-544b80fda95e
+:END:
+
+Restore a previously backed-up file to its original state.
+
+See also [[id:7829854b-1ab9-4615-afa7-5647db7e08e1][bak]].
+
+** uncolor
+
+Strip color sequences from the input text.
+
+** update-packages
+
+Update package list and upgrade all installed packages to their latest versions.
 
 * Color coding for file changes
 
