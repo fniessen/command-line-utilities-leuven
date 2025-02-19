@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-yesterday-files, Time-stamp: <2024-12-24 Tue 10:21>
-#? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
+#? find-yesterday-files, Time-stamp: <2025-02-07 Fri 19:19>
+#? Copyright (C) 2023-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -9,7 +9,8 @@
 
 ##? Usage: find-yesterday-files [options] [DIRECTORY]
 ##?
-##? Find all files modified yesterday in a specified directory, filtered by extension.
+##? Find all files modified yesterday in a specified directory, filtered by
+##? extension.
 ##?
 ##? Arguments:
 ##?   DIRECTORY                     starting directory

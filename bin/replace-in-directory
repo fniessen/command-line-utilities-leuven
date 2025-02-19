@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? replace-in-directory, Time-stamp: <2025-01-05 Sun 11:57>
-#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
+#? replace-in-directory, Time-stamp: <2025-02-07 Fri 19:26>
+#? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -9,7 +9,8 @@
 
 ##? Usage: replace-in-directory [options] OLD_STRING NEW_STRING DIRECTORY
 ##?
-##? Replace all occurrences of a given string in all files within a specified directory.
+##? Replace all occurrences of a given string in all files within a specified
+##? directory.
 ##?
 ##? Arguments:
 ##?   OLD_STRING                    String that needs to be replaced.

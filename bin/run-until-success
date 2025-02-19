@@ -2,7 +2,8 @@
 
 # Usage: run-until-success COMMAND [ARGS...]
 #
-# Run a command repeatedly until it exits with status code 0, with a timeout of 20 seconds per attempt.
+# Run a command repeatedly until it exits with status code 0, with a timeout of
+# 20 seconds per attempt.
 
 # Get the command and arguments.
 COMMAND=("$@")
