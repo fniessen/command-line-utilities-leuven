@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2025-02-06 Thu 10:18>
-#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
+#? fd, Time-stamp: <2025-02-19 Wed 12:06>
+#? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -54,8 +54,7 @@ PATTERN="${PATTERN:-}"
 
 # Find and colorize matching directory names, suppressing permission denied
 # errors.
-stdbuf -oL find . -type d -iname "*$PATTERN*" -exec printf '%s/\n' {} \; 2> /dev/null \
-    | stdbuf -oL sed 's|^./||' \
+stdbuf -oL find . -type d -iname "*$PATTERN*" -printf '%P/\n' 2> /dev/null \
     | GREP_COLORS="sl=$DIR_COLOR:mt=$MATCH_COLOR" grep -i "$PATTERN" --color=always
 
 # Exit successfully.

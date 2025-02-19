@@ -6,7 +6,7 @@
 set -uo pipefail
 
 # Use the find command to search for executable files.
-find . -type f -executable -print
+find . -type f -executable -printf '%P\n'
 
 # Exit with a success code.
 exit 0
