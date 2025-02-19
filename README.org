@@ -25,7 +25,7 @@ installed on your system:
 
 - [[https://github.com/fniessen/wsl][wsl]] repository (for =bin/docopts=, required in a WSL environment)
 
-* Custom Exit Codes
+* Custom exit codes
 
 The following custom exit codes are used throughout the scripts:
 
@@ -359,7 +359,7 @@ set -e
 for cmd in docopts nmap; do
     if ! command -v "$cmd" > /dev/null 2>&1; then
         printf >&2 "Error: '%s' command not found.\n" "$cmd"
-        exit 2
+        exit 65  # Invalid input error (docopts not found).
     fi
 done
 #+end_src
