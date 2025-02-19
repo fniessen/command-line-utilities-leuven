@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2025-01-05 Sun 11:57>
-#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
+#? unbak, Time-stamp: <2025-02-19 Wed 10:49>
+#? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -92,7 +92,7 @@ original_file_with_extension="$original_file$extension"
 
 # Check if the original file exists.
 if [[ -f "$original_directory/$original_file_with_extension" ]]; then
-    printf "The original file '${BOLD}$original_file_with_extension${RESET}' already exists.\n"
+    printf "The file '${BOLD}$original_file_with_extension${RESET}' already exists.\n"
 
     # Disable 'set -e' temporarily to handle potential errors during command execution.
     set +e
