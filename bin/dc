@@ -19,7 +19,7 @@ NC='\033[0m' # No Color
 PATTERN="${1:-*}"
 
 # Use find to locate files matching the pattern and avoid .git directories.
-find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" 2>/dev/null \
+find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%A@ %AY-%Am-%Ad %Aa %AH:%AM - %P\n" 2> /dev/null \
     | sort -n \
     | cut -d " " -f 2- \
     | awk -v RED="$RED" -v ORANGE="$ORANGE" -v YELLOW="$YELLOW" -v GREEN="$GREEN" -v BLUE="$BLUE" -v MAGENTA="$MAGENTA" -v NC="$NC" '
@@ -33,7 +33,8 @@ find . -type d -name ".git" -prune -o -type f -iname "*$PATTERN*" -printf "%A@ %
         split($1, date, "-");
         timestamp = mktime(date[1] " " date[2] " " date[3] " 00 00 00");
         now = systime();
-        age_in_days = int((now - timestamp) / 86400);
+        seconds_in_a_day = (24 * 60 * 60);
+        age_in_days = int((now - timestamp) / seconds_in_a_day);
 
         # Determine color based on age.
         if (age_in_days == 0) {
