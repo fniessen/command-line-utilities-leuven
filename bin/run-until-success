@@ -2,8 +2,7 @@
 
 # Usage: run-until-success COMMAND [ARGS...]
 #
-# Run a command repeatedly until it exits with status code 0, with a timeout of
-# 20 seconds per attempt.
+# Retry a command until it exits with success (exit code 0).
 
 # Get the command and arguments.
 COMMAND=("$@")
@@ -44,12 +43,12 @@ while true; do
                "${TIMEOUT_MSG_COLOR}" "${RESET}"
     else
         # Other errors.
-        printf "%sCommand failed with exit code %d.%s\n" \
+        printf "%sCommand failed with exit code %d. Retrying...%s\n" \
                "${FAIL_COLOR}" $exit_code "${RESET}"
     fi
 
     # Wait before retrying.
-    sleep 2
+    sleep 1
 done
 
 # Print the output if there is any.

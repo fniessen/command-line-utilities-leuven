@@ -4,3 +4,6 @@
 if [[ ":$PATH:" != *":$HOME/winbin:"* ]]; then
     export PATH="$HOME/winbin:$PATH";
 fi
+
+# Run a command repeatedly until it succeeds.
+alias retry='run-until-success'
