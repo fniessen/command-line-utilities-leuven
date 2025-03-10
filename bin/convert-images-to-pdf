@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Vérifier si les arguments sont passés (les fichiers image)
+if [ $# -lt 1 ]; then
+    printf "Usage: %s image1 [image2 ...]\n" "$0"
+    exit 1
+fi
+
+# Taille d'un iPad en pixels (par exemple, pour un iPad classique, on prend 1536x2048)
+ipad_width=1536
+ipad_height=2048
+
+# Dossier temporaire pour stocker les images redimensionnées
+temp_dir=$(mktemp -d)
+
+# Redimensionner toutes les images et les enregistrer dans le dossier temporaire
+for image in "$@"; do
+    if [ -f "$image" ]; then
+        output_image="$temp_dir/$(basename "$image")"
+        printf "Redimensionnement de %s...\n" "$image"
+        convert "$image" -resize ${ipad_width}x${ipad_height} "$output_image"
+    else
+        printf "Fichier %s non trouvé.\n" "$image"
+    fi
+done
+
+# Créer le PDF à partir des images redimensionnées avec img2pdf
+printf "Création du fichier PDF...\n"
+output_pdf="output_ipad.pdf"
+img2pdf "$temp_dir"/*.jpg -o "$output_pdf"
+
+# Nettoyage du dossier temporaire
+rm -rf "$temp_dir"
+
+printf "Le PDF a été créé avec succès : %s\n" "$output_pdf"
