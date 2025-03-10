@@ -10,21 +10,53 @@ fi
 ipad_width=1536
 ipad_height=2048
 
+# Taille de la boîte pour cacher le logo (100x75 pixels)
+box_width=100
+box_height=75
+
+# Couleur de la boîte : blanc
+box_color="white"
+
 # Dossier temporaire pour stocker les images redimensionnées
 temp_dir=$(mktemp -d)
 
-# Redimensionner toutes les images et les enregistrer dans le dossier temporaire
+# Initialisation du numéro de page (commencer à 1)
+page_number=1
+
+# Redimensionner et ajouter la boîte avec le numéro sur toutes les images
 for image in "$@"; do
     if [ -f "$image" ]; then
+        # Récupérer les dimensions de l'image pour déterminer où placer la boîte
+        img_width=$(identify -format "%w" "$image")
+        img_height=$(identify -format "%h" "$image")
+
+        # Position de la boîte : coin inférieur droit (aligné sur le bord de l'image)
+        box_x=$((img_width - box_width + 512))   # Position horizontale : bord droit de l'image - largeur de la boîte
+        box_y=$((img_height - box_height + 390)) # Position verticale : bord bas de l'image - hauteur de la boîte
+
+        # Créer une version de l'image avec la boîte et le numéro de page
         output_image="$temp_dir/$(basename "$image")"
-        printf "Redimensionnement de %s...\n" "$image"
-        convert "$image" -resize ${ipad_width}x${ipad_height} "$output_image"
+        printf "Ajout de la boîte et du numéro de page sur %s...\n" "$image"
+
+        # Ajouter la boîte blanche et le numéro de page
+        convert "$image" \
+                -resize ${ipad_width}x${ipad_height} \
+                -draw "rectangle $box_x,$box_y $(($box_x + $box_width)),$(($box_y + $box_height))" \
+                -fill "$box_color" \
+                -draw "rectangle $box_x,$box_y $(($box_x + $box_width)),$(($box_y + $box_height))" \
+                -fill black \
+                -pointsize 24 \
+                -draw "text $(($box_x + 40)),$(($box_y + 40)) '$page_number'" \
+                "$output_image"
+
+        # Incrémenter le numéro de page
+        page_number=$((page_number + 1))
     else
         printf "Fichier %s non trouvé.\n" "$image"
     fi
 done
 
-# Créer le PDF à partir des images redimensionnées avec img2pdf
+# Créer le PDF à partir des images avec la boîte et les numéros de page
 printf "Création du fichier PDF...\n"
 output_pdf="output_ipad.pdf"
 img2pdf "$temp_dir"/*.jpg -o "$output_pdf"
