@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-jars, Time-stamp: <2024-12-24 Tue 10:24>
-#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
+#? find-duplicate-jars, Time-stamp: <2025-03-17 Mon 13:08>
+#? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -42,19 +42,23 @@ directory=${directory%/}
 # Find all the jar files in the directory.
 find "$directory" -type f -name "*.jar" -print0 |
     while IFS= read -r -d '' jar_file; do
-        # Extract the base name and the version number from the jar file name.
         base_name=$(basename "$jar_file" .jar)
-        version=$(printf "%s\n" "$base_name" | sed 's/.*-\([0-9]\)/\1/')
-        key=$(printf "%s\n" "$base_name" | sed "s/-${version}//")
+
+        # Extract the base name and the version number from the jar file name.
+        version=$(printf "%s\n" "$base_name" | sed -E 's/.*-([0-9][0-9.]*(-[A-Za-z0-9]*)*).*/\1/')
+        key=$(printf "%s\n" "$base_name" | sed "s/-${version}$//")
 
         # Find all the jar files with the same base name.
-        versions=$(find "$directory" -type f -name "$key*.jar")
+        versions=$(find "$directory" -type f -name "$key-[0-9]*.jar")
 
         # Sort the jar files by version number in reverse order.
-        sorted_versions=$(printf "%s\n" "$versions" | sort -r -t- -k2,2)
+        sorted_versions=$(printf "%s\n" "$versions" | sort -V -r)
 
         # Keep only the most recent jar file.
         to_delete=$(printf "%s\n" "$sorted_versions" | tail -n +2)
+
+        # Skip if no duplicates.
+        [ -z "$to_delete" ] && continue
 
         # Show duplicates.
         while IFS= read -r old_version; do
