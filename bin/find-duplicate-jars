@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-jars, Time-stamp: <2025-03-17 Mon 13:08>
+#? find-duplicate-jars, Time-stamp: <2025-03-17 Mon 13:30>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -39,33 +39,43 @@ set -e
 directory="WEB-INF/lib"
 directory=${directory%/}
 
-# Find all the jar files in the directory.
-find "$directory" -type f -name "*.jar" -print0 |
-    while IFS= read -r -d '' jar_file; do
-        base_name=$(basename "$jar_file" .jar)
+# Declare associative array explicitly.
+declare -A jar_groups
 
-        # Extract the base name and the version number from the jar file name.
-        version=$(printf "%s\n" "$base_name" | sed -E 's/.*-([0-9][0-9.]*(-[A-Za-z0-9]*)*).*/\1/')
-        key=$(printf "%s\n" "$base_name" | sed "s/-${version}$//")
+# Collect all JAR files and group them.
+while IFS= read -r -d '' jar_file; do
+    base_name=$(basename "$jar_file" .jar)
+    version=$(printf "%s\n" "$base_name" | sed -E 's/.*-([0-9][0-9.]*(-[A-Za-z0-9]*)*).*/\1/')
+    key=$(printf "%s\n" "$base_name" | sed "s/-${version}$//")
 
-        # Find all the jar files with the same base name.
-        versions=$(find "$directory" -type f -name "$key-[0-9]*.jar")
+    # Append to the group (using newline as separator).
+    # Use parameter expansion with default value to handle first occurrence.
+    jar_groups[$key]="${jar_groups[$key]:-}${jar_groups[$key]:+$'\n'}$jar_file"
+done < <(find "$directory" -type f -name "*.jar" -print0)
 
-        # Sort the jar files by version number in reverse order.
-        sorted_versions=$(printf "%s\n" "$versions" | sort -V -r)
+# Process each group of JAR files.
+for key in "${!jar_groups[@]}"; do
+    # Convert the newline-separated list to an array.
+    mapfile -t versions <<< "${jar_groups[$key]}"
 
-        # Keep only the most recent jar file.
-        to_delete=$(printf "%s\n" "$sorted_versions" | tail -n +2)
+    # Skip if no duplicates.
+    [ "${#versions[@]}" -le 1 ] && continue
 
-        # Skip if no duplicates.
-        [ -z "$to_delete" ] && continue
+    # Sort versions in reverse order.
+    mapfile -t sorted_versions < <(printf "%s\n" "${versions[@]}" | sort -V -r)
 
-        # Show duplicates.
-        while IFS= read -r old_version; do
-            printf "Found duplicate jar file: %s\n" "$old_version"
-            printf "The most recent version is: %s\n" "$(printf "%s\n" "$sorted_versions" | head -n 1)"
-        done <<< "$to_delete"
+    # Keep the most recent version (first in sorted list).
+    most_recent="${sorted_versions[0]}"
+
+    # Get duplicates (all but the first).
+    duplicates=("${sorted_versions[@]:1}")
+
+    # Print duplicates.
+    for old_version in "${duplicates[@]}"; do
+        printf "Found duplicate jar file: %s\n" "$old_version"
+        printf "The most recent version is: %s\n" "$most_recent"
     done
+done
 
 # Exit with a success code.
 exit 0
