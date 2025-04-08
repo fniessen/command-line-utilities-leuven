@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+#? check-jar-duplicates, Time-stamp: <2025-01-05 Sun 12:05>
+#? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: check-jar-duplicates [options]
+##?
+##? Check for duplicate JAR files in the specified directory and its subdirectories.
+##?
+##? Options:
+##?   -h, --help                    display this help and exit
+##?   -V, --version                 display version information and exit
+
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
+
+# Check if 'docopts' command is available.
+if ! command -v docopts > /dev/null 2>&1; then
+    printf >&2 "Error: 'docopts' command not found.\n"
+    exit 2
+fi
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Parse command-line arguments using docopts.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
+
+# Directory containing the JAR files.
+directory="WEB-INF/lib"
+
+# List all JAR files with their full paths.
+jar_list=$(find "$directory" -name "*.jar")
+
+# Prepare a temporary file to hold the mapping of base names to full paths.
+tempfile=$(mktemp)
+
+# Extract base filenames and store them with their full paths.
+for jar in $jar_list; do
+    # Extract the base name by removing version numbers, suffixes, and extensions.
+    base_name=$(basename "$jar" | sed -E 's/([-_.0-9]+|[Ff]inal|[Rr][Cc][0-9]*)+\.jar$//')
+    printf "%s %s\n" "$base_name" "$jar" >> "$tempfile"
+done
+
+# Identify duplicates and their full paths.
+duplicates=$(awk '
+{
+    names[$1] = (names[$1] ? names[$1] RS $2 : $2)
+}
+END {
+    for (name in names)
+        if (split(names[name], paths, "\n") > 1) {
+            print names[name]
+        }
+}' "$tempfile" | sort)
+
+# Clean up the temporary file.
+rm -f "$tempfile"
+
+# Output any duplicates found.
+if [[ -n "$duplicates" ]]; then
+    printf >&2 "Duplicates detected:\n%s\n" "$duplicates"
+    exit 2
+else
+    printf "No duplicates found.\n"
+    exit 0
+fi
