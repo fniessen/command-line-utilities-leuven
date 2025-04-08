@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-duplicate-jars, Time-stamp: <2025-03-17 Mon 14:40>
+#? find-duplicate-jars, Time-stamp: <2025-04-08 Tue 14:15>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -72,8 +72,8 @@ for key in "${!jar_groups[@]}"; do
 
     # Print duplicates.
     for old_version in "${duplicates[@]}"; do
-        printf "Found duplicate jar file: %s\n" "$old_version"
-        printf " --> Most recent version: %s\n" "$most_recent"
+        printf "\033[1;37;41mFound duplicate jar file: %s\033[0m\n" "$old_version"
+        printf "\033[1;37;41m --> Most recent version: %s\033[0m\n" "$most_recent"
     done
 done
 
