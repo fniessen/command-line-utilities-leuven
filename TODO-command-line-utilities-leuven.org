@@ -23,7 +23,7 @@ SCHEDULED: <2025-04-01 Tue>
 - ~66~ – File not found error (e.g., trying to access a file that doesn't exist).
 - ~67~ – Command-line arguments error (e.g., improper usage of flags or options).
 
-** TODO "Running XXX. This may take some time... done."
+** TODO "This may take some time... done."
 
 ** TODO Follow Bash style guides
 
