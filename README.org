@@ -29,12 +29,18 @@ installed on your system:
 
 The following custom exit codes are used throughout the scripts:
 
-- ~64~ -- Generic script error (use for unexpected failures).
-- ~65~ -- Invalid input error (e.g., missing parameters, invalid arguments, or
-  missing dependencies like =docopts=).
-- ~66~ -- File not found error (e.g., attempting to access a file that doesn't
-  exist).
-- ~67~ -- Command-line arguments error (e.g., improper usage of flags or options).
+| Code | Name           | Meaning                              | Usage                                                                                          |
+|------+----------------+--------------------------------------+------------------------------------------------------------------------------------------------|
+|   64 | EX_USAGE       | Command-line usage error             | command misuse, bad input, invalid arguments                                                   |
+|   65 | EX_DATAERR     | Input data error / Data format error | bad input data                                                                                 |
+|   66 | EX_NOINPUT     | Cannot open input                    | missing files                                                                                  |
+|   67 | EX_NOUSER      | User unknown                         |                                                                                                |
+|   68 | EX_NOHOST      | Host unknown                         |                                                                                                |
+|   69 | EX_UNAVAILABLE | Service unavailable                  | a required external resource, service, or dependency (like ~docopts~) is missing / not available |
+|   70 | EX_SOFTWARE    | Internal software error              | bug or fault in the script's logic itself                                                      |
+|   71 | EX_OSERR       |                                      | most ~cp~ / ~mv~ failures, as they typically reflect OS-level problems                             |
+|   75 | EX_TEMPFAIL    | Temporary failure (retry later)      |                                                                                                |
+|   78 | EX_CONFIG      | Configuration error                  |                                                                                                |
 
 * Commands
 
@@ -314,6 +320,9 @@ and maintainable. Here are some best practices to keep in mind:
 
 - Use ~printf~ instead of ~echo~ for better control over the output format.
 
+- Use ~>&2~ to redirect output to standard error, instead of relying on
+  ~/dev/stderr~, for maximum portability and clarity.
+
 - Add a period to the end of the error messages, so that it follows grammatical
   conventions.
 
@@ -355,11 +364,17 @@ set -e
 *** Check for required commands at the beginning
 
 #+begin_src shell
+# Define tput formatting variables for reuse.
+BOLD=$(tput bold)
+FG_WHITE=$(tput setaf 7)
+BG_RED=$(tput setab 1)
+RESET=$(tput sgr0)
+
 # Check if required commands are available.
 for cmd in docopts nmap; do
     if ! command -v "$cmd" > /dev/null 2>&1; then
-        printf >&2 "Error: '%s' command not found.\n" "$cmd"
-        exit 65  # Invalid input error (docopts not found).
+        printf >&2 "${BOLD}${FG_WHITE}${BG_RED}ERROR: '%s' command not found.${RESET}\n" "$cmd"
+        exit 69                         # EX_UNAVAILABLE: Service unavailable.
     fi
 done
 #+end_src
