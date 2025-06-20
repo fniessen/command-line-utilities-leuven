@@ -364,17 +364,22 @@ set -e
 *** Check for required commands at the beginning
 
 #+begin_src shell
-# Define tput formatting variables for reuse.
-BOLD=$(tput bold)
-FG_WHITE=$(tput setaf 7)
-BG_RED=$(tput setab 1)
+# BSD sysexits.h exit codes.
+EX_OK=0
+EX_UNAVAILABLE=69
+
+# Define color and formatting variables.
 RESET=$(tput sgr0)
+BOLD=$(tput bold)
+WHITE=$(tput setaf 7)
+RED_BG=$(tput setab 1)
+ERROR="${BOLD}${WHITE}${RED_BG}"
 
 # Check if required commands are available.
 for cmd in docopts nmap; do
     if ! command -v "$cmd" > /dev/null 2>&1; then
-        printf >&2 "${BOLD}${FG_WHITE}${BG_RED}ERROR: '%s' command not found.${RESET}\n" "$cmd"
-        exit 69                         # EX_UNAVAILABLE: Service unavailable.
+        printf >&2 "${ERROR}ERROR: '%s' command not found.${RESET}\n" "$cmd"
+        exit $EX_UNAVAILABLE            # Service unavailable.
     fi
 done
 #+end_src
