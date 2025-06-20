@@ -3,6 +3,25 @@
 
 * Tasks
 
+** TODO Use this color initialization for shell scripts
+
+#+begin_src shell
+# Define color and formatting variables.
+RESET=$(tput sgr0)
+BOLD=$(tput bold)
+GREEN=$(tput setaf 2)
+RED=$(tput setaf 1)
+YELLOW=$(tput setaf 3)
+WHITE=$(tput setaf 7)
+RED_BG=$(tput setab 1)
+ERROR="${BOLD}${WHITE}${RED_BG}"
+WARN="${YELLOW}"
+#+end_src
+
+** TODO Utilitaire "files-with-spaces" (+ proposition de fix)
+
+** TODO Utilitaire "files-with-accents" (+ proposition de fix)
+
 ** TODO Use '[[' over '[' in Bash scripts (use Bashisms)
 SCHEDULED: <2025-04-01 Tue>
 
