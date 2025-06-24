@@ -10,8 +10,10 @@
 set -uo pipefail
 
 while [[ "$PWD" != "/" ]]; do
+    # List files and directories (excluding '.' and '..') in the current
+    # directory.
     find "$PWD" -maxdepth 1 -mindepth 1 "$@"
-    cd ..
+    cd .. || break
 done
 
 # Exit with a success code.
