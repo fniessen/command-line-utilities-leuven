@@ -27,19 +27,24 @@ installed on your system:
 
 * Custom exit codes
 
-The following custom exit codes are used throughout the scripts:
+The following *BSD-style exit codes* are used throughout the scripts:
 
 | Code | Name           | Meaning                              | Usage                                                                                          |
 |------+----------------+--------------------------------------+------------------------------------------------------------------------------------------------|
-|   64 | EX_USAGE       | Command-line usage error             | command misuse, bad input, invalid arguments                                                   |
-|   65 | EX_DATAERR     | Input data error / Data format error | bad input data                                                                                 |
-|   66 | EX_NOINPUT     | Cannot open input                    | missing files                                                                                  |
+|   64 | EX_USAGE       | Command-line usage error             | Command misuse, bad input, invalid arguments                                                   |
+|   65 | EX_DATAERR     | Input data error / Data format error | Bad input data (doesn't exist)                                                                 |
+|   66 | EX_NOINPUT     | Cannot open input                    | Missing files                                                                                  |
 |   67 | EX_NOUSER      | User unknown                         |                                                                                                |
 |   68 | EX_NOHOST      | Host unknown                         |                                                                                                |
-|   69 | EX_UNAVAILABLE | Service unavailable                  | a required external resource, service, or dependency (like ~docopts~) is missing / not available |
-|   70 | EX_SOFTWARE    | Internal software error              | bug or fault in the script's logic itself                                                      |
-|   71 | EX_OSERR       |                                      | most ~cp~ / ~mv~ failures, as they typically reflect OS-level problems                             |
+|   69 | EX_UNAVAILABLE | Service unavailable                  | A required external resource, service, or dependency (like ~docopts~) is missing / not available |
+|   70 | EX_SOFTWARE    | Internal software error              | Bug or fault in the script's logic itself                                                      |
+|   71 | EX_OSERR       | System error (e.g. can't fork)       | Most ~cp~ / ~mv~ failures, as they typically reflect OS-level problems; can't ~cd~                   |
+|   72 | EX_OSFILE      | Critical OS file missing             |                                                                                                |
+|   73 | EX_CANTCREAT   | Can't create output file             |                                                                                                |
+|   74 | EX_IOERR       | I/O error                            |                                                                                                |
 |   75 | EX_TEMPFAIL    | Temporary failure (retry later)      |                                                                                                |
+|   76 | EX_PROTOCOL    | Remote protocol error                |                                                                                                |
+|   77 | EX_NOPERM      | Permission denied                    |                                                                                                |
 |   78 | EX_CONFIG      | Configuration error                  |                                                                                                |
 
 * Commands
