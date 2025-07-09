@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+#? remove-common-lines, Time-stamp: <2025-07-09 Wed 10:32>
+#? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
+#?
+#? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+#? This is free software: you are free to change and redistribute it.
+#? There is NO WARRANTY, to the extent permitted by law.
+
+##? Usage: remove-common-lines [options] FILE1 FILE2
+##?
+##? Remove common lines between two files.
+##?
+##? Arguments:
+##?   FILE1                         Path to the first file.
+##?   FILE2                         Path to the second file.
+##?
+##? Options:
+##?   -h, --help                    Display this help and exit.
+##?   -V, --version                 Show version.
+
+# Set -uo pipefail for undefined variable check and pipeline failure propagation.
+set -uo pipefail
+
+# Check if required commands are available.
+for cmd in docopts dos2unix; do
+    if ! command -v "$cmd" > /dev/null 2>&1; then
+        printf >&2 "Error: '%s' command not found.\n" "$cmd"
+        exit 2
+    fi
+done
+
+# Extract help and version information from the script.
+help=$(grep "^##?" "$0" | cut -c 5-)
+version=$(grep "^#?" "$0" | cut -c 4-)
+
+# Parse command-line arguments using docopts.
+args="$(docopts -h "$help" -V "$version" : "$@")"
+eval "$args"
+
+# Set -e to exit on non-zero command status.
+set -e
+
+# Check if files exist.
+if [[ ! -f "$FILE1" || ! -f "$FILE2" ]]; then
+    printf >&2 "Error: Both files must exist.\n"
+    exit 2
+fi
+
+# Output lines that are different between the two files.
+# Removes common lines, preserves unique ones from each.
+diff --new-line-format="%L" --old-line-format="%L" --unchanged-line-format="" "$FILE1" "$FILE2"
+
+# Exit with a success code.
+exit 0
