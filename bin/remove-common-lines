@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? remove-common-lines, Time-stamp: <2025-07-09 Wed 10:32>
+#? remove-common-lines, Time-stamp: <2025-07-09 Wed 10:43>
 #? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -16,6 +16,8 @@
 ##?   FILE2                         Path to the second file.
 ##?
 ##? Options:
+##?   -i, --ignore-case             Ignore case differences in file comparison.
+##?   -w, --ignore-whitespace       Ignore whitespace in file comparison.
 ##?   -h, --help                    Display this help and exit.
 ##?   -V, --version                 Show version.
 
@@ -23,7 +25,7 @@
 set -uo pipefail
 
 # Check if required commands are available.
-for cmd in docopts dos2unix; do
+for cmd in docopts; do
     if ! command -v "$cmd" > /dev/null 2>&1; then
         printf >&2 "Error: '%s' command not found.\n" "$cmd"
         exit 2
@@ -41,15 +43,24 @@ eval "$args"
 # Set -e to exit on non-zero command status.
 set -e
 
-# Check if files exist.
+# Check if files exist and are regular files.
 if [[ ! -f "$FILE1" || ! -f "$FILE2" ]]; then
-    printf >&2 "Error: Both files must exist.\n"
+    printf >&2 "Error: Both arguments must be regular files that exist.\n"
     exit 2
+fi
+
+# Determine diff options based on arguments.
+diff_options=()
+if [[ "$ignore_case" = "true" ]]; then
+    diff_options+=("--ignore-case")
+fi
+if [[ "$ignore_whitespace" = "true" ]]; then
+    diff_options+=("--ignore-space-change")
 fi
 
 # Output lines that are different between the two files.
 # Removes common lines, preserves unique ones from each.
-diff --new-line-format="%L" --old-line-format="%L" --unchanged-line-format="" "$FILE1" "$FILE2"
+diff "${diff_options[@]}" --new-line-format="%L" --old-line-format="%L" --unchanged-line-format="" "$FILE1" "$FILE2"
 
 # Exit with a success code.
 exit 0
