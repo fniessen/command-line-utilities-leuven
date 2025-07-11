@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? remove-common-lines, Time-stamp: <2025-07-09 Wed 10:43>
+#? remove-common-lines, Time-stamp: <2025-07-11 Fri 17:00>
 #? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -60,7 +60,7 @@ fi
 
 # Output lines that are different between the two files.
 # Removes common lines, preserves unique ones from each.
-diff "${diff_options[@]}" --new-line-format="%L" --old-line-format="%L" --unchanged-line-format="" "$FILE1" "$FILE2"
+diff "${diff_options[@]}" --old-line-format="-%L"  --new-line-format="+%L"--unchanged-line-format="" "$FILE1" "$FILE2"
 
 # Exit with a success code.
 exit 0
