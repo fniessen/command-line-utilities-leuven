@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-#? remove-matching-lines-between-files, Time-stamp: <2025-01-05 Sun 11:58>
-#? Copyright (C) 2020-2024 Fabrice Niessen. All rights reserved.
+#? remove-matching-lines-between-files, Time-stamp: <2025-07-09 Wed 10:58>
+#? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
 #? There is NO WARRANTY, to the extent permitted by law.
 
-##? Usage: remove-matching-lines-between-files [options] FILE_A FILE_B
+##? Usage: remove-matching-lines-between-files [options] FILE1 FILE2
 ##?
-##? Remove lines from FILE_A that match any lines in FILE_B.
+##? Remove lines from FILE1 that match any lines in FILE2.
 ##?
 ##? Arguments:
-##?   FILE_A                        file from which lines will be removed
-##?   FILE_B                        file containing the lines to match for removal
+##?   FILE1                         file from which lines will be removed
+##?   FILE2                         file containing the lines to match for removal
 ##?
 ##? Options:
 ##?   -h, --help                    display this help and exit
@@ -39,25 +39,20 @@ eval "$args"
 # Set -e to exit on non-zero command status.
 set -e
 
-# Check that both files exist.
-if [[ ! -f "$FILE_A" ]]; then
-    printf >&2 "Error: '%s' does not exist\n" "$FILE_A"
+# Check if files exist and are regular files.
+if [[ ! -f "$FILE1" || ! -f "$FILE2" ]]; then
+    printf >&2 "Error: Both arguments must be regular files that exist.\n"
     exit 2
 fi
 
-if [[ ! -f "$FILE_B" ]]; then
-    printf >&2 "Error: '%s' does not exist\n" "$FILE_B"
-    exit 2
-fi
+# Read and sort FILE2.
+patterns=$(sort "$FILE2")
 
-# Read and sort FILE_B.
-patterns=$(sort "$FILE_B")
+# Remove matching lines from FILE1.
+filtered=$(grep -v -F -f <(printf "%s\n" "$patterns") "$FILE1")
 
-# Remove matching lines from FILE_A.
-filtered=$(grep -v -F -f <(printf "%s\n" "$patterns") "$FILE_A")
-
-# Overwrite FILE_A with filtered contents.
-printf '%s' "$filtered" > "$FILE_A"
+# Overwrite FILE1 with filtered contents.
+printf '%s' "$filtered" > "$FILE1"
 
 # Exit with a success code.
 exit 0
