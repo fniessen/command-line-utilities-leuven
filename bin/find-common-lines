@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? find-common-lines, Time-stamp: <2025-02-06 Thu 10:56>
+#? find-common-lines, Time-stamp: <2025-07-09 Wed 10:55>
 #? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -49,9 +49,9 @@ cleanup() {
 # Ensure cleanup is performed on interrupt.
 trap cleanup INT
 
-# Check if files exist.
+# Check if files exist and are regular files.
 if [[ ! -f "$FILE1" || ! -f "$FILE2" ]]; then
-    printf >&2 "Error: Both files must exist.\n"
+    printf >&2 "Error: Both arguments must be regular files that exist.\n"
     exit 2
 fi
 
