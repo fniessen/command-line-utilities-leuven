@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2025-06-20 Fri 10:51>
+#? bak, Time-stamp: <2025-07-09 Wed 11:01>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -107,9 +107,9 @@ basename="${filename%.*}"
 # Define the backup file name with the path as prefix.
 new_file="$(dirname -- "$FILE")/$basename$BAK_EXTENSION$extension"
 
-# Check if the input file exists.
+# Check if file exists and is a regular file.
 if [[ ! -f "$FILE" ]]; then
-    printf >&2 "Error: Input file '${BOLD}$FILE${RESET}' does not exist.\n"
+    printf >&2 "ERROR: Argument must be a regular file that exists.\n"
     exit $EX_NOINPUT
 fi
 
