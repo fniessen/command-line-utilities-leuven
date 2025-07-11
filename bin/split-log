@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? split-log, Time-stamp: <2025-01-05 Sun 11:57>
-#? Copyright (C) 2024 Fabrice Niessen. All rights reserved.
+#? split-log, Time-stamp: <2025-07-09 Wed 11:06>
+#? Copyright (C) 2024-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -42,25 +42,24 @@ eval "$args"
 set -e
 
 # Define the input log file and the desired output prefix.
-LOGFILE="$1"
-BASENAME=$(basename "$LOGFILE" .log)
+BASENAME=$(basename "$FILE" .log)
 OUTPREFIX="${BASENAME}_part_"
 SIZE=2G
 
-# Check if the input log file exists.
-if [[ ! -f "$LOGFILE" ]]; then
-    printf >&2 "Error: Log file %s does not exist.\n" "$LOGFILE"
+# Check if file exists and is a regular file.
+if [[ ! -f "$FILE" ]]; then
+    printf >&2 "ERROR: Argument must be a regular file that exists.\n"
     exit 2
 fi
 
-# Ensure the log file has a '.log' extension.
-if [[ "$LOGFILE" != *.log ]]; then
-    printf >&2 "Error: Log file must have a .log extension.\n"
+# Ensure the file has a '.log' extension.
+if [[ "$FILE" != *.log ]]; then
+    printf >&2 "ERROR: File must have a .log extension.\n"
     exit 2
 fi
 
 # Get the file size in bytes.
-FILE_SIZE=$(stat -c%s "$LOGFILE")
+FILE_SIZE=$(stat -c%s "$FILE")
 
 # Convert SIZE to bytes using bc
 SIZE_BYTES=$(printf "%s\n" "$SIZE" | sed -e 's/G/*1024*1024*1024/' -e 's/M/*1024*1024/' -e 's/K/*1024/' -e 's/^ *//' -e 's/ *$//' | bc)
@@ -72,36 +71,36 @@ if [[ "$FILE_SIZE" -lt "$SIZE_BYTES" ]]; then
 fi
 
 # Detect if the file is UTF-16 encoded.
-ENCODING=$(file -b --mime-encoding "$LOGFILE")
+ENCODING=$(file -b --mime-encoding "$FILE")
 
 if [[ "$ENCODING" == "utf-16le" || "$ENCODING" == "utf-16be" ]]; then
-    printf "Converting %s from UTF-16 to UTF-8... " "$LOGFILE"
-    CONVERTED_LOGFILE="${LOGFILE%.log}_utf8.log"
-    iconv -f UTF-16 -t UTF-8 "$LOGFILE" -o "$CONVERTED_LOGFILE"
+    printf "Converting %s from UTF-16 to UTF-8... " "$FILE"
+    CONVERTED_FILE="${FILE%.log}_utf8.log"
+    iconv -f UTF-16 -t UTF-8 "$FILE" -o "$CONVERTED_FILE"
 
     if [[ $? -ne 0 ]]; then
-        printf >&2 "\nFailed to convert %s to UTF-8.\n" "$LOGFILE"
+        printf >&2 "\nFailed to convert %s to UTF-8.\n" "$FILE"
         exit 2
     fi
 
     # Replace the original log file with the UTF-8 version.
-    mv "$CONVERTED_LOGFILE" "$LOGFILE"
+    mv "$CONVERTED_FILE" "$FILE"
     printf "Done\n"
 fi
 
 # Remove BOM from all lines.
 printf "Removing BOM characters... "
-sed -i 's/^\xEF\xBB\xBF//' "$LOGFILE"
+sed -i 's/^\xEF\xBB\xBF//' "$FILE"
 printf "Done\n"
 
 # Remove trailing ^M characters from all lines.
 printf "Removing trailing ^M characters... "
-sed -i 's/\r$//' "$LOGFILE"
+sed -i 's/\r$//' "$FILE"
 printf "Done\n"
 
 # Start the split process in the background.
 # Add `--numeric-suffixes=1` to start numbering at 01.
-split -b $SIZE -d --additional-suffix=.log --numeric-suffixes=1 "$LOGFILE" "$OUTPREFIX" &
+split -b $SIZE -d --additional-suffix=.log --numeric-suffixes=1 "$FILE" "$OUTPREFIX" &
 SPLIT_PID=$!
 
 # Disable 'set -e' temporarily to handle potential errors during command
