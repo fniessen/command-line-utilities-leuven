@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? unbak, Time-stamp: <2025-02-19 Wed 10:49>
+#? unbak, Time-stamp: <2025-07-09 Wed 11:02>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -60,9 +60,9 @@ GREEN=$(tput setaf 2)
 RED=$(tput setaf 1)
 RESET=$(tput sgr0)
 
-# Check if the backed-up file exists.
+# Check if file exists and is a regular file.
 if [[ ! -f "$FILE" ]]; then
-    printf >&2 "Error: Backed-up file '${BOLD}$FILE${RESET}' does not exist.\n"
+    printf >&2 "ERROR: Argument must be a regular file that exists.\n"
     exit 2
 fi
 
