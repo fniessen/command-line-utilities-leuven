@@ -12,3 +12,9 @@ alias retry='run-until-success'
 ffng() {
     command ff "$@" | grep -v '\.git/'
 }
+fdng() {
+    command fd "$@" | grep -v '\.git/'
+}
+fng() {
+    command f "$@" | grep -v '\.git/'
+}
