@@ -9,6 +9,6 @@ fi
 alias retry='run-until-success'
 
 # Ignore results inside .git directories.
-alias ffng='f() {
-    command ff "$@" | grep -v .git;
-}; f'
+ffng() {
+    command ff "$@" | grep -v '\.git/'
+}
