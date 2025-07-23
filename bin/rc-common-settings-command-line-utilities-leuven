@@ -7,3 +7,8 @@ fi
 
 # Run a command repeatedly until it succeeds.
 alias retry='run-until-success'
+
+# Ignore results inside .git directories.
+alias ffng='f() {
+    command ff "$@" | grep -v .git;
+}; f'
