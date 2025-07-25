@@ -2,37 +2,46 @@
 
 # Search for broken symbolic links.
 
-# Set -uo pipefail for undefined variable check and pipeline failure propagation.
-set -uo pipefail
+# Exit on undefined variables, pipeline errors, or command failures.
+set -euo pipefail
+
+# Trap signals for clean exit.
+trap 'printf "\nAborting.\n"; exit 2' INT TERM
 
 printf "Searching for broken symbolic links...\n"
-# Use null termination (\0) for find and xargs to handle filenames with spaces.
-mapfile -d '' broken_symlinks < <(find . -type l ! -exec test -e {} \; -print0 2> /dev/null)
+
+# List broken symbolic links using find, handle filenames with spaces.
+broken_symlinks=()
+while IFS= read -r -d '' link; do
+    broken_symlinks+=( "$link" )
+done < <(find . -type l ! -exec test -e {} \; -print0 2> /dev/null)
 
 # Check if any links were found.
-if [[ ${#broken_symlinks[@]} -eq 0 ]]; then
+if (( ${#broken_symlinks[@]} == 0 )); then
     printf "No broken symbolic links found.\n"
     exit 0
 fi
 
 printf "Broken symbolic links found:\n"
-# Display the found broken symbolic links
 for link in "${broken_symlinks[@]}"; do
     printf "%s\n" "$link"
 done
 
-# Prompt the user for confirmation.
+# Prompt the user for confirmation (accept y/Y/yes).
 printf "Are you sure you want to remove all broken symbolic links? (y/N) "
-read -r answer
-if [[ ! "$answer" =~ ^[Yy]$ ]]; then
+read -r -n 3 answer
+printf "\n"
+if [[ ! "$answer" =~ ^[Yy](es)?$ ]]; then
     printf "Aborting.\n"
     exit 2
 fi
 
-# Remove the broken symbolic links.
+# Remove the broken symbolic links in a streaming manner.
 printf "Removing broken symbolic links...\n"
-# Use null termination (\0) for xargs to handle filenames with spaces.
-printf "%s\0" "${broken_symlinks[@]}" | xargs -0 rm -f
+if ! printf "%s\0" "${broken_symlinks[@]}" | xargs -0 rm -f --; then
+    printf "Error removing some broken symlinks.\n" >&2
+    exit 1
+fi
 
 printf "Done.\n"
 
