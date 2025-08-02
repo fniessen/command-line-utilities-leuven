@@ -25,27 +25,61 @@ installed on your system:
 
 - [[https://github.com/fniessen/wsl][wsl]] repository (for =bin/docopts=, required in a WSL environment)
 
-* Custom exit codes
+* Recommended exit codes
 
 The following *BSD-style exit codes* are used throughout the scripts:
 
-| Code | Name           | Meaning                              | Usage                                                                                          |
-|------+----------------+--------------------------------------+------------------------------------------------------------------------------------------------|
-|   64 | EX_USAGE       | Command-line usage error             | Command misuse, bad input, invalid arguments                                                   |
-|   65 | EX_DATAERR     | Input data error / Data format error | Bad input data (doesn't exist)                                                                 |
-|   66 | EX_NOINPUT     | Cannot open input                    | Missing files                                                                                  |
-|   67 | EX_NOUSER      | User unknown                         |                                                                                                |
-|   68 | EX_NOHOST      | Host unknown                         |                                                                                                |
-|   69 | EX_UNAVAILABLE | Service unavailable                  | A required external resource, service, or dependency (like ~docopts~) is missing / not available |
-|   70 | EX_SOFTWARE    | Internal software error              | Bug or fault in the script's logic itself                                                      |
-|   71 | EX_OSERR       | System error (e.g. can't fork)       | Most ~cp~ / ~mv~ failures, as they typically reflect OS-level problems; can't ~cd~                   |
-|   72 | EX_OSFILE      | Critical OS file missing             |                                                                                                |
-|   73 | EX_CANTCREAT   | Can't create output file             |                                                                                                |
-|   74 | EX_IOERR       | I/O error                            |                                                                                                |
-|   75 | EX_TEMPFAIL    | Temporary failure (retry later)      |                                                                                                |
-|   76 | EX_PROTOCOL    | Remote protocol error                |                                                                                                |
-|   77 | EX_NOPERM      | Permission denied                    |                                                                                                |
-|   78 | EX_CONFIG      | Configuration error                  |                                                                                                |
+| Code | Name           | Meaning                              | Usage condition                                                                                                                                |
+|------+----------------+--------------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------|
+|    0 | EX_OK          |                                      |                                                                                                                                                |
+|   64 | EX_USAGE       | Command-line usage error             | Command misuse, bad input, invalid arguments, No file specified                                                                                |
+|   65 | EX_DATAERR     | Input data error / Data format error | Bad input data (doesn't exist); File empty, File too large                                                                                     |
+|   66 | EX_NOINPUT     | Cannot open input                    | Missing file, File not found                                                                                                                   |
+|   67 | EX_NOUSER      | User unknown                         |                                                                                                                                                |
+|   68 | EX_NOHOST      | Host unknown                         |                                                                                                                                                |
+|   69 | EX_UNAVAILABLE | Service unavailable                  | A required external resource, service, or dependency (like ~docopts~) is missing / not available; Command not found, cannot detect shell context |
+|   70 | EX_SOFTWARE    | Internal software error              | Bug or fault in the script's logic itself                                                                                                      |
+|   71 | EX_OSERR       | System error (e.g. can't fork)       | Most ~cp~ / ~mv~ failures, as they typically reflect OS-level problems; can't ~cd~                                                                   |
+|   72 | EX_OSFILE      | Critical OS file missing             |                                                                                                                                                |
+|   73 | EX_CANTCREAT   | Can't create output file             |                                                                                                                                                |
+|   74 | EX_IOERR       | I/O error                            |                                                                                                                                                |
+|   75 | EX_TEMPFAIL    | Temporary failure (retry later)      | Temp file creation                                                                                                                             |
+|   76 | EX_PROTOCOL    | Remote protocol error                |                                                                                                                                                |
+|   77 | EX_NOPERM      | Permission denied                    |                                                                                                                                                |
+|   78 | EX_CONFIG      | Configuration error                  | Missing environment variables                                                                                                                  |
+
+* Color coding for file changes
+
+This project uses a color-coded system to help quickly identify files based on
+the age of their most recent changes.
+
+** Color codes
+
+| Age Range                            | Description                        | Background Color | Shell Code |
+|--------------------------------------+------------------------------------+------------------+------------|
+| Today's Changes (0 days)             | Changes made today                 | Deep Red         | \033[1;41m |
+| Yesterday's Changes (1 day)          | Changes made yesterday             | Dark Orange      | \033[1;43m |
+| Recent Changes (2-7 days)            | Changes within the past week       | Dark Yellow      | \033[1;33m |
+| Moderate Age (8-30 days)             | Changes made 8 to 30 days ago      | Dark Green       | \033[1;42m |
+| Moderate to Old Changes (31-90 days) | Changes made 31 to 90 days ago     | Dark Blue        | \033[1;44m |
+| Old Changes (91-365 days)            | Changes made 91 days to 1 year ago | Dark Purple      | \033[1;45m |
+| Older than One Year (1+ years)       | Changes made more than 1 year ago  | Gray             | \033[1;47m |
+
+** Usage in Shell
+
+To apply this color coding system, you can use the following shell script scrap:
+
+#+begin_src shell
+# Define color codes.
+TODAY="\033[1;41m"
+YESTERDAY="\033[1;43m"
+RECENT="\033[1;33m"
+MODERATE="\033[1;42m"
+MODERATE_OLD="\033[1;44m"
+OLD="\033[1;45m"
+OLDER_YEAR="\033[1;47m"
+RESET="\033[0m"
+#+end_src
 
 * Commands
 
@@ -253,39 +287,6 @@ Strip color sequences from the input text.
 
 Update package list and upgrade all installed packages to their latest versions.
 
-* Color coding for file changes
-
-This project uses a color-coded system to help quickly identify files based on
-the age of their most recent changes.
-
-** Color codes
-
-| Age Range                            | Description                        | Background Color | Shell Code |
-|--------------------------------------+------------------------------------+------------------+------------|
-| Today's Changes (0 days)             | Changes made today                 | Deep Red         | \033[1;41m |
-| Yesterday's Changes (1 day)          | Changes made yesterday             | Dark Orange      | \033[1;43m |
-| Recent Changes (2-7 days)            | Changes within the past week       | Dark Yellow      | \033[1;33m |
-| Moderate Age (8-30 days)             | Changes made 8 to 30 days ago      | Dark Green       | \033[1;42m |
-| Moderate to Old Changes (31-90 days) | Changes made 31 to 90 days ago     | Dark Blue        | \033[1;44m |
-| Old Changes (91-365 days)            | Changes made 91 days to 1 year ago | Dark Purple      | \033[1;45m |
-| Older than One Year (1+ years)       | Changes made more than 1 year ago  | Gray             | \033[1;47m |
-
-** Usage in Shell
-
-To apply this color coding system, you can use the following shell script scrap:
-
-#+begin_src shell
-# Define color codes.
-TODAY="\033[1;41m"
-YESTERDAY="\033[1;43m"
-RECENT="\033[1;33m"
-MODERATE="\033[1;42m"
-MODERATE_OLD="\033[1;44m"
-OLD="\033[1;45m"
-OLDER_YEAR="\033[1;47m"
-RESET="\033[0m"
-#+end_src
-
 * Contribute to the project!
 
 ** Best Practices
@@ -377,8 +378,8 @@ EX_UNAVAILABLE=69
 RESET=$(tput sgr0)
 BOLD=$(tput bold)
 WHITE=$(tput setaf 7)
-RED_BG=$(tput setab 1)
-ERROR="${BOLD}${WHITE}${RED_BG}"
+BGRED=$(tput setab 1)
+ERROR="${BOLD}${WHITE}${BGRED}"
 
 # Check if required commands are available.
 for cmd in docopts nmap; do
