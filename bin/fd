@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? fd, Time-stamp: <2025-08-02 Sat 11:23>
+#? fd, Time-stamp: <2025-08-02 Sat 11:51>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -51,8 +51,8 @@ set -e
 readonly DIR_COLOR="1;34"               # Blue directory names.
 readonly HIGHLIGHT_COLOR="1;37;44"      # White on blue.
 
-# Escape potentially dangerous characters for use in grep/find.
-safe_pattern=$(printf '%s' "$PATTERN" | sed 's/[][\\.*^$(){}|+?]/\\&/g')
+# Escape special characters for safe use in shell commands (e.g., grep, find).
+safe_pattern=$(printf '%q' "$PATTERN")
 
 # Find and colorize matching directory names, suppressing permission denied
 # errors.
