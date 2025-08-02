@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#? file-access-clean-log, Time-stamp: <2024-12-24 Tue 10:25>
-#? Copyright (C) 2023-2024 Fabrice Niessen. All rights reserved.
+#? file-access-clean-log, Time-stamp: <2025-08-02 Sat 12:09>
+#? Copyright (C) 2023-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
@@ -28,12 +28,11 @@ if ! command -v docopts > /dev/null 2>&1; then
 fi
 
 # Extract help and version information from the script.
-help=$(grep "^##?" "$0" | cut -c 5-)
-version=$(grep "^#?" "$0" | cut -c 4-)
+help=$(grep -E '^##\?' "$0" | cut -c 5-)
+version=$(grep -E '^#\?' "$0" | cut -c 4-)
 
 # Parse command-line arguments using docopts.
-args="$(docopts -h "$help" -V "$version" : "$@")"
-eval "$args"
+eval "$(docopts -h "$help" -V "$version" : "$@")" || exit $?
 
 # Set -e to exit on non-zero command status.
 set -e
@@ -48,7 +47,7 @@ temp_file="${LOG_FILE}.tmp"
 cp "$LOG_FILE" "$temp_file"
 
 # Remove lines containing '.git/' from the temporary file.
-grep -v '.git/' "$temp_file" > "$temp_file.tmp"
+grep -v '\.git/' "$temp_file" > "$temp_file.tmp"
 mv "$temp_file.tmp" "$temp_file"
 
 # Remove lines containing 'ACCESS,ISDIR' from the temporary file.

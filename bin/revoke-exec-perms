@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Exit on undefined variables, pipeline errors, or command failures.
 set -euo pipefail
 
 printf "Revoking exec permission for specified file extensions...\n"
