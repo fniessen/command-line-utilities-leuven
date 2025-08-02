@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2025-07-09 Wed 11:01>
+#? bak, Time-stamp: <2025-08-02 Sat 12:09>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -32,14 +32,15 @@ EX_OSERR=71
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
-# Define color and formatting variables.
-RESET=$(tput sgr0)
-BOLD=$(tput bold)
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-WHITE=$(tput setaf 7)
-RED_BG=$(tput setab 1)
-ERROR="${BOLD}${WHITE}${RED_BG}"
+# Define color and formatting variables using ANSI escape codes.
+RESET=$'\e[0m'
+BOLD=$'\e[1m'
+GREEN=$'\e[32m'
+RED=$'\e[31m'
+YELLOW=$'\e[33m'
+WHITE=$'\e[37m'
+BGRED=$'\e[41m'
+ERROR="${BOLD}${WHITE}${BGRED}"
 
 # Check if 'colordiff' is installed, and use it for colorized output, fallback
 # to 'diff'.
@@ -81,12 +82,11 @@ if ! command -v docopts > /dev/null 2>&1; then
 fi
 
 # Extract help and version information from the script.
-help=$(grep "^##?" "$0" | cut -c 5-)
-version=$(grep "^#?" "$0" | cut -c 4-)
+help=$(grep -E '^##\?' "$0" | cut -c 5-)
+version=$(grep -E '^#\?' "$0" | cut -c 4-)
 
 # Parse command-line arguments using docopts.
-args="$(docopts -h "$help" -V "$version" : "$@")"
-eval "$args"
+eval "$(docopts -h "$help" -V "$version" : "$@")" || exit $?
 
 # Set -e to exit on non-zero command status.
 set -e
