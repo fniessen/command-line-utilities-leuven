@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? ff, Time-stamp: <2025-08-02 Sat 11:18>
+#? ff, Time-stamp: <2025-08-02 Sat 11:41>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -23,7 +23,7 @@
 ##?
 ##? Examples:
 ##?   ff                            list all files
-##?   ff main.c                     list files matching main.c in their name
+##?   ff admin                      list files matching admin in their name
 
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
