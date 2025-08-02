@@ -25,6 +25,8 @@ if [[ "$USE_COLOR" == true ]]; then
     GREEN=$'\e[32m'
     YELLOW=$'\e[33m'
     BLUE=$'\e[34m'
+    MAGENTA=$'\e[35m'
+    CYAN=$'\e[36m'
     WHITE=$'\e[37m'
     BGRED=$'\e[41m'
     ERROR="${BOLD}${WHITE}${BGRED}"
@@ -36,6 +38,8 @@ else
     GREEN=''
     YELLOW=''
     BLUE=''
+    MAGENTA=''
+    CYAN=''
     WHITE=''
     BGRED=''
     ERROR=''
