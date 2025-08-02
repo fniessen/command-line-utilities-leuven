@@ -3,20 +3,51 @@
 
 * Tasks
 
+** TODO Avoid node_modules?
+
+: find . \( -path './.git' -o -path './node_modules' \) -prune -o -type f -print0)
+
 ** TODO Use this color initialization for shell scripts
 
 #+begin_src shell
-# Define color and formatting variables.
-RESET=$(tput sgr0)
-BOLD=$(tput bold)
-GREEN=$(tput setaf 2)
-RED=$(tput setaf 1)
-YELLOW=$(tput setaf 3)
-WHITE=$(tput setaf 7)
-RED_BG=$(tput setab 1)
-ERROR="${BOLD}${WHITE}${RED_BG}"
-WARN="${YELLOW}"
+# Disable ANSI color codes if output is not a terminal.
+if [[ ! -t 1 ]]; then
+    USE_COLOR=false
+else
+    USE_COLOR=true
+fi
+
+# Define color and formatting variables using ANSI escape codes if supported.
+if [[ "$USE_COLOR" == true ]]; then
+    RESET=$'\e[0m'
+    BOLD=$'\e[1m'
+    RED=$'\e[31m'
+    GREEN=$'\e[32m'
+    YELLOW=$'\e[33m'
+    BLUE=$'\e[34m'
+    WHITE=$'\e[37m'
+    BGRED=$'\e[41m'
+    ERROR="${BOLD}${WHITE}${BGRED}"
+    WARN="${YELLOW}"
+else
+    RESET=''
+    BOLD=''
+    RED=''
+    GREEN=''
+    YELLOW=''
+    BLUE=''
+    WHITE=''
+    BGRED=''
+    ERROR=''
+    WARN=''
+fi
 #+end_src
+
+...is a portable and pragmatic choice, especially for scripts intended to be
+copied, shared, or run in diverse environments.
+
+Unless you're explicitly targeting old non-ANSI terminals or need termcap
+safety, you're better off sticking with the ~$'\e'~ style.
 
 ** TODO Utilitaire "files-with-spaces" (+ proposition de fix)
 
