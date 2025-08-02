@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? ff, Time-stamp: <2025-08-02 Sat 11:08>
+#? ff, Time-stamp: <2025-08-02 Sat 11:18>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -55,13 +55,16 @@ readonly GREP_COLOR_DIR="sl=${DIR_COLOR}:ms=0:mc=0:me=0"
 readonly GREP_COLOR_RESET="sl=0:ms=0:mc=0:me=0"
 readonly GREP_COLOR_HIGHLIGHT="sl=${DIR_COLOR}:ms=${HIGHLIGHT_COLOR}:se=0"
 
+# Escape potentially dangerous characters for use in grep/find.
+safe_pattern=$(printf '%s' "$PATTERN" | sed 's/[][\\.*^$(){}|+?]/\\&/g')
+
 # Find and colorize matching filenames, hiding permission denied errors.
 # NOTE: Use 'stdbuf -oL' to enforce line-buffered output through the pipeline.
 # This ensures results stream live.
-stdbuf -oL find . -type f -iname "*$PATTERN*" -printf '%P\n' 2> /dev/null \
+stdbuf -oL find . -type f -iname "*$safe_pattern*" -printf '%P\n' 2> /dev/null \
     | GREP_COLORS="$GREP_COLOR_DIR" \
-          stdbuf -oL grep --color=always '[^/]*$' \
+                 stdbuf -oL grep --color=always '[^/]*$' \
     | GREP_COLORS="$GREP_COLOR_RESET" \
-          stdbuf -oL grep --color=always -iP "$PATTERN(?=[^/]*$)" \
+                 stdbuf -oL grep --color=always -iP "$safe_pattern(?=[^/]*$)" \
     | GREP_COLORS="$GREP_COLOR_HIGHLIGHT" \
-                     grep -Fi "$PATTERN" --color=always
+                 grep -Fi "$safe_pattern" --color=always
