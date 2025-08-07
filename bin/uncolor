@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? uncolor, Time-stamp: <2025-08-02 Sat 12:08>
+#? uncolor, Time-stamp: <2025-08-07 Thu 13:40>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -18,6 +18,11 @@
 ##?   -h, --help                    display this help and exit
 ##?   -V, --version                 display version information and exit
 
+# NOTE:
+# This script removes ANSI color and control sequences from input. For more
+# advanced handling (e.g. better Unicode/terminal sequence support), consider
+# using the external tool 'ansi2text' from the 'aha' or 'ansi2txt' packages.
+
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
 
@@ -34,19 +39,18 @@ version=$(grep -E '^#\?' "$0" | cut -c 4-)
 # Parse command-line arguments using docopts.
 eval "$(docopts -h "$help" -V "$version" : "$@")" || exit $?
 
+# Silence AI false positives: FILE is set dynamically by docopts.
+FILE="${FILE:-}"
+
 # Set -e to exit on non-zero command status.
 set -e
 
-# Define the sed command as a string.
-sedCommand="sed -E 's/\x1b\[([0-9]{1,3}(;[0-9]{1,3})*)?[mK]//g'"
-                                        # Command to remove ANSI escape
-                                        # sequences (often used to change the
-                                        # color, background, or style of text in
-                                        # the terminal).
-
-# Check if the FILE variable is non-empty.
-if [[ -n "$FILE" ]]; then
-    eval "$sedCommand $FILE"
+if [[ -n "${FILE}" ]]; then
+    if [[ ! -f "$FILE" || ! -r "$FILE" ]]; then
+        printf >&2 "Error: File '%s' does not exist, is not readable, or is not a regular file.\n" "$FILE"
+        exit 2
+    fi
+    sed -E $'s/\033\\[[0-9;?<>=]*[a-zA-Z]//g' "$FILE"
 else
-    eval "$sedCommand"
+    sed -E $'s/\033\\[[0-9;?<>=]*[a-zA-Z]//g'
 fi
