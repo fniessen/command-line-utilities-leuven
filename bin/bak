@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#? bak, Time-stamp: <2025-08-02 Sat 12:09>
+#? bak, Time-stamp: <2025-08-07 Thu 11:46>
 #? Copyright (C) 2020-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
@@ -24,10 +24,14 @@
 ##?   bak -r core/main.c
 
 # BSD sysexits.h exit codes.
-EX_OK=0
-EX_NOINPUT=66
-EX_UNAVAILABLE=69
-EX_OSERR=71
+EX_OK=0                          # Success.
+EX_DATAERR=65                    # Input data error (e.g., file comparison
+                                 # failed).
+EX_NOINPUT=66                    # Cannot open input.
+EX_UNAVAILABLE=69                # Service unavailable (e.g., missing command).
+EX_OSERR=71                      # System error (e.g., file operation failed).
+EX_CANTCREAT=73                  # Output file creation skipped (e.g., user
+                                 # declined overwrite or files identical).
 
 # Set -uo pipefail for undefined variable check and pipeline failure propagation.
 set -uo pipefail
@@ -58,21 +62,21 @@ confirm_overwrite_or_skip() {
     if [[ -e "$backup_file" ]]; then
         if cmp -s "$source_file" "$backup_file"; then
             printf "Backup ${BOLD}$backup_file${RESET} already exists and is identical. No update needed.\n"
-            return 1
+            return $EX_CANTCREAT
         else
             printf "\nDifferences between ${GREEN}${BOLD}$source_file${RESET} and ${RED}${BOLD}$backup_file${RESET}:\n\n"
             $diff_cmd -u "$backup_file" "$source_file"
             printf "\n"
             read -p "The file ${RED}${BOLD}$backup_file${RESET} already exists but differs. Overwrite it? (y/N) " confirm
             if [[ "$confirm" =~ ^[yY]$ ]]; then
-                return 0
+                return $EX_OK
             else
                 printf "Operation cancelled.\n"
-                return 1
+                return $EX_CANTCREAT
             fi
         fi
     fi
-    return 0
+    return $EX_OK
 }
 
 # Check if 'docopts' command is available.
@@ -87,6 +91,10 @@ version=$(grep -E '^#\?' "$0" | cut -c 4-)
 
 # Parse command-line arguments using docopts.
 eval "$(docopts -h "$help" -V "$version" : "$@")" || exit $?
+
+# Silence AI false positives: variables are set dynamically by docopts.
+FILE="${FILE:-}"
+rename=${rename:-false}
 
 # Set -e to exit on non-zero command status.
 set -e
