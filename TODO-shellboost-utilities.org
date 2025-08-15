@@ -71,11 +71,11 @@ SCHEDULED: <2025-04-01 Tue>
 
 ** TODO Use custom exit codes
 
-- ~64~ – Generic script error (can be used for unexpected failures).
-- ~65~ – Invalid input error (e.g., missing parameters, invalid arguments, missing
+- ~64~ - Generic script error (can be used for unexpected failures).
+- ~65~ - Invalid input error (e.g., missing parameters, invalid arguments, missing
   dependencies -- e.g., docopts).
-- ~66~ – File not found error (e.g., trying to access a file that doesn't exist).
-- ~67~ – Command-line arguments error (e.g., improper usage of flags or options).
+- ~66~ - File not found error (e.g., trying to access a file that doesn't exist).
+- ~67~ - Command-line arguments error (e.g., improper usage of flags or options).
 
 ** TODO "This may take some time... done."
 
