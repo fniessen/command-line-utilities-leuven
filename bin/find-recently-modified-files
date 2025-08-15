@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-#? find-recent-files, Time-stamp: <2025-08-02 Sat 12:10>
+#? find-recently-modified-files, Time-stamp: <2025-08-15 Fri 14:05>
 #? Copyright (C) 2023-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
 #? There is NO WARRANTY, to the extent permitted by law.
 
-##? Usage: find-recent-files [options] [THRESHOLD] [DIRECTORY]
+##? Usage: find-recently-modified-files [options] [THRESHOLD] [DIRECTORY]
 ##?
 ##? Find all files modified in the last THRESHOLD days (including today).
 ##?

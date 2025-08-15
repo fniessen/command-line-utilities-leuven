@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-#? find-recently-modified-files, Time-stamp: <2025-08-02 Sat 12:08>
+#? find-moderately-recently-modified-files, Time-stamp: <2025-08-15 Fri 14:04>
 #? Copyright (C) 2023-2025 Fabrice Niessen. All rights reserved.
 #?
 #? License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 #? This is free software: you are free to change and redistribute it.
 #? There is NO WARRANTY, to the extent permitted by law.
 
-##? Usage: find-recently-modified-files [options] [DIRECTORY]
+##? Usage: find-moderately-recently-modified-files [options] [DIRECTORY]
 ##?
 ##? Find all files modified in the last 30 days (including today).
 ##?
@@ -41,16 +41,16 @@ set -e
 # Set the default directory if not provided.
 readonly DIRECTORY="${DIRECTORY:-./}"
 
-# Build the find-recent-files command with the necessary options.
-find_cmd=("find-recent-files" "-e" "$extension" "30" "$DIRECTORY")
+# Build the find-recently-modified-files command with the necessary options.
+find_cmd=("find-recently-modified-files" "-e" "$extension" "30" "$DIRECTORY")
 
 # Check if the extension variable is set.
 if [[ -z "$extension" ]]; then
     # Remove the extension option if not set.
-    find_cmd=("find-recent-files" "30" "$DIRECTORY")
+    find_cmd=("find-recently-modified-files" "30" "$DIRECTORY")
 fi
 
-# Execute the find-recent-files command.
+# Execute the find-recently-modified-files command.
 "${find_cmd[@]}"
 
 # Exit with a success code.
